@@ -4,12 +4,11 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
-public class Drive {
+public class Drive extends DifferentialDrive{
 	//Fields
-	private DifferentialDrive robotDrive;
 	
-	private Spark leftDrive;
-	private Spark rightDrive;
+	private static Spark leftDrive = new Spark(0);
+	private static Spark rightDrive = new Spark(1);
 	private double solenoidShifter;
 	private double solenoidPTO;
 	private Encoder leftDriveEncoder;
@@ -17,8 +16,30 @@ public class Drive {
 	private boolean isHighGear;
 	private boolean PTOisEngaged = false;
 	
-	//Methods
 	
+	//Constructor
+	public Drive() {
+		super(leftDrive, rightDrive);
+	}
+	
+	//Getters and setters- for fields we arent using
+	public Encoder getLeftDriveEncoder() {
+		return leftDriveEncoder;
+	}
+	
+	public Encoder getRightDriveEncoder() {
+		return rightDriveEncoder;
+	}
+	
+	public double getSolenoidShifter() {
+		return solenoidShifter;
+	}
+	
+	public double getSolenoidPTO() {
+		return solenoidPTO;
+	}
+	
+	//Methods
 	/**
 	 * Drive robot using tank drive (left stick controls left side, right stick controllsl right side)
 	 * 
@@ -26,7 +47,7 @@ public class Drive {
 	 * @param inputR Right stick input (range -1 to 1)
 	 */
 	public void tankDrive(double inputL, double inputR) {
-		robotDrive.tankDrive(inputL, inputR, true);
+		super.tankDrive(inputL, inputR, true);
 	}
 	
 	/**
@@ -36,7 +57,7 @@ public class Drive {
 	 * @param curve Wanted turn value of robot
 	 */
 	public void singleArcadeDrive(double speed, double curve) {
-		robotDrive.arcadeDrive(speed, curve, true);
+		super.arcadeDrive(speed, curve, true);
 	}
 	
 	/**
@@ -46,7 +67,7 @@ public class Drive {
 	 * @param inputLR Left/Right value (range -1 to 1)
 	 */
 	public void dualArcadeDrive(double inputFB, double inputLR) {
-		robotDrive.arcadeDrive(inputFB, inputLR, true);
+		super.arcadeDrive(inputFB, inputLR, true);
 	}
 	
 	/**
@@ -132,6 +153,6 @@ public class Drive {
 	 * @param rotateVal Rotation (range -1 to 1)
 	 */
 	public void drive(double moveVal, double rotateVal) {
-		robotDrive.curvatureDrive(moveVal, rotateVal, false);
+		super.curvatureDrive(moveVal, rotateVal, false);
 	}
 }
