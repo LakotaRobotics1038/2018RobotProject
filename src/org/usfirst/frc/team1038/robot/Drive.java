@@ -22,7 +22,7 @@ public class Drive extends DifferentialDrive{
 		super(leftDrive, rightDrive);
 	}
 	
-	//Getters and setters- for fields we arent using
+	//Getters- for fields we arent using
 	public Encoder getLeftDriveEncoder() {
 		return leftDriveEncoder;
 	}
