@@ -114,38 +114,6 @@ public class Robot extends IterativeRobot {
 		robotDrive.singleArcadeDrive(driverJoystick.getLeftJoystickVertical() * driveDivider, driverJoystick.getLeftJoystickHorizontal() * driveDivider);
 		break;
 	}	
-		
-	if(driverJoystick.getXButton()) {
-			
-	}
-	
-	if(driverJoystick.getBButton()) {
-			
-	}
-	
-	if(driverJoystick.getAButton()) {
-		
-	}
-	
-	if(driverJoystick.getYButton()) {
-			
-	}
-	
-	if(driverJoystick.getLeftButton()) {
-			
-	}
-		
-	if(driverJoystick.getLeftTrigger()) {
-			
-	}
-	
-	if(driverJoystick.getRightTrigger()) {
-			
-	}
-	
-	if(driverJoystick.getBackButton()) {
-			
-	}
 	
 	if(driverJoystick.getStartButton()) {
 		switch (currentDriveMode) {
@@ -160,63 +128,9 @@ public class Robot extends IterativeRobot {
 			break;
 		}	
 	}
-	
-	if(driverJoystick.getLeftJoystickClick()) {
-			
-		}
-	if(driverJoystick.getRightJoystickClick()) {
-			
-	}
 }
 	
 	public void operator() {
-		if(operatorJoystick.getXButton()) {
-			
-		}
-		if(operatorJoystick.getBButton()) {
-			
-		}
-		if(operatorJoystick.getAButton()) {
-			
-		}
-		if(operatorJoystick.getYButton()) {
-			
-		}
-		if(operatorJoystick.getLeftButton()) {
-			
-		}
-		if(operatorJoystick.getRightButton()) {
-			
-		}
-		if(operatorJoystick.getLeftTrigger()) {
-			
-		}
-		if(operatorJoystick.getRightTrigger()) {
-			
-		}
-		if(operatorJoystick.getBackButton()) {
-			
-		}
-		if(operatorJoystick.getStartButton()) {
-			
-		}
-		if(operatorJoystick.getLeftJoystickClick()) {
-			
-		}
-		if(operatorJoystick.getRightJoystickClick()) {
-			
-		}
-		/*if(operatorJoystick.getLeftJoystickVertical() != 0.0) {
-			
-		}
-		if(operatorJoystick.getRightJoystickVertical() != 0.0) {
-			
-		}
-		if(operatorJoystick.getLeftJoystickHorizontal() != 0.0) {
-			
-		}
-		if(operatorJoystick.getRightJoystickHorizontal() != 0.0) {
-			
-		}*/
+		
 	}
 }
