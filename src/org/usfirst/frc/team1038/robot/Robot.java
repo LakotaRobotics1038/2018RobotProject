@@ -96,7 +96,7 @@ public class Robot extends IterativeRobot {
 	
 	double driveDivider;
 	
-	if(!driverJoystick.getRightButton()) {
+	if(!driverJoystick.getRightButton() && !robotDrive.isHighGear()) {
 		driveDivider = .65;
 	}
 	else	 {
@@ -127,6 +127,25 @@ public class Robot extends IterativeRobot {
 			currentDriveMode = driveModes.tankDrive;
 			break;
 		}	
+	}
+	
+	if(driverJoystick.getRightTrigger())
+	{
+		robotDrive.highGear();
+	}
+	else
+	{
+		robotDrive.lowGear();
+	}
+	
+	if(driverJoystick.getLeftButton())
+	{
+		robotDrive.PTOon();
+	}
+	
+	if(driverJoystick.getLeftTrigger())
+	{
+		robotDrive.PTOoff();
 	}
 }
 	

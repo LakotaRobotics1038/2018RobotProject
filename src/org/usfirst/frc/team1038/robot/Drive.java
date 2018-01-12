@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1038.robot;
 
-import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
@@ -9,11 +9,11 @@ public class Drive extends DifferentialDrive{
 	
 	private static Spark leftDrive = new Spark(0);
 	private static Spark rightDrive = new Spark(1);
-	private double solenoidShifter;
-	private double solenoidPTO;
-	private Encoder leftDriveEncoder;
-	private Encoder rightDriveEncoder;
-	private boolean isHighGear;
+	private DoubleSolenoid shifter = new DoubleSolenoid(0, 1);
+	private DoubleSolenoid PTO = new DoubleSolenoid(2, 3);
+	private Encoder1038 leftDriveEncoder = new Encoder1038(0, 1, false);
+	private Encoder1038 rightDriveEncoder = new Encoder1038(2, 3, true);
+	private boolean isHighGear = false;
 	private boolean PTOisEngaged = false;
 	
 	
@@ -22,26 +22,18 @@ public class Drive extends DifferentialDrive{
 		super(leftDrive, rightDrive);
 	}
 	
-	//Getters- for fields we arent using
-	public Encoder getLeftDriveEncoder() {
-		return leftDriveEncoder;
+	//Getters
+	public int getLeftDriveEncoderCount() {
+		return leftDriveEncoder.getCount();
 	}
 	
-	public Encoder getRightDriveEncoder() {
-		return rightDriveEncoder;
+	public int getRightDriveEncoderCount() {
+		return rightDriveEncoder.getCount();
 	}
-	
-	public double getSolenoidShifter() {
-		return solenoidShifter;
-	}
-	
-	public double getSolenoidPTO() {
-		return solenoidPTO;
-	}
-	
+		
 	//Methods
 	/**
-	 * Drive robot using tank drive (left stick controls left side, right stick controllsl right side)
+	 * Drive robot using tank drive (left stick controls left side, right stick controls right side)
 	 * 
 	 * @param inputL Left stick input (range -1 to 1)
 	 * @param inputR Right stick input (range -1 to 1)
@@ -86,6 +78,7 @@ public class Drive extends DifferentialDrive{
 	 */
 	public void PTOon() {
 		PTOisEngaged = true;
+		PTO.set(DoubleSolenoid.Value.kForward);
 	}
 	
 	/**
@@ -93,6 +86,7 @@ public class Drive extends DifferentialDrive{
 	 */
 	public void PTOoff() {
 		PTOisEngaged = false;
+		PTO.set(DoubleSolenoid.Value.kReverse);
 	}
 	
 	/**
@@ -111,6 +105,7 @@ public class Drive extends DifferentialDrive{
 	 */
 	public void highGear() {
 		isHighGear = true;
+		shifter.set(DoubleSolenoid.Value.kForward);
 	}
 	
 	/**
@@ -118,6 +113,7 @@ public class Drive extends DifferentialDrive{
 	 */
 	public void lowGear() {
 		isHighGear = false;
+		shifter.set(DoubleSolenoid.Value.kReverse);
 	}
 	
 	/**
@@ -126,11 +122,7 @@ public class Drive extends DifferentialDrive{
 	 * @return False if in low gear, true if in high gear
 	 */
 	public boolean isHighGear() {
-		boolean ret = false;
-		if(isHighGear) {
-			ret = true;
-		}
-		return ret;
+		return isHighGear;
 	}
 	
 	/**
@@ -139,11 +131,7 @@ public class Drive extends DifferentialDrive{
 	 * @return False if disengaged, true if engaged
 	 */
 	public boolean PTOisEngaged() {
-		boolean ret = false;
-		if(PTOisEngaged) {
-			ret = true;
-		}
-		return ret;
+		return PTOisEngaged;
 	}
 	
 	/**
