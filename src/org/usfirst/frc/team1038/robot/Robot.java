@@ -94,6 +94,7 @@ public class Robot extends IterativeRobot {
 	
 	public void driver() {
 	
+		System.out.println(robotDrive.getLeftDriveEncoderDistance());
 	double driveDivider;
 	
 	if(!driverJoystick.getRightButton() && !robotDrive.isHighGear()) {

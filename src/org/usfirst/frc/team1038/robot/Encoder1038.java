@@ -33,8 +33,13 @@ public class Encoder1038 {
 		return encoder.getRate();
 	}
 	
+	public double getDistance()
+	{
+		return encoder.getDistance();
+	}
+	
 	private double findDistancePerPulse(int countsPerRevolution, double wheelDiameter)
 	{		
-		return 1/(countsPerRevolution * wheelDiameter * Math.PI);
+		return (1 / countsPerRevolution ) * (wheelDiameter * Math.PI);
 	}
 }

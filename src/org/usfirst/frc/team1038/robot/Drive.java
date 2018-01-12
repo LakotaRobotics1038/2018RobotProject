@@ -9,10 +9,10 @@ public class Drive extends DifferentialDrive{
 	
 	private static Spark leftDrive = new Spark(0);
 	private static Spark rightDrive = new Spark(1);
-	private DoubleSolenoid shifter = new DoubleSolenoid(0, 1);
-	private DoubleSolenoid PTO = new DoubleSolenoid(2, 3);
-	private Encoder1038 leftDriveEncoder = new Encoder1038(0, 1, false);
-	private Encoder1038 rightDriveEncoder = new Encoder1038(2, 3, true);
+	private DoubleSolenoid shifter;/* = new DoubleSolenoid(0, 1);*/
+	private DoubleSolenoid PTO; /* = new DoubleSolenoid(2, 3);*/
+	private Encoder1038 leftDriveEncoder = new Encoder1038(0, 1, false, 220, 6);
+	private Encoder1038 rightDriveEncoder = new Encoder1038(2, 3, true, 220, 6);
 	private boolean isHighGear = false;
 	private boolean PTOisEngaged = false;
 	
@@ -29,6 +29,14 @@ public class Drive extends DifferentialDrive{
 	
 	public int getRightDriveEncoderCount() {
 		return rightDriveEncoder.getCount();
+	}
+	
+	public double getLeftDriveEncoderDistance() {
+		return leftDriveEncoder.getDistance();
+	}
+	
+	public double getRightDriveEncoderDistance() {
+		return rightDriveEncoder.getDistance();
 	}
 		
 	//Methods
@@ -113,7 +121,7 @@ public class Drive extends DifferentialDrive{
 	 */
 	public void lowGear() {
 		isHighGear = false;
-		shifter.set(DoubleSolenoid.Value.kReverse);
+		//shifter.set(DoubleSolenoid.Value.kReverse);
 	}
 	
 	/**
