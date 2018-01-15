@@ -9,20 +9,20 @@ public class DriveTrain extends Subsystem{
 	//Fields
 	
 	
-	private int leftEncoderChannelA = 0;
-	private int rightEncoderChannelA = 2;
-	private int leftEncoderChannelB = 1;
-	private int rightEncoderChannelB = 3;
-	private int encoderCountsPerRev = 220;
-	private double wheelDiameter = 6;
+	private final int LEFT_ENCODER_CHANNEL_A = 0;
+	private final int RIGHT_ENCODER_CHANNEL_A = 2;
+	private final int LEFT_ENCODER_CHANNEL_B = 1;
+	private final int RIGHT_ENCODER_CHANNEL_B = 3;
+	private final int ENCODER_COUNTS_PER_REV = 220;
+	private final double WHEEL_DIAMETER = 6;
 	private static int leftDrivePWMPort = 0;
 	private static int rightDrivePWMPort = 1;
 	private static Spark leftDrive = new Spark(leftDrivePWMPort);
 	private static Spark rightDrive = new Spark(rightDrivePWMPort);
 	private DoubleSolenoid shifter;/* = new DoubleSolenoid(0, 1);*/
 	private DoubleSolenoid PTO; /* = new DoubleSolenoid(2, 3);*/
-	private Encoder1038 leftDriveEncoder = new Encoder1038(leftEncoderChannelA, leftEncoderChannelB, false, encoderCountsPerRev, wheelDiameter);
-	private Encoder1038 rightDriveEncoder = new Encoder1038(rightEncoderChannelA, rightEncoderChannelB, true, encoderCountsPerRev, wheelDiameter);
+	private Encoder1038 leftDriveEncoder = new Encoder1038(LEFT_ENCODER_CHANNEL_A, LEFT_ENCODER_CHANNEL_B, false, ENCODER_COUNTS_PER_REV, WHEEL_DIAMETER);
+	private Encoder1038 rightDriveEncoder = new Encoder1038(RIGHT_ENCODER_CHANNEL_A, RIGHT_ENCODER_CHANNEL_B, true, ENCODER_COUNTS_PER_REV, WHEEL_DIAMETER);
 	private boolean isHighGear = false;
 	private boolean PTOisEngaged = false;
 	private DifferentialDrive differentialDrive;
