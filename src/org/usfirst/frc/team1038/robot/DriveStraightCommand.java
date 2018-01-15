@@ -10,7 +10,7 @@ public class DriveStraightCommand extends Command{
 	private final double END_DRIVE_SPEED = 0.0;
 	private double driveRotation = 0.0;
 	private double driveDistance = 72;
-	I2CGyro gyroSensor = new I2CGyro();
+	I2CGyro gyroSensor = I2CGyro.getInstance();
 	
 	public double getDriveDistance() {
 		return driveDistance;
