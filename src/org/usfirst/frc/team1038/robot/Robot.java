@@ -60,6 +60,7 @@ public class Robot extends IterativeRobot {
 		// defaultAuto);
 		System.out.println("Auto selected: " + m_autoSelected);
 		robotDrive.resetEncoders();
+		driveStraight.initialize();
 	}
 	
 	@Override
@@ -85,6 +86,7 @@ public class Robot extends IterativeRobot {
 				}else {
 					driveStraight.end();
 				}
+				
 				break;
 		}
 	}
@@ -107,7 +109,6 @@ public class Robot extends IterativeRobot {
 	
 	public void driver() {
 	
-		System.out.println(robotDrive.getLeftDriveEncoderDistance());
 		double driveDivider;
 	
 		if(!driverJoystick.getRightButton() && !robotDrive.isHighGear()) {

@@ -93,21 +93,21 @@ public class Joystick1038 {
 	
 	public double getLeftJoystickVertical()
 	{
-		return joystick.getRawAxis(LEFT_STICK_VERTICAL);
+		return joystick.getRawAxis(LEFT_STICK_VERTICAL) * -1;
 	}
 	
 	public double getLeftJoystickHorizontal()
 	{
-		return joystick.getRawAxis(LEFT_STICK_HORIZONTAL);
+		return joystick.getRawAxis(LEFT_STICK_HORIZONTAL) * -1;
 	}
 	
 	public double getRightJoystickVertical()
 	{
-		return joystick.getRawAxis(RIGHT_STICK_VERTICAL);
+		return joystick.getRawAxis(RIGHT_STICK_VERTICAL) * -1;
 	}
 	
 	public double getRightJoystickHorizontal()
 	{
-		return joystick.getRawAxis(RIGHT_STICK_HORIZONTAL);
+		return joystick.getRawAxis(RIGHT_STICK_HORIZONTAL) * -1;
 	}
 }
