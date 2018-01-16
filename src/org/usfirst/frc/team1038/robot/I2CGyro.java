@@ -41,7 +41,7 @@ public class I2CGyro {
 		byte[] dBuffer = new byte[2];
 		I2CBus.read(HEADING_DATA, 2, dBuffer);
 		int gyroVal = dBuffer[0] + (dBuffer[1] * 256);  
-		if(gyroVal > 359) System.out.println("Unexpected Gyro Value From readGyro() read " + gyroVal + " max value should be 359");
+		if(gyroVal > 359 || gyroVal < 0) System.out.println("Unexpected Gyro Value From readGyro() read " + gyroVal);
 		return gyroVal;
 	}
 	
