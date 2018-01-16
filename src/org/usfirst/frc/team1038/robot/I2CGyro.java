@@ -17,6 +17,7 @@ public class I2CGyro {
 	private final int GYRO_RECALIBRATE = 0x4E;
 	private final int RESET_Z_AXIS_INTEGRATOR = 0x52;
 	private I2C I2CBus;
+	private static I2CGyro gyroSensor = new I2CGyro();
 	
 	//Class constructor
 	public I2CGyro()
@@ -24,6 +25,14 @@ public class I2CGyro {
 		I2CBus = new I2C(I2C.Port.kOnboard, DEVICE_ADDRESS);
 		I2CBus.write(COMMAND, GYRO_RECALIBRATE);
 		I2CBus.write(SENSOR_ID_CODE, NORMAL_MEASUREMENT_MODE);
+	}
+	
+	public static I2CGyro getInstance() {
+		if (gyroSensor == null) {
+			System.out.println("Creating a new gyroSensor");
+			gyroSensor = new I2CGyro();
+		}
+		return gyroSensor;
 	}
 	
 	//Reads and translates input from the Gyro into a value from 0-359

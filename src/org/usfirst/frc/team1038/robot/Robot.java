@@ -23,8 +23,8 @@ public class Robot extends IterativeRobot {
 	private static final String kCustomAuto = "My Auto";
 	private String m_autoSelected;
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
-	
-	Drive robotDrive = new Drive();
+	DriveStraightCommand driveStraight = new DriveStraightCommand();
+	public static DriveTrain robotDrive = DriveTrain.getInstance();
 	public enum driveModes {tankDrive, singleArcadeDrive, dualArcadeDrive};
 	private driveModes currentDriveMode = driveModes.dualArcadeDrive;
 	Joystick1038 driverJoystick = new Joystick1038(0);
@@ -54,10 +54,18 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+//		driveStraight.initialize();
 		m_autoSelected = m_chooser.getSelected();
 		// autoSelected = SmartDashboard.getString("Auto Selector",
 		// defaultAuto);
 		System.out.println("Auto selected: " + m_autoSelected);
+		robotDrive.resetEncoders();
+		driveStraight.initialize();
+	}
+	
+	@Override
+	public void teleopInit() {
+		robotDrive.resetEncoders();
 	}
 
 	/**
@@ -72,6 +80,13 @@ public class Robot extends IterativeRobot {
 			case kDefaultAuto:
 			default:
 				// Put default auto code here
+				SmartDashboard.putNumber("Autonomous Drive Distance", driveStraight.getDriveDistance());
+				if(!driveStraight.isFinished()) {
+					driveStraight.execute();
+				}else {
+					driveStraight.end();
+				}
+				
 				break;
 		}
 	}
@@ -94,61 +109,60 @@ public class Robot extends IterativeRobot {
 	
 	public void driver() {
 	
-		System.out.println(robotDrive.getLeftDriveEncoderDistance());
-	double driveDivider;
+		double driveDivider;
 	
-	if(!driverJoystick.getRightButton() && !robotDrive.isHighGear()) {
-		driveDivider = .65;
-	}
-	else	 {
-		driveDivider = 1;
-	}
+		if(!driverJoystick.getRightButton() && !robotDrive.isHighGear()) {
+			driveDivider = .65;
+		}
+		else	 {
+			driveDivider = 1;
+		}
 		
-	switch (currentDriveMode) {
-	case tankDrive:
-		robotDrive.tankDrive(driverJoystick.getLeftJoystickVertical() * driveDivider, driverJoystick.getRightJoystickVertical() * driveDivider);			
-		break;
-	case dualArcadeDrive:
-		robotDrive.dualArcadeDrive(driverJoystick.getLeftJoystickVertical() * driveDivider, driverJoystick.getRightJoystickHorizontal() * driveDivider);
-		break;
-	case singleArcadeDrive:
-		robotDrive.singleArcadeDrive(driverJoystick.getLeftJoystickVertical() * driveDivider, driverJoystick.getLeftJoystickHorizontal() * driveDivider);
-		break;
-	}	
-	
-	if(driverJoystick.getStartButton()) {
 		switch (currentDriveMode) {
 		case tankDrive:
-			currentDriveMode = driveModes.dualArcadeDrive;
+			robotDrive.tankDrive(driverJoystick.getLeftJoystickVertical() * driveDivider, driverJoystick.getRightJoystickVertical() * driveDivider);			
 			break;
 		case dualArcadeDrive:
-			currentDriveMode = driveModes.singleArcadeDrive;
+			robotDrive.dualArcadeDrive(driverJoystick.getLeftJoystickVertical() * driveDivider, driverJoystick.getRightJoystickHorizontal() * driveDivider);
 			break;
 		case singleArcadeDrive:
-			currentDriveMode = driveModes.tankDrive;
+			robotDrive.singleArcadeDrive(driverJoystick.getLeftJoystickVertical() * driveDivider, driverJoystick.getLeftJoystickHorizontal() * driveDivider);
 			break;
 		}	
-	}
 	
-	if(driverJoystick.getRightTrigger())
-	{
-		robotDrive.highGear();
-	}
-	else
-	{
-		robotDrive.lowGear();
-	}
+		if(driverJoystick.getStartButton()) {
+			switch (currentDriveMode) {
+			case tankDrive:
+				currentDriveMode = driveModes.dualArcadeDrive;
+				break;
+			case dualArcadeDrive:
+				currentDriveMode = driveModes.singleArcadeDrive;
+				break;
+			case singleArcadeDrive:
+				currentDriveMode = driveModes.tankDrive;
+				break;
+			}	
+		}
 	
-	if(driverJoystick.getLeftButton())
-	{
-		robotDrive.PTOon();
+		if(driverJoystick.getRightTrigger())
+		{
+			robotDrive.highGear();
+		}
+		else
+		{
+			robotDrive.lowGear();
+		}
+		
+		if(driverJoystick.getLeftButton())
+		{
+			robotDrive.PTOon();
+		}
+		
+		if(driverJoystick.getLeftTrigger())
+		{
+			robotDrive.PTOoff();
+		}
 	}
-	
-	if(driverJoystick.getLeftTrigger())
-	{
-		robotDrive.PTOoff();
-	}
-}
 	
 	public void operator() {
 		

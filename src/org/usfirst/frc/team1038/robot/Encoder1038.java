@@ -23,6 +23,10 @@ public class Encoder1038 {
 		encoder.setDistancePerPulse(findDistancePerPulse(countsPerRevolution, wheelDiameter));
 	}
 	
+	public void resetEncoder() {
+		encoder.reset();
+	}
+	
 	public int getCount()
 	{
 		return encoder.get();

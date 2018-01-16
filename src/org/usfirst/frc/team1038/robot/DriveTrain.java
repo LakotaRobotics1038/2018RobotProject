@@ -2,24 +2,44 @@ package org.usfirst.frc.team1038.robot;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
-public class Drive extends DifferentialDrive{
+public class DriveTrain extends Subsystem{
 	//Fields
 	
-	private static Spark leftDrive = new Spark(0);
-	private static Spark rightDrive = new Spark(1);
+	private final int LEFT_ENCODER_CHANNEL_A = 0;
+	private final int RIGHT_ENCODER_CHANNEL_A = 2;
+	private final int LEFT_ENCODER_CHANNEL_B = 1;
+	private final int RIGHT_ENCODER_CHANNEL_B = 3;
+	private final int ENCODER_COUNTS_PER_REV = 220;
+	private final double WHEEL_DIAMETER = 6;
+	private final static int LEFT_DRIVE_PORT = 0;
+	private final static int RIGHT_DRIVE_PORT = 1;
+	private static Spark leftDrive = new Spark(LEFT_DRIVE_PORT);
+	private static Spark rightDrive = new Spark(RIGHT_DRIVE_PORT);
 	private DoubleSolenoid shifter;/* = new DoubleSolenoid(0, 1);*/
 	private DoubleSolenoid PTO; /* = new DoubleSolenoid(2, 3);*/
-	private Encoder1038 leftDriveEncoder = new Encoder1038(0, 1, false, 220, 6);
-	private Encoder1038 rightDriveEncoder = new Encoder1038(2, 3, true, 220, 6);
+	private Encoder1038 leftDriveEncoder = new Encoder1038(LEFT_ENCODER_CHANNEL_A, LEFT_ENCODER_CHANNEL_B, false, ENCODER_COUNTS_PER_REV, WHEEL_DIAMETER);
+	private Encoder1038 rightDriveEncoder = new Encoder1038(RIGHT_ENCODER_CHANNEL_A, RIGHT_ENCODER_CHANNEL_B, true, ENCODER_COUNTS_PER_REV, WHEEL_DIAMETER);
 	private boolean isHighGear = false;
 	private boolean PTOisEngaged = false;
+	private DifferentialDrive differentialDrive;
+	private static DriveTrain driveTrain = new DriveTrain();
 	
+	public static DriveTrain getInstance() {
+		if (driveTrain == null) {
+			System.out.println("Creating a new driveTrain");
+			driveTrain = new DriveTrain();
+		}
+		return driveTrain;
+	}
 	
 	//Constructor
-	public Drive() {
-		super(leftDrive, rightDrive);
+	public DriveTrain() {
+		leftDrive.setInverted(true);
+		rightDrive.setInverted(true);
+		differentialDrive = new DifferentialDrive(leftDrive, rightDrive);
 	}
 	
 	//Getters
@@ -30,7 +50,7 @@ public class Drive extends DifferentialDrive{
 	public int getRightDriveEncoderCount() {
 		return rightDriveEncoder.getCount();
 	}
-	
+	 
 	public double getLeftDriveEncoderDistance() {
 		return leftDriveEncoder.getDistance();
 	}
@@ -46,8 +66,20 @@ public class Drive extends DifferentialDrive{
 	 * @param inputL Left stick input (range -1 to 1)
 	 * @param inputR Right stick input (range -1 to 1)
 	 */
+
+	@Override
+	protected void initDefaultCommand() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public void resetEncoders() {
+		leftDriveEncoder.resetEncoder();
+		rightDriveEncoder.resetEncoder();
+	}
+	
 	public void tankDrive(double inputL, double inputR) {
-		super.tankDrive(inputL, inputR, true);
+		differentialDrive.tankDrive(inputL, inputR, true);
 	}
 	
 	/**
@@ -57,7 +89,7 @@ public class Drive extends DifferentialDrive{
 	 * @param curve Wanted turn value of robot
 	 */
 	public void singleArcadeDrive(double speed, double curve) {
-		super.arcadeDrive(speed, curve, true);
+		differentialDrive.arcadeDrive(speed, curve, true);
 	}
 	
 	/**
@@ -67,7 +99,7 @@ public class Drive extends DifferentialDrive{
 	 * @param inputLR Left/Right value (range -1 to 1)
 	 */
 	public void dualArcadeDrive(double inputFB, double inputLR) {
-		super.arcadeDrive(inputFB, inputLR, true);
+		differentialDrive.arcadeDrive(inputFB, inputLR, true);
 	}
 	
 	/**
@@ -149,6 +181,6 @@ public class Drive extends DifferentialDrive{
 	 * @param rotateVal Rotation (range -1 to 1)
 	 */
 	public void drive(double moveVal, double rotateVal) {
-		super.curvatureDrive(moveVal, rotateVal, false);
+		differentialDrive.curvatureDrive(moveVal, rotateVal, false);
 	}
 }
