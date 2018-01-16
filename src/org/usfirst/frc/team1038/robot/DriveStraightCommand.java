@@ -10,7 +10,8 @@ public class DriveStraightCommand extends Command{
 	private final double END_DRIVE_SPEED = 0.0;
 	private double driveRotation = 0.0;
 	private double driveDistance = 72;
-	I2CGyro gyroSensor = I2CGyro.getInstance();
+	private I2CGyro gyroSensor = I2CGyro.getInstance();
+	private DriveTrain drive = DriveTrain.getInstance();
 	
 	public double getDriveDistance() {
 		return driveDistance;
@@ -33,12 +34,12 @@ public class DriveStraightCommand extends Command{
 		}else {
 			driveRotation = 0.0;
 		}
-		DriveTrain.getInstance().drive(driveSpeed,driveRotation);
+		drive.drive(driveSpeed,driveRotation);
 		System.out.println(gyroSensor.readGyro());
 	}
 	
 	protected void end() {
-		DriveTrain.getInstance().drive(END_DRIVE_SPEED, driveRotation);
+		drive.drive(END_DRIVE_SPEED, driveRotation);
 	}
 	
 	protected void interrupted() {
