@@ -8,17 +8,16 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 public class DriveTrain extends Subsystem{
 	//Fields
 	
-	
 	private final int LEFT_ENCODER_CHANNEL_A = 0;
 	private final int RIGHT_ENCODER_CHANNEL_A = 2;
 	private final int LEFT_ENCODER_CHANNEL_B = 1;
 	private final int RIGHT_ENCODER_CHANNEL_B = 3;
 	private final int ENCODER_COUNTS_PER_REV = 220;
 	private final double WHEEL_DIAMETER = 6;
-	private static int leftDrivePWMPort = 0;
-	private static int rightDrivePWMPort = 1;
-	private static Spark leftDrive = new Spark(leftDrivePWMPort);
-	private static Spark rightDrive = new Spark(rightDrivePWMPort);
+	private final static int LEFT_DRIVE_PORT = 0;
+	private final static int RIGHT_DRIVE_PORT = 1;
+	private static Spark leftDrive = new Spark(LEFT_DRIVE_PORT);
+	private static Spark rightDrive = new Spark(RIGHT_DRIVE_PORT);
 	private DoubleSolenoid shifter;/* = new DoubleSolenoid(0, 1);*/
 	private DoubleSolenoid PTO; /* = new DoubleSolenoid(2, 3);*/
 	private Encoder1038 leftDriveEncoder = new Encoder1038(LEFT_ENCODER_CHANNEL_A, LEFT_ENCODER_CHANNEL_B, false, ENCODER_COUNTS_PER_REV, WHEEL_DIAMETER);
