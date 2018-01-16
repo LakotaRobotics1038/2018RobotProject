@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 
-public class Climb {
+public class Climb extends Subsystem {
 										//I NEED A DISTANCE FOR IT TO TRAVEL
 	//variables
 	private final int ARM_MOTOR_PORT = 2;
@@ -74,5 +74,11 @@ public class Climb {
 			armMotor.set(0);
 		}
 		return lowering;
+	}
+
+	@Override
+	protected void initDefaultCommand() {
+		// TODO Auto-generated method stub
+		
 	}
 }
