@@ -98,8 +98,8 @@ public class DriveTrain extends Subsystem{
 	 * @param inputFB Forward/Backward value (range -1 to 1)
 	 * @param inputLR Left/Right value (range -1 to 1)
 	 */
-	public void dualArcadeDrive(double inputFB, double inputLR) {
-		differentialDrive.arcadeDrive(inputFB, inputLR, true);
+	public void dualArcadeDrive(double yaxis, double xaxis) {
+		differentialDrive.arcadeDrive(yaxis, xaxis, true);
 	}
 	
 	/**

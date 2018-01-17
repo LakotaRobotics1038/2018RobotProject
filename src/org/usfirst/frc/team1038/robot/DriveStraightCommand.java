@@ -6,10 +6,10 @@ import org.usfirst.frc.team1038.robot.Robot;
 public class DriveStraightCommand extends Command{
 
 	
-	private double driveSpeed = 0.3;
+	private double driveSpeed = 0.4;
 	private final double END_DRIVE_SPEED = 0.0;
 	private double driveRotation = 0.0;
-	private double driveDistance = 72;
+	private double driveDistance = 48;
 	private I2CGyro gyroSensor = I2CGyro.getInstance();
 	private DriveTrain drive = DriveTrain.getInstance();
 	
