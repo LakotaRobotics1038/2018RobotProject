@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team1038.robot;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -43,6 +44,7 @@ public class Robot extends IterativeRobot {
 		m_chooser.addDefault("Default Auto", kDefaultAuto);
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
+		CameraServer.getInstance().addServer("raspberrypi.local:1180/?action=stream");
 	}
 
 	/**
@@ -90,7 +92,7 @@ public class Robot extends IterativeRobot {
 				}else {
 					driveStraight.end();
 				}
-				
+				Dashboard.execute();
 				break;
 		}
 	}
@@ -101,7 +103,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		driver();
-		//operator();
+		operator();
+		Dashboard.execute();
 	}
 
 	/**
