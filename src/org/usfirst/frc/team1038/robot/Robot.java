@@ -29,6 +29,10 @@ public class Robot extends IterativeRobot {
 	private driveModes currentDriveMode = driveModes.dualArcadeDrive;
 	Joystick1038 driverJoystick = new Joystick1038(0);
 	Joystick1038 operatorJoystick = new Joystick1038(1);
+	private Climb robotClimb = new Climb();
+	private boolean autoClimbing = false;
+	private boolean lowering = false;
+	
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -165,6 +169,24 @@ public class Robot extends IterativeRobot {
 	}
 	
 	public void operator() {
-		
+		if(operatorJoystick.getRightTrigger())
+		{
+			autoClimbing = true;
+			robotClimb.autoArmRaise();
+		}
+		if(autoClimbing)
+		{
+			autoClimbing = robotClimb.autoArmRaise();
+		}
+		robotClimb.manualArmRaise(operatorJoystick.getLeftJoystickVertical());
+		if(operatorJoystick.getRightButton())
+		{
+			lowering = true;
+			robotClimb.armLower();
+		}
+		if(lowering)
+		{
+			lowering = robotClimb.armLower();
+		}
 	}
 }
