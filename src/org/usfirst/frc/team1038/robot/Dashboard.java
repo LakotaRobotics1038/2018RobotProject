@@ -6,8 +6,8 @@ public class Dashboard {
 
 	public static void execute()
 	{
-		SmartDashboard.putNumber("GyroVal", I2CGyro.getInstance().readGyro());
-		SmartDashboard.putNumber("LeftEncoderVal", DriveTrain.getInstance().getLeftDriveEncoderDistance());
-		SmartDashboard.putNumber("RightEncoderVal", DriveTrain.getInstance().getRightDriveEncoderDistance());
+		SmartDashboard.putNumber("Gyro", I2CGyro.getInstance().readGyro());
+		SmartDashboard.putNumber("Left Encoder", DriveTrain.getInstance().getLeftDriveEncoderDistance());
+		SmartDashboard.putNumber("Right Encoder", DriveTrain.getInstance().getRightDriveEncoderDistance());
 	}
 }
