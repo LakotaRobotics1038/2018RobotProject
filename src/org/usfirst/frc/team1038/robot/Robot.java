@@ -41,6 +41,7 @@ public class Robot extends IterativeRobot {
 		m_chooser.addDefault("Default Auto", kDefaultAuto);
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
+		I2CGyro.getInstance();
 	}
 
 	/**
@@ -88,7 +89,7 @@ public class Robot extends IterativeRobot {
 						SmartDashboard.putNumber("Autonomous Drive Distance", driveStraight.getDriveDistance());
 						if(!driveStraight.isFinished()) {
 							driveStraight.execute();
-						}else{
+						} else {
 							driveStraight.end();
 							stepNum = 2;
 							turnDegrees.initialize();
@@ -108,7 +109,8 @@ public class Robot extends IterativeRobot {
 				break; 
 			}
 		
-		System.out.println("Step " + stepNum);
+		//System.out.println("Step " + stepNum);
+		System.out.println(I2CGyro.getInstance().readGyro());
 	}
 
 	/**
@@ -130,7 +132,11 @@ public class Robot extends IterativeRobot {
 	public void driver() {
 	
 		double driveDivider;
-	
+		System.out.println(I2CGyro.getInstance().readGyro());
+		
+		if(driverJoystick.getBackButton())
+			I2CGyro.getInstance().recalibrateGyro();
+		
 		if(!driverJoystick.getRightButton() && !robotDrive.isHighGear()) {
 			driveDivider = .65;
 		}
@@ -168,6 +174,7 @@ public class Robot extends IterativeRobot {
 		{
 			robotDrive.highGear();
 		}
+		
 		else
 		{
 			robotDrive.lowGear();

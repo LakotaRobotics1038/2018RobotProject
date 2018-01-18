@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1038.robot;
 
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class TurnCommand  extends Command {
@@ -19,7 +20,7 @@ public class TurnCommand  extends Command {
 	
 	//methods
 	protected void initialize() {
-		gyroSensor.resetGyro();
+		//gyroSensor.resetGyro();
 	}
 	
 	/**
@@ -63,10 +64,9 @@ public class TurnCommand  extends Command {
 		}else {
 			driveRotationInit = -0.0;
 		}*/
-		driveRotationInit = -0.6;
+		driveRotationInit = -0.5;
 		drive.singleArcadeDrive(driveSpeed, driveRotationInit);
 		System.out.println(gyroSensor.readGyro());
-		
 	}
 	
 	protected void end() {
@@ -81,7 +81,6 @@ public class TurnCommand  extends Command {
 	
 	@Override
 	protected boolean isFinished() {
-		return gyroSensor.readGyro() == goalAngle;
+		return gyroSensor.readGyro() >= goalAngle;
 	}
-
 }
