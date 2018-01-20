@@ -2,12 +2,16 @@ package org.usfirst.frc.team1038.robot;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
-public class DriveTrain extends Subsystem{
+public class DriveTrain extends PIDSubsystem {
 	//Fields
-	
+	private final static double P = 0.000;
+	private final static double I = 0.000;
+	private final static double D = 0.000;
+	private final double TOLERANCE = 2.0;
 	private final int LEFT_ENCODER_CHANNEL_A = 0;
 	private final int RIGHT_ENCODER_CHANNEL_A = 2;
 	private final int LEFT_ENCODER_CHANNEL_B = 1;
@@ -37,6 +41,8 @@ public class DriveTrain extends Subsystem{
 	
 	//Constructor
 	public DriveTrain() {
+		super(P, I, D);
+		setAbsoluteTolerance(TOLERANCE);
 		leftDrive.setInverted(true);
 		rightDrive.setInverted(true);
 		differentialDrive = new DifferentialDrive(leftDrive, rightDrive);
@@ -182,5 +188,18 @@ public class DriveTrain extends Subsystem{
 	 */
 	public void drive(double moveVal, double rotateVal) {
 		differentialDrive.curvatureDrive(moveVal, rotateVal, false);
+	}
+
+	@Override
+	protected double returnPIDInput() {
+		// TODO Auto-generated method stub
+		return leftDriveEncoder.getDistance();
+	}
+
+	@Override
+	protected void usePIDOutput(double output) {
+		// TODO Auto-generated method stub
+		differentialDrive.curvatureDrive(output, 0, false);
+		
 	}
 }

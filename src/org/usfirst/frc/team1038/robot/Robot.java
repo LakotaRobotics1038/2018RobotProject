@@ -68,7 +68,7 @@ public class Robot extends IterativeRobot {
 //		robotDrive.resetEncoders();
 //		driveStraight.initialize();
 		schedule = Scheduler.getInstance();
-		schedule.add(turnDegrees);
+		schedule.add(new TurnCommand(90));
 	}
 	
 	@Override

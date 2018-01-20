@@ -25,9 +25,9 @@ public class TurnCommand extends PIDCommand {
 	}
 	
 	//methods
-//	protected void initialize() {
-//		gyroSensor.resetGyro();
-//	}
+	protected void initialize() {
+		gyroSensor.resetGyro();
+	}
 	
 	/**
 	 * Turns robot until it reaches a certain angle
