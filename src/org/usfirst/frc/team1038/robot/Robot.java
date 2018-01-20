@@ -25,7 +25,8 @@ public class Robot extends IterativeRobot {
 	private String m_autoSelected;
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
 	DriveStraightCommand driveStraight = new DriveStraightCommand();
-	TurnCommandPID turnDegrees = new TurnCommandPID(0.06,0,0);
+	//TurnCommandPID turnDegrees = new TurnCommandPID(0.06,0,0);
+	TurnCommand turnDegrees = new TurnCommand(90);
 	public static DriveTrain robotDrive = DriveTrain.getInstance();
 	public enum driveModes {tankDrive, singleArcadeDrive, dualArcadeDrive};
 	private driveModes currentDriveMode = driveModes.dualArcadeDrive;
@@ -67,6 +68,7 @@ public class Robot extends IterativeRobot {
 //		System.out.println("Auto selected: " + m_autoSelected);
 //		robotDrive.resetEncoders();
 //		driveStraight.initialize();
+		turnDegrees.initialize();
 		schedule = Scheduler.getInstance();
 		schedule.add(turnDegrees);
 	}
@@ -101,14 +103,14 @@ public class Robot extends IterativeRobot {
 //						}
 //						break;
 //					case 2:
-////						//System.out.println(stepNum);
-////						if(!turnDegrees.isFinished()) {
-////							//turnDegrees.turn(90);
-////							turnDegrees.execute();
-////						}else{
-////							turnDegrees.end();
-////							stepNum = 3;
-////						}
+//						//System.out.println(stepNum);
+//						if(!turnDegrees.isFinished()) {
+//							//turnDegrees.turn(90);
+//							turnDegrees.execute();
+//						}else{
+//							turnDegrees.end();
+//							stepNum = 3;
+//						}
 //						turnDegrees.execute(90);
 //						break;
 //				}
