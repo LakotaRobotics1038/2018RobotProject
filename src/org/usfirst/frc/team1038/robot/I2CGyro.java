@@ -18,11 +18,16 @@ public class I2CGyro {
 	private final int RESET_Z_AXIS_INTEGRATOR = 0x52;
 	private I2C I2CBus;
 	private static I2CGyro gyroSensor = new I2CGyro();
+<<<<<<< HEAD
+=======
+	private double gyroVal;
+>>>>>>> 51e3f8dec18b2308be2d19b3218fa08d858fb668
 	
 	//Class constructor
 	public I2CGyro()
 	{
 		I2CBus = new I2C(I2C.Port.kOnboard, DEVICE_ADDRESS);
+		//I2CBus.write(0x10, 22);
 		I2CBus.write(COMMAND, GYRO_RECALIBRATE);
 		I2CBus.write(SENSOR_ID_CODE, NORMAL_MEASUREMENT_MODE);
 	}
@@ -33,6 +38,7 @@ public class I2CGyro {
 			gyroSensor = new I2CGyro();
 		}
 		return gyroSensor;
+<<<<<<< HEAD
 	}
 	
 	//Reads and translates input from the Gyro into a value from 0-359
@@ -43,11 +49,47 @@ public class I2CGyro {
 		int gyroVal = dBuffer[0] + (dBuffer[1] * 256);  
 		if(gyroVal > 359 || gyroVal < 0) System.out.println("Unexpected Gyro Value From readGyro() read " + gyroVal);
 		return gyroVal;
+=======
+>>>>>>> 51e3f8dec18b2308be2d19b3218fa08d858fb668
 	}
+	
+	//Reads and translates input from the Gyro into a value from 0-359	
+	public double getAngle() {
+		byte[] dataBuffer = new byte[6];
+		
+	    if (I2CBus == null) {
+	      return 102.7;
+	    }
+	    I2CBus.read(0x03, 6, dataBuffer);
+		if (dataBuffer[1] >= 0) {
+	    	gyroVal = dataBuffer[1];
+		} else {
+			gyroVal = 256 + dataBuffer[1];
+		}
+		if (dataBuffer[2] > 0) {
+			gyroVal = 256 + gyroVal;
+		}
+		
+		while (gyroVal < 0) {
+			gyroVal = gyroVal + 360;
+		}
+		while (gyroVal > 359) {
+		   gyroVal = gyroVal - 360;	
+		}
+		
+	    return gyroVal;
+	  }
 	
 	//Sets current gyro value to 0
 	public void resetGyro()
 	{
 		I2CBus.write(COMMAND, RESET_Z_AXIS_INTEGRATOR);
+		I2CBus.write(SENSOR_ID_CODE, NORMAL_MEASUREMENT_MODE);
+	}
+	
+	public void recalibrateGyro()
+	{
+		I2CBus.write(COMMAND, GYRO_RECALIBRATE);
+		I2CBus.write(SENSOR_ID_CODE, NORMAL_MEASUREMENT_MODE);
 	}
 }

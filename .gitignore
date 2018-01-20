@@ -3,3 +3,5 @@ build.xml
 build.properties
 /build/
 /target/
+/dist/
+.classpath
