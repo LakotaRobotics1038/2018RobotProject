@@ -35,6 +35,7 @@ public class Robot extends IterativeRobot {
 	private boolean lowering = false;
 	
 	
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -86,13 +87,13 @@ public class Robot extends IterativeRobot {
 			case kDefaultAuto:
 			default:
 				// Put default auto code here
-				SmartDashboard.putNumber("Autonomous Drive Distance", driveStraight.getDriveDistance());
 				if(!driveStraight.isFinished()) {
 					driveStraight.execute();
 				}else {
 					driveStraight.end();
 				}
 				Dashboard.execute();
+				SmartDashboard.putNumber("Autonomous Drive Distance", driveStraight.getDriveDistance());
 				break;
 		}
 	}

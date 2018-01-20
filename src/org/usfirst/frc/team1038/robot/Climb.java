@@ -16,7 +16,6 @@ public class Climb extends Subsystem {
 	private double encoderDistance = 0;
 	private final double FINAL_DISTANCE = 3;
 	private final double RAISE_SPEED = 0.4;
-	private boolean manualClimbing = false;
 	private boolean climbing = false;
 	private boolean lowering = false;
 	private double manualClimbingSpeed = 0;

@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1038.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -26,6 +27,7 @@ public class DriveTrain extends Subsystem{
 	private boolean PTOisEngaged = false;
 	private DifferentialDrive differentialDrive;
 	private static DriveTrain driveTrain = new DriveTrain();
+	Compressor c = new Compressor();
 	
 	public static DriveTrain getInstance() {
 		if (driveTrain == null) {
