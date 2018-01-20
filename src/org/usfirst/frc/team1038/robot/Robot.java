@@ -8,6 +8,7 @@
 package org.usfirst.frc.team1038.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -24,13 +25,14 @@ public class Robot extends IterativeRobot {
 	private String m_autoSelected;
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
 	DriveStraightCommand driveStraight = new DriveStraightCommand();
-	TurnCommand turnDegrees = new TurnCommand();
+	TurnCommandPID turnDegrees = new TurnCommandPID(0.06,0,0);
 	public static DriveTrain robotDrive = DriveTrain.getInstance();
 	public enum driveModes {tankDrive, singleArcadeDrive, dualArcadeDrive};
 	private driveModes currentDriveMode = driveModes.dualArcadeDrive;
 	Joystick1038 driverJoystick = new Joystick1038(0);
 	Joystick1038 operatorJoystick = new Joystick1038(1);
 	private int stepNum = 1;
+	Scheduler schedule;
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -58,13 +60,15 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 //		driveStraight.initialize();
-		stepNum = 1;
-		m_autoSelected = m_chooser.getSelected();
+//		stepNum = 1;
+//		m_autoSelected = m_chooser.getSelected();
 		// autoSelected = SmartDashboard.getString("Auto Selector",
 		// defaultAuto);
-		System.out.println("Auto selected: " + m_autoSelected);
-		robotDrive.resetEncoders();
-		driveStraight.initialize();
+//		System.out.println("Auto selected: " + m_autoSelected);
+//		robotDrive.resetEncoders();
+//		driveStraight.initialize();
+		schedule = Scheduler.getInstance();
+		schedule.add(turnDegrees);
 	}
 	
 	@Override
@@ -77,40 +81,42 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		switch (m_autoSelected) {
-			case kCustomAuto:
-				// Put custom auto code here
-				break;
-			case kDefaultAuto:
-			default:
-				// Put default auto code here
-				switch(stepNum) {
-					case 1:
-						SmartDashboard.putNumber("Autonomous Drive Distance", driveStraight.getDriveDistance());
-						if(!driveStraight.isFinished()) {
-							driveStraight.execute();
-						} else {
-							driveStraight.end();
-							stepNum = 2;
-							turnDegrees.initialize();
-						}
-						break;
-					case 2:
-						//System.out.println(stepNum);
-						if(!turnDegrees.isFinished()) {
-							//turnDegrees.turn(90);
-							turnDegrees.execute();
-						}else{
-							turnDegrees.end();
-							stepNum = 3;
-						}
-						break;
-				}
-				break; 
-			}
-		
-		//System.out.println("Step " + stepNum);
-		System.out.println(I2CGyro.getInstance().readGyro());
+		schedule.run();
+//		switch (m_autoSelected) {
+//			case kCustomAuto:
+//				// Put custom auto code here
+//				break;
+//			case kDefaultAuto:
+//			default:
+//				// Put default auto code here
+//				switch(stepNum) {
+//					case 1:
+//						SmartDashboard.putNumber("Autonomous Drive Distance", driveStraight.getDriveDistance());
+//						if(!driveStraight.isFinished()) {
+//							driveStraight.execute();
+//						} else {
+//							driveStraight.end();
+//							stepNum = 2;
+//							turnDegrees.initialize();
+//						}
+//						break;
+//					case 2:
+////						//System.out.println(stepNum);
+////						if(!turnDegrees.isFinished()) {
+////							//turnDegrees.turn(90);
+////							turnDegrees.execute();
+////						}else{
+////							turnDegrees.end();
+////							stepNum = 3;
+////						}
+//						turnDegrees.execute(90);
+//						break;
+//				}
+//				break; 
+//			}
+//		
+//		//System.out.println("Step " + stepNum);
+//		System.out.println(I2CGyro.getInstance().getAngle());
 	}
 
 	/**
@@ -132,7 +138,8 @@ public class Robot extends IterativeRobot {
 	public void driver() {
 	
 		double driveDivider;
-		System.out.println(I2CGyro.getInstance().readGyro());
+		System.out.println(I2CGyro.getInstance().getAngle());
+		//I2CGyro.getInstance().getAngle();
 		
 		if(driverJoystick.getBackButton())
 			I2CGyro.getInstance().recalibrateGyro();
