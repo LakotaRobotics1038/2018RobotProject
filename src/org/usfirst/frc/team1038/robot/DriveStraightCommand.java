@@ -26,16 +26,16 @@ public class DriveStraightCommand extends Command{
 	}
 	
 	protected void execute() {
-		if(gyroSensor.readGyro() > 0 && gyroSensor.readGyro() < 180){
+		if(gyroSensor.getAngle() > 0 && gyroSensor.getAngle() < 180){
 			driveRotation = 0.15;
 		}
-		else if(gyroSensor.readGyro() > 180 && gyroSensor.readGyro() <= 359) {
+		else if(gyroSensor.getAngle() > 180 && gyroSensor.getAngle() <= 359) {
 			driveRotation = -0.15;
 		}else {
 			driveRotation = 0.0;
 		}
 		drive.drive(driveSpeed,driveRotation);
-		System.out.println(gyroSensor.readGyro());
+		System.out.println(gyroSensor.getAngle());
 	}
 	
 	protected void end() {

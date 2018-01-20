@@ -1,5 +1,5 @@
 {
-  "dividerPosition": 0.32040050062578224,
+  "dividerPosition": 0.3224592220828105,
   "tabPane": [
     {
       "title": "SmartDashboard",
@@ -10,33 +10,15 @@
         "hgap": 16.0,
         "vgap": 16.0,
         "tiles": {
-          "0,0": {
+          "4,0": {
             "size": [
-              2,
-              2
-            ],
-            "content": {
-              "_type": "Gyro",
-              "_title": "Gyro",
-              "majorTickSpace": 45.0,
-              "startAngle": 180.0,
-              "tickMarkRingVisible": true
-            }
-          },
-          "2,0": {
-            "size": [
-              2,
+              1,
               1
             ],
             "content": {
-              "_type": "List Layout",
-              "_title": "Left Encoder",
-              "_children": [
-                {
-                  "_type": "Encoder",
-                  "_title": ""
-                }
-              ]
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/Auto choices",
+              "_title": "Auto choices"
             }
           },
           "2,1": {
@@ -45,14 +27,31 @@
               1
             ],
             "content": {
-              "_type": "List Layout",
-              "_title": "Right Encoder",
-              "_children": [
-                {
-                  "_type": "Encoder",
-                  "_title": ""
-                }
-              ]
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Left Encoder",
+              "_title": "Right Encoder"
+            }
+          },
+          "2,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Right Encoder",
+              "_title": "Left Encoder"
+            }
+          },
+          "0,0": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Gyro",
+              "_title": "Gyro"
             }
           }
         }
@@ -66,7 +65,100 @@
         "gridSize": 128.0,
         "hgap": 16.0,
         "vgap": 16.0,
-        "tiles": {}
+        "tiles": {
+          "0,0": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "List Layout",
+              "_source0": "network_table:///LiveWindow/Ungrouped",
+              "_title": "Ungrouped",
+              "_children": [
+                {
+                  "_type": "Differential Drivebase",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/DifferentialDrive[1]",
+                  "_title": "DifferentialDrive[1]",
+                  "numberOfWheels": 4,
+                  "wheelDiameter": 80.0,
+                  "showVectors": true
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Encoder[1]/Distance per Tick",
+                  "_title": "Encoder[1]/Distance per Tick"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Encoder[0]/Speed",
+                  "_title": "Encoder[0]/Speed"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Encoder[0]/Distance per Tick",
+                  "_title": "Encoder[0]/Distance per Tick"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Encoder[0]/Distance",
+                  "_title": "Encoder[0]/Distance"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Encoder[1]/Distance",
+                  "_title": "Encoder[1]/Distance"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Encoder[1]/Speed",
+                  "_title": "Encoder[1]/Speed"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Encoder[2]/Speed",
+                  "_title": "Encoder[2]/Speed"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Encoder[2]/Distance",
+                  "_title": "Encoder[2]/Distance"
+                },
+                {
+                  "_type": "Speed Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Spark[2]",
+                  "_title": "Spark[2]",
+                  "controllable": false,
+                  "orientation": "HORIZONTAL"
+                }
+              ]
+            }
+          },
+          "2,0": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "List Layout",
+              "_source0": "network_table:///LiveWindow/DriveTrain",
+              "_title": "DriveTrain",
+              "_children": []
+            }
+          },
+          "4,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "List Layout",
+              "_source0": "network_table:///LiveWindow/Climb",
+              "_title": "Climb",
+              "_children": []
+            }
+          }
+        }
       }
     }
   ]

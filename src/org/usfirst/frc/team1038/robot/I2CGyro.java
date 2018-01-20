@@ -18,10 +18,8 @@ public class I2CGyro {
 	private final int RESET_Z_AXIS_INTEGRATOR = 0x52;
 	private I2C I2CBus;
 	private static I2CGyro gyroSensor = new I2CGyro();
-<<<<<<< HEAD
-=======
 	private double gyroVal;
->>>>>>> 51e3f8dec18b2308be2d19b3218fa08d858fb668
+
 	
 	//Class constructor
 	public I2CGyro()
@@ -38,19 +36,6 @@ public class I2CGyro {
 			gyroSensor = new I2CGyro();
 		}
 		return gyroSensor;
-<<<<<<< HEAD
-	}
-	
-	//Reads and translates input from the Gyro into a value from 0-359
-	public int readGyro()
-	{
-		byte[] dBuffer = new byte[2];
-		I2CBus.read(HEADING_DATA, 2, dBuffer);
-		int gyroVal = dBuffer[0] + (dBuffer[1] * 256);  
-		if(gyroVal > 359 || gyroVal < 0) System.out.println("Unexpected Gyro Value From readGyro() read " + gyroVal);
-		return gyroVal;
-=======
->>>>>>> 51e3f8dec18b2308be2d19b3218fa08d858fb668
 	}
 	
 	//Reads and translates input from the Gyro into a value from 0-359	
