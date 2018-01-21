@@ -44,7 +44,7 @@ public class I2CGyro {
 	    if (I2CBus == null) {
 	      return 102.7;
 	    }
-	    I2CBus.read(0x03, 6, dataBuffer);
+	    I2CBus.read(COMMAND, 6, dataBuffer);
 		if (dataBuffer[1] >= 0) {
 	    	gyroVal = dataBuffer[1];
 		} else {
