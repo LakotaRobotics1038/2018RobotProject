@@ -7,6 +7,8 @@
 
 package org.usfirst.frc.team1038.robot;
 
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -23,6 +25,9 @@ public class Robot extends IterativeRobot {
 	private static final String kDefaultAuto = "Default";
 	private static final String kCustomAuto = "My Auto";
 	private String m_autoSelected;
+	private Compressor c = new Compressor();
+	private final int PRESSURE_SENSOR_PORT = 0;
+	private AnalogInput pressureSensor = new AnalogInput(PRESSURE_SENSOR_PORT);
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
 	DriveStraightCommand driveStraight = new DriveStraightCommand();
 	TurnCommandPID turnDegrees = new TurnCommandPID(0.06,0,0);
@@ -124,6 +129,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		c.
 		driver();
 		//operator();
 	}
@@ -181,8 +187,7 @@ public class Robot extends IterativeRobot {
 		{
 			robotDrive.highGear();
 		}
-		
-		else
+		else if (robotDrive.isHighGear())
 		{
 			robotDrive.lowGear();
 		}
