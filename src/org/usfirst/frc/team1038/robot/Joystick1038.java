@@ -19,10 +19,10 @@ public class Joystick1038 {
 	private final int RIGHT_JOYSTICK_CLICK = 12;
 	
 	//Joystick locations
-	private final int LEFT_STICK_VERTICAL = 0;
-	private final int LEFT_STICK_HORIZONTAL = 1;
-	private final int RIGHT_STICK_VERTICAL = 2;
-	private final int RIGHT_STICK_HORIZONTAL = 3;
+	private final int LEFT_STICK_HORIZONTAL = 0;
+	private final int LEFT_STICK_VERTICAL = 1;
+	private final int RIGHT_STICK_HORIZONTAL = 2;
+	private final int RIGHT_STICK_VERTICAL = 3;
 	
 	private Joystick joystick;
 	

@@ -7,7 +7,10 @@
 
 package org.usfirst.frc.team1038.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -21,9 +24,23 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 	private static final String kDefaultAuto = "Default";
 	private static final String kCustomAuto = "My Auto";
-	private String m_autoSelected;
+//	private Compressor c = new Compressor();
+	//private String m_autoSelected;
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
-
+	DriveStraightCommand driveStraight = new DriveStraightCommand(48);
+	//TurnCommandPID turnDegrees = new TurnCommandPID(0.06,0,0);
+	TurnCommand turnDegrees = new TurnCommand(90);
+	public static DriveTrain robotDrive = DriveTrain.getInstance();
+	public enum driveModes {tankDrive, singleArcadeDrive, dualArcadeDrive};
+	private driveModes currentDriveMode = driveModes.dualArcadeDrive;
+	Joystick1038 driverJoystick = new Joystick1038(0);
+	Joystick1038 operatorJoystick = new Joystick1038(1);
+	//private int stepNum = 1;
+	Scheduler schedule;
+	private Climb robotClimb = new Climb();
+	private boolean autoClimbing = false;
+	private boolean lowering = false;
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -33,6 +50,8 @@ public class Robot extends IterativeRobot {
 		m_chooser.addDefault("Default Auto", kDefaultAuto);
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
+		I2CGyro.getInstance();
+		CameraServer.getInstance().addServer("raspberrypi.local:1180/?action=stream");
 	}
 
 	/**
@@ -48,10 +67,22 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		m_autoSelected = m_chooser.getSelected();
+//		driveStraight.initialize();
+//		stepNum = 1;
+//		m_autoSelected = m_chooser.getSelected();
 		// autoSelected = SmartDashboard.getString("Auto Selector",
 		// defaultAuto);
-		System.out.println("Auto selected: " + m_autoSelected);
+//		System.out.println("Auto selected: " + m_autoSelected);
+//		robotDrive.resetEncoders();
+//		driveStraight.initialize();
+		turnDegrees.initialize();
+		schedule = Scheduler.getInstance();
+		schedule.add(new TurnCommand(90));
+	}
+	
+	@Override
+	public void teleopInit() {
+		robotDrive.resetEncoders();
 	}
 
 	/**
@@ -59,15 +90,59 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		switch (m_autoSelected) {
-			case kCustomAuto:
-				// Put custom auto code here
-				break;
-			case kDefaultAuto:
-			default:
-				// Put default auto code here
-				break;
-		}
+		schedule.run();
+//		switch (m_autoSelected) {
+//			case kCustomAuto:
+//				// Put custom auto code here
+//				break;
+//			case kDefaultAuto:
+//			default:
+//				// Put default auto code here
+//				switch(stepNum) {
+//					case 1:
+//						SmartDashboard.putNumber("Autonomous Drive Distance", driveStraight.getDriveDistance());
+//						if(!driveStraight.isFinished()) {
+//							driveStraight.execute();
+//						} else {
+//							driveStraight.end();
+//							stepNum = 2;
+//							turnDegrees.initialize();
+//						}
+//						break;
+//					case 2:
+//						//System.out.println(stepNum);
+//						if(!turnDegrees.isFinished()) {
+//							//turnDegrees.turn(90);
+//							turnDegrees.execute();
+//						}else{
+//							turnDegrees.end();
+//							stepNum = 3;
+//						}
+//						turnDegrees.execute(90);
+//						break;
+//				}
+//				break; 
+//			}
+//		
+//		//System.out.println("Step " + stepNum);
+//		System.out.println(I2CGyro.getInstance().getAngle());
+//
+//		switch (m_autoSelected) {
+//			case kCustomAuto:
+//				// Put custom auto code here
+//				break;
+//			case kDefaultAuto:
+//			default:
+//				// Put default auto code here
+//				if(!driveStraight.isFinished()) {
+//					driveStraight.execute();
+//				}else {
+//					driveStraight.end();
+//				}
+//				Dashboard.execute();
+//				SmartDashboard.putNumber("Autonomous Drive Distance", driveStraight.getDriveDistance());
+//				break;
+//		}
 	}
 
 	/**
@@ -75,6 +150,10 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+//		System.out.println(PressureSensor.getInstance().getPressure());
+		driver();
+		operator();
+		Dashboard.execute();
 	}
 
 	/**
@@ -82,5 +161,89 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+	}
+	
+	public void driver() {
+	
+		double driveDivider;
+		System.out.println(I2CGyro.getInstance().getAngle());
+		//I2CGyro.getInstance().getAngle();
+		
+		if(driverJoystick.getBackButton())
+			I2CGyro.getInstance().recalibrateGyro();
+		
+		if(!driverJoystick.getRightButton() && !robotDrive.isHighGear()) {
+			driveDivider = .65;
+		}
+		else	 {
+			driveDivider = 1;
+		}
+		
+		switch (currentDriveMode) {
+		case tankDrive:
+			robotDrive.tankDrive(driverJoystick.getLeftJoystickVertical() * driveDivider, driverJoystick.getRightJoystickVertical() * driveDivider);			
+			break;
+		case dualArcadeDrive:
+			robotDrive.dualArcadeDrive(driverJoystick.getLeftJoystickVertical() * driveDivider, driverJoystick.getRightJoystickHorizontal() * driveDivider);
+			break;
+		case singleArcadeDrive:
+			robotDrive.singleArcadeDrive(driverJoystick.getLeftJoystickVertical() * driveDivider, driverJoystick.getLeftJoystickHorizontal() * driveDivider);
+			break;
+		}	
+	
+		if(driverJoystick.getStartButton()) {
+			switch (currentDriveMode) {
+			case tankDrive:
+				currentDriveMode = driveModes.dualArcadeDrive;
+				break;
+			case dualArcadeDrive:
+				currentDriveMode = driveModes.singleArcadeDrive;
+				break;
+			case singleArcadeDrive:
+				currentDriveMode = driveModes.tankDrive;
+				break;
+			}	
+		}
+	
+		if(driverJoystick.getRightTrigger())
+		{
+			robotDrive.highGear();
+		}
+		else if (robotDrive.isHighGear())
+		{
+			robotDrive.lowGear();
+		}
+		
+		if(driverJoystick.getLeftButton())
+		{
+			robotDrive.PTOon();
+		}
+		
+		if(driverJoystick.getLeftTrigger())
+		{
+			robotDrive.PTOoff();
+		}
+	}
+	
+	public void operator() {
+		if(operatorJoystick.getRightTrigger())
+		{
+			autoClimbing = true;
+			robotClimb.autoArmRaise();
+		}
+		if(autoClimbing)
+		{
+			autoClimbing = robotClimb.autoArmRaise();
+		}
+		robotClimb.manualArmRaise(operatorJoystick.getLeftJoystickVertical());
+		if(operatorJoystick.getRightButton())
+		{
+			lowering = true;
+			robotClimb.armLower();
+		}
+		if(lowering)
+		{
+			lowering = robotClimb.armLower();
+		}
 	}
 }
