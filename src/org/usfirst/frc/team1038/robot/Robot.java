@@ -8,6 +8,7 @@
 package org.usfirst.frc.team1038.robot;
 
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -35,6 +36,9 @@ public class Robot extends IterativeRobot {
 	Joystick1038 operatorJoystick = new Joystick1038(1);
 	private int stepNum = 1;
 	Scheduler schedule;
+	private Climb robotClimb = new Climb();
+	private boolean autoClimbing = false;
+	private boolean lowering = false;
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -46,6 +50,7 @@ public class Robot extends IterativeRobot {
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
 		I2CGyro.getInstance();
+		CameraServer.getInstance().addServer("raspberrypi.local:1180/?action=stream");
 	}
 
 	/**
@@ -119,6 +124,23 @@ public class Robot extends IterativeRobot {
 //		
 //		//System.out.println("Step " + stepNum);
 //		System.out.println(I2CGyro.getInstance().getAngle());
+//
+		switch (m_autoSelected) {
+			case kCustomAuto:
+				// Put custom auto code here
+				break;
+			case kDefaultAuto:
+			default:
+				// Put default auto code here
+				if(!driveStraight.isFinished()) {
+					driveStraight.execute();
+				}else {
+					driveStraight.end();
+				}
+				Dashboard.execute();
+				SmartDashboard.putNumber("Autonomous Drive Distance", driveStraight.getDriveDistance());
+				break;
+		}
 	}
 
 	/**
@@ -128,7 +150,8 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 //		System.out.println(PressureSensor.getInstance().getPressure());
 		driver();
-		//operator();
+		operator();
+		Dashboard.execute();
 	}
 
 	/**
@@ -201,6 +224,24 @@ public class Robot extends IterativeRobot {
 	}
 	
 	public void operator() {
-		
+		if(operatorJoystick.getRightTrigger())
+		{
+			autoClimbing = true;
+			robotClimb.autoArmRaise();
+		}
+		if(autoClimbing)
+		{
+			autoClimbing = robotClimb.autoArmRaise();
+		}
+		robotClimb.manualArmRaise(operatorJoystick.getLeftJoystickVertical());
+		if(operatorJoystick.getRightButton())
+		{
+			lowering = true;
+			robotClimb.armLower();
+		}
+		if(lowering)
+		{
+			lowering = robotClimb.armLower();
+		}
 	}
 }
