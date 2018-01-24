@@ -127,22 +127,22 @@ public class Robot extends IterativeRobot {
 //		//System.out.println("Step " + stepNum);
 //		System.out.println(I2CGyro.getInstance().getAngle());
 //
-		switch (m_autoSelected) {
-			case kCustomAuto:
-				// Put custom auto code here
-				break;
-			case kDefaultAuto:
-			default:
-				// Put default auto code here
-				if(!driveStraight.isFinished()) {
-					driveStraight.execute();
-				}else {
-					driveStraight.end();
-				}
-				Dashboard.execute();
-				SmartDashboard.putNumber("Autonomous Drive Distance", driveStraight.getDriveDistance());
-				break;
-		}
+//		switch (m_autoSelected) {
+//			case kCustomAuto:
+//				// Put custom auto code here
+//				break;
+//			case kDefaultAuto:
+//			default:
+//				// Put default auto code here
+//				if(!driveStraight.isFinished()) {
+//					driveStraight.execute();
+//				}else {
+//					driveStraight.end();
+//				}
+//				Dashboard.execute();
+//				SmartDashboard.putNumber("Autonomous Drive Distance", driveStraight.getDriveDistance());
+//				break;
+//		}
 	}
 
 	/**
