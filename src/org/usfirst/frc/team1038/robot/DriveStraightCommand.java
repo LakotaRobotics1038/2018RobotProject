@@ -17,7 +17,8 @@ public class DriveStraightCommand extends Command{
 		return driveDistance;
 	}
 	
-	public DriveStraightCommand() {
+	public DriveStraightCommand(int distance) {
+		driveDistance = distance;
 		requires(Robot.robotDrive);
 	}
 	

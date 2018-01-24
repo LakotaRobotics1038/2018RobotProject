@@ -9,7 +9,7 @@ public class TurnCommand extends PIDCommand {
 	private final double END_DRIVE_SPEED = 0.0;
 	private final double END_DRIVE_ROTATION = 0.0;
 	private final double TOLERANCE = 0.0;
-	private final static double P = 0.000;
+	private final static double P = 0.300;
 	private final static double I = 0.000;
 	private final static double D = 0.000;
 	//private double driveRotationInit = 0.0;
@@ -23,6 +23,7 @@ public class TurnCommand extends PIDCommand {
 		super(P, I, D);
 		setSetpoint(setpoint);
 		PIDControllerTurnAdjust.setAbsoluteTolerance(TOLERANCE);
+		PIDControllerTurnAdjust.setInputRange(-1.0, 1.0);
 		requires(Robot.robotDrive);
 	}
 	

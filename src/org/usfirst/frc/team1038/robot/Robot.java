@@ -22,9 +22,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 	private static final String kDefaultAuto = "Default";
 	private static final String kCustomAuto = "My Auto";
-	private String m_autoSelected;
+	//private String m_autoSelected;
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
-	DriveStraightCommand driveStraight = new DriveStraightCommand();
+	DriveStraightCommand driveStraight = new DriveStraightCommand(48);
 	//TurnCommandPID turnDegrees = new TurnCommandPID(0.06,0,0);
 	TurnCommand turnDegrees = new TurnCommand(90);
 	public static DriveTrain robotDrive = DriveTrain.getInstance();
@@ -32,7 +32,7 @@ public class Robot extends IterativeRobot {
 	private driveModes currentDriveMode = driveModes.dualArcadeDrive;
 	Joystick1038 driverJoystick = new Joystick1038(0);
 	Joystick1038 operatorJoystick = new Joystick1038(1);
-	private int stepNum = 1;
+	//private int stepNum = 1;
 	Scheduler schedule;
 	
 	/**
