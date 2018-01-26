@@ -27,6 +27,7 @@ public class I2CGyro {
 		//I2CBus.write(0x10, 22);
 		I2CBus.write(COMMAND, GYRO_RECALIBRATE);
 		I2CBus.write(SENSOR_ID_CODE, NORMAL_MEASUREMENT_MODE);
+		System.out.println("Gyro Calibrated");
 	}
 	
 	public static I2CGyro getInstance() {

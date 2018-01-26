@@ -24,18 +24,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 	private static final String kDefaultAuto = "Default";
 	private static final String kCustomAuto = "My Auto";
-//	private Compressor c = new Compressor();
+	private Compressor c = new Compressor();
 	//private String m_autoSelected;
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
 	DriveStraightCommand driveStraight = new DriveStraightCommand(48);
-	//TurnCommandPID turnDegrees = new TurnCommandPID(0.06,0,0);
 	TurnCommand turnDegrees = new TurnCommand(90);
 	public static DriveTrain robotDrive = DriveTrain.getInstance();
 	public enum driveModes {tankDrive, singleArcadeDrive, dualArcadeDrive};
 	private driveModes currentDriveMode = driveModes.dualArcadeDrive;
 	Joystick1038 driverJoystick = new Joystick1038(0);
 	Joystick1038 operatorJoystick = new Joystick1038(1);
-	//private int stepNum = 1;
 	Scheduler schedule;
 	private Climb robotClimb = new Climb();
 	private boolean autoClimbing = false;
@@ -47,6 +45,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
+		c.stop();
 		m_chooser.addDefault("Default Auto", kDefaultAuto);
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
@@ -91,58 +90,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		schedule.run();
-//		switch (m_autoSelected) {
-//			case kCustomAuto:
-//				// Put custom auto code here
-//				break;
-//			case kDefaultAuto:
-//			default:
-//				// Put default auto code here
-//				switch(stepNum) {
-//					case 1:
-//						SmartDashboard.putNumber("Autonomous Drive Distance", driveStraight.getDriveDistance());
-//						if(!driveStraight.isFinished()) {
-//							driveStraight.execute();
-//						} else {
-//							driveStraight.end();
-//							stepNum = 2;
-//							turnDegrees.initialize();
-//						}
-//						break;
-//					case 2:
-//						//System.out.println(stepNum);
-//						if(!turnDegrees.isFinished()) {
-//							//turnDegrees.turn(90);
-//							turnDegrees.execute();
-//						}else{
-//							turnDegrees.end();
-//							stepNum = 3;
-//						}
-//						turnDegrees.execute(90);
-//						break;
-//				}
-//				break; 
-//			}
-//		
-//		//System.out.println("Step " + stepNum);
-//		System.out.println(I2CGyro.getInstance().getAngle());
-//
-//		switch (m_autoSelected) {
-//			case kCustomAuto:
-//				// Put custom auto code here
-//				break;
-//			case kDefaultAuto:
-//			default:
-//				// Put default auto code here
-//				if(!driveStraight.isFinished()) {
-//					driveStraight.execute();
-//				}else {
-//					driveStraight.end();
-//				}
-//				Dashboard.execute();
-//				SmartDashboard.putNumber("Autonomous Drive Distance", driveStraight.getDriveDistance());
-//				break;
-//		}
+		System.out.println(I2CGyro.getInstance().getAngle());
 	}
 
 	/**
