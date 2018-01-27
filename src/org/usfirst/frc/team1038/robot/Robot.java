@@ -27,8 +27,6 @@ public class Robot extends IterativeRobot {
 	private Compressor c = new Compressor();
 	//private String m_autoSelected;
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
-	DriveStraightCommand driveStraight = new DriveStraightCommand(48);
-	TurnCommand turnDegrees = new TurnCommand(90);
 	public static DriveTrain robotDrive = DriveTrain.getInstance();
 	public enum driveModes {tankDrive, singleArcadeDrive, dualArcadeDrive};
 	private driveModes currentDriveMode = driveModes.dualArcadeDrive;
@@ -74,9 +72,10 @@ public class Robot extends IterativeRobot {
 //		System.out.println("Auto selected: " + m_autoSelected);
 //		robotDrive.resetEncoders();
 //		driveStraight.initialize();
-		turnDegrees.initialize();
 		schedule = Scheduler.getInstance();
-		schedule.add(new TurnCommand(90));
+		//schedule.add(new TurnCommand(90));
+		TurnCommand turn = new TurnCommand(90);
+		turn.start();
 	}
 	
 	@Override
