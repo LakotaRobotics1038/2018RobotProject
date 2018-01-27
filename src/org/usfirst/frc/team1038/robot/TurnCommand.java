@@ -12,40 +12,39 @@ public class TurnCommand extends PIDCommand {
 	private final double END_DRIVE_SPEED = 0.0;
 	private final double END_DRIVE_ROTATION = 0.0;
 	private final int TOLERANCE = 2;
-	private final static double P = 0.080;
+	private final static double P = 0.015;
 	private final static double I = 0.015;
-	private final static double D = 0.001;
+	private final static double D = 0.005;
 	private I2CGyro gyroSensor = I2CGyro.getInstance();
 	private DriveTrain drive = DriveTrain.getInstance();
-	private PIDController PIDController = getPIDController();
+	private PIDController turnPID = getPIDController();
 	
 	//constructor
 	public TurnCommand(int setpoint) {
 		super(P, I, D, .2);
-		setSetpoint(setpoint);
-		PIDController.setAbsoluteTolerance(TOLERANCE);
-		PIDController.setOutputRange(-.65, .65);
+		setSetpoint(setpoint - 5);
+		turnPID.setAbsoluteTolerance(TOLERANCE);
+		turnPID.setOutputRange(-.65, .65);
 		requires(Robot.robotDrive);
 	}
 	
 	//methods
 	protected void initialize() {
 		gyroSensor.resetGyro();
-		PIDController.enable();
 		super.setInputRange(0, 359);
 	}
 	
 	protected void execute() {
 	
-		PIDController.enable();
-		double PIDTurnAdjust = PIDController.get();
+		turnPID.enable();
+		double PIDTurnAdjust = turnPID.get();
 		drive.dualArcadeDrive(drivePower, -PIDTurnAdjust);
-		System.out.println("Current Angle: " + gyroSensor.getAngle() + ", PIDTurnAdjust: " + PIDController.get());
+		System.out.println("Current Angle: " + gyroSensor.getAngle() + ", PIDTurnAdjust: " + turnPID.get());
 	}
 	
 	@Override
 	protected void end() {
-		PIDController.disable();
+		turnPID.disable();
 		double gyroReading = gyroSensor.getAngle();
 		drive.drive(END_DRIVE_SPEED, END_DRIVE_ROTATION);
 		System.out.println("Finished at " + gyroReading);
@@ -53,31 +52,8 @@ public class TurnCommand extends PIDCommand {
 	
 	@Override
 	protected boolean isFinished() {
-		System.out.println("Checked: " + gyroSensor.getAngle()/* + ", " + timer.get()*/);
-//		if (!timerRunning && PIDController.onTarget())
-//		{
-//			System.out.println("Timer Started");
-//			timer.start();
-//			timerRunning = true;
-//		}	
-//		else if (timerRunning)
-//		{
-//			if (timer.get() >= .25 && PIDController.onTarget())
-//			{
-//				System.out.println("Done");
-//				timerRunning = false;
-//				return true;
-//			}
-//			else if (!PIDController.onTarget())
-//			{
-//				System.out.println("Timer failed");
-//				timerRunning = false;
-//				timer.stop();
-//				timer.reset();		
-//			}
-//		}
-		
-		return PIDController.onTarget();
+		System.out.println("Checked: " + gyroSensor.getAngle());		
+		return turnPID.onTarget();
 	}
 
 	@Override

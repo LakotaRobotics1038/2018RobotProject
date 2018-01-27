@@ -43,7 +43,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		c.stop();
+		//c.stop();
 		m_chooser.addDefault("Default Auto", kDefaultAuto);
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
@@ -74,7 +74,7 @@ public class Robot extends IterativeRobot {
 //		driveStraight.initialize();
 		schedule = Scheduler.getInstance();
 		//schedule.add(new TurnCommand(90));
-		TurnCommand turn = new TurnCommand(90);
+		TurnCommand turn = new TurnCommand(45);
 		turn.start();
 	}
 	
