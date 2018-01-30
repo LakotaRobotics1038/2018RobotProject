@@ -22,28 +22,55 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * project.
  */
 public class Robot extends IterativeRobot {
-	private static final String kDefaultAuto = "Default";
-	private static final String kCustomAuto = "My Auto";
-	private Compressor c = new Compressor();
-	//private String m_autoSelected;
-	private SendableChooser<String> m_chooser = new SendableChooser<>();
-	public static DriveTrain robotDrive = DriveTrain.getInstance();
-	public enum driveModes {tankDrive, singleArcadeDrive, dualArcadeDrive};
-	private driveModes currentDriveMode = driveModes.dualArcadeDrive;
-	Joystick1038 driverJoystick = new Joystick1038(0);
-	Joystick1038 operatorJoystick = new Joystick1038(1);
-	Scheduler schedule;
+	//Subsystems
+		//Climb
 	private Climb robotClimb = new Climb();
 	private boolean autoClimbing = false;
 	private boolean lowering = false;
 	
+		//Pneumatics
+	private Compressor c = new Compressor();
+	
+		//Drive
+	public static DriveTrain robotDrive = DriveTrain.getInstance();
+	public enum driveModes {tankDrive, singleArcadeDrive, dualArcadeDrive};
+	private driveModes currentDriveMode = driveModes.dualArcadeDrive;
+	
+	//Teleop
+	Joystick1038 driverJoystick = new Joystick1038(0);
+	Joystick1038 operatorJoystick = new Joystick1038(1);
+	
+	//Auton
+	Scheduler schedule;
+	private static final String kDefaultAuto = "Default";
+	private static final String kCustomAuto = "My Auto";
+	private String m_autoSelected;
+	private SendableChooser<String> m_chooser = new SendableChooser<>();
+	private PathfinderTest pathTest;
+	
+    /**
+     * Convert feet to meters. This is included here for static imports.
+     */
+    public static double f2m(double feet)
+    {
+    	return 0.3 * feet;
+    }
+    
+    /**
+     * Convert meters to feet. This is included here for static imports.
+     */
+    public static double m2f(double meters)
+    {
+    	return 3.28 * meters;
+    }
+    
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
 	@Override
 	public void robotInit() {
-		//c.stop();
+		c.stop();
 		m_chooser.addDefault("Default Auto", kDefaultAuto);
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
@@ -64,18 +91,12 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-//		driveStraight.initialize();
-//		stepNum = 1;
-//		m_autoSelected = m_chooser.getSelected();
-		// autoSelected = SmartDashboard.getString("Auto Selector",
-		// defaultAuto);
-//		System.out.println("Auto selected: " + m_autoSelected);
-//		robotDrive.resetEncoders();
-//		driveStraight.initialize();
+		m_autoSelected = m_chooser.getSelected();
 		schedule = Scheduler.getInstance();
-		//schedule.add(new TurnCommand(90));
-		TurnCommand turn = new TurnCommand(45);
-		turn.start();
+		//TurnCommand turn = new TurnCommand(45);
+		//turn.start();
+		pathTest = new PathfinderTest();
+		pathTest.initialize();
 	}
 	
 	@Override
@@ -88,7 +109,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		schedule.run();
+		//schedule.run();
+		pathTest.excecute();
 		System.out.println(I2CGyro.getInstance().getAngle());
 	}
 
