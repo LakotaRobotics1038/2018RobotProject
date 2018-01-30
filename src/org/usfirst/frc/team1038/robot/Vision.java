@@ -3,8 +3,9 @@ package org.usfirst.frc.team1038.robot;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class Vision {
+public class Vision extends Subsystem{
 	NetworkTableInstance targetSmartDash = NetworkTableInstance.getDefault();
 	NetworkTable smartDash = targetSmartDash.getTable("SmartDashBoard");   //May need slashes to denote hierarchy
 	NetworkTableEntry targetX = smartDash.getEntry("x");   //May need slashes to denote hierarchy
@@ -24,5 +25,11 @@ public class Vision {
 	
 	public double getYVal() {
 		return YVal;
+	}
+
+	@Override
+	protected void initDefaultCommand() {
+		// TODO Auto-generated method stub
+		
 	}
 }
