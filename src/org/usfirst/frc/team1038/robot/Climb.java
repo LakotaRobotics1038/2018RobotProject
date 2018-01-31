@@ -9,8 +9,8 @@ public class Climb extends Subsystem {
 										//I NEED A DISTANCE FOR IT TO TRAVEL
 	//variables
 	private final int ARM_MOTOR_PORT = 2;
-	private final int ARM_ENCODER_PORT_A = 7;
-	private final int ARM_ENCODER_PORT_B = 8;
+	private final int ARM_ENCODER_PORT_A = 8;
+	private final int ARM_ENCODER_PORT_B = 9;
 	private Spark armMotor = new Spark(ARM_MOTOR_PORT);
 	private Encoder armEncoder = new Encoder(ARM_ENCODER_PORT_A, ARM_ENCODER_PORT_B);
 	private double encoderDistance = 0;

@@ -39,11 +39,9 @@ public class PathfinderTest extends Command {
     	// Max Jerk:            60.0 m/s/s/s
         Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, TIME_STEP, MAX_VELOCITY, MAX_ACC, MAX_JERK);
         Waypoint[] points = new Waypoint[] {
-                new Waypoint(0,0,0),
-        		new Waypoint(Robot.f2m(3), 0, Pathfinder.d2r(90)),
-                new Waypoint(0, Robot.f2m(2), Pathfinder.d2r(-90)),
-                new Waypoint(0, Robot.f2m(2), Pathfinder.d2r(-180)),
-                new Waypoint(Robot.f2m(3), 0, 0)
+        		new Waypoint(-4, -1, Pathfinder.d2r(-45)),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
+        		new Waypoint(-2, -2, 0),                        // Waypoint @ x=-2, y=-2, exit angle=0 radians
+        		new Waypoint(0, 0, 0)                           // Waypoint @ x=0, y=0,   exit angle=0 radians		
         };
 
         Trajectory trajectory = Pathfinder.generate(points, config);
