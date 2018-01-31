@@ -9,7 +9,7 @@ import jaci.pathfinder.modifiers.TankModifier;
 
 public class PathfinderTest extends Command {
 	
-	private final int WHEEL_DIAMETER = 6;
+	private final double WHEEL_DIAMETER = 6;
 	private final double TIME_STEP = .05;
 	private final double MAX_VELOCITY = 1.7;
 	private final double MAX_ACC = 2.0;
@@ -35,7 +35,8 @@ public class PathfinderTest extends Command {
     	// Max Jerk:            60.0 m/s/s/s
         Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, TIME_STEP, MAX_VELOCITY, MAX_ACC, MAX_JERK);
         Waypoint[] points = new Waypoint[] {
-                new Waypoint(Robot.f2m(3), 0, Pathfinder.d2r(90)),
+                new Waypoint(0,0,0),
+        		new Waypoint(Robot.f2m(3), 0, Pathfinder.d2r(90)),
                 new Waypoint(0, Robot.f2m(2), Pathfinder.d2r(-90)),
                 new Waypoint(0, Robot.f2m(2), Pathfinder.d2r(-180)),
                 new Waypoint(Robot.f2m(3), 0, 0)
@@ -45,15 +46,15 @@ public class PathfinderTest extends Command {
         
     	gyro.resetGyro();
     	drive.resetEncoders();
-    	TankModifier modifier = new TankModifier(trajectory).modify(Robot.f2m(WHEELBASE_WIDTH / 12));
+    	TankModifier modifier = new TankModifier(trajectory).modify(Robot.f2m(WHEELBASE_WIDTH / 12.0));
     	left = new EncoderFollower(modifier.getLeftTrajectory());
     	right = new EncoderFollower(modifier.getRightTrajectory());
     	// Encoder Position is the current, cumulative position of your encoder. If you're using an SRX, this will be the
     	// 'getEncPosition' function.
     	// 1000 is the amount of encoder ticks per full revolution
     	// Wheel Diameter is the diameter of your wheels (or pulley for a track system) in meters
-    	left.configureEncoder(drive.getLeftDriveEncoderCount(), 225, WHEEL_DIAMETER);
-    	right.configureEncoder(drive.getRightDriveEncoderCount(), 225, WHEEL_DIAMETER);
+    	left.configureEncoder(drive.getLeftDriveEncoderCount(), 225, Robot.f2m(WHEEL_DIAMETER / 12.0));
+    	right.configureEncoder(drive.getRightDriveEncoderCount(), 225, Robot.f2m(WHEEL_DIAMETER / 12.0));
     	// The first argument is the proportional gain. Usually this will be quite high
     	// The second argument is the integral gain. This is unused for motion profiling
     	// The third argument is the derivative gain. Tweak this if you are unhappy with the tracking of the trajectory
@@ -62,6 +63,7 @@ public class PathfinderTest extends Command {
     	// The fifth argument is your acceleration gain. Tweak this if you want to get to a higher or lower speed quicker
     	left.configurePIDVA(1.0, 0.0, 0.0, 1 / MAX_VELOCITY, 0);
     	right.configurePIDVA(1.0, 0.0, 0.0, 1 / MAX_VELOCITY, 0);
+    	System.out.println("Pathfinder Configured");
     }
     
     public void excecute()
@@ -77,6 +79,7 @@ public class PathfinderTest extends Command {
     	double turn = 0.8 * (-1.0/80.0) * angleDifference;
 
     	drive.tankDrive(l + turn, r - turn);
+    	System.out.printf("Path Output Calculated: %f,%f,%f\n", l, r, turn);
     }
     
 	@Override
