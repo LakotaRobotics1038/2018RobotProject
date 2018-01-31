@@ -1,4 +1,7 @@
-package org.usfirst.frc.team1038.robot;
+package org.usfirst.frc.team1038.auton;
+
+import org.usfirst.frc.team1038.robot.DriveTrain;
+import org.usfirst.frc.team1038.robot.I2CGyro;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.PIDCommand;

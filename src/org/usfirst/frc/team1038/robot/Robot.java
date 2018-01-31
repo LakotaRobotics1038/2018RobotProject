@@ -8,6 +8,9 @@
 package org.usfirst.frc.team1038.robot;
 
 import edu.wpi.first.wpilibj.Compressor;
+
+import org.usfirst.frc.team1038.auton.PathfinderTest;
+
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
