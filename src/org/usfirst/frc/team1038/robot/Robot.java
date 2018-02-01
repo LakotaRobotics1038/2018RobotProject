@@ -79,6 +79,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Auto choices", m_chooser);
 		I2CGyro.getInstance();
 		CameraServer.getInstance().addServer("raspberrypi.local:1180/?action=stream");
+		pathTest = new PathfinderTest();
+		pathTest.initialize();
 	}
 
 	/**
@@ -98,8 +100,6 @@ public class Robot extends IterativeRobot {
 		schedule = Scheduler.getInstance();
 		//TurnCommand turn = new TurnCommand(45);
 		//turn.start();
-		pathTest = new PathfinderTest();
-		pathTest.initialize();
 	}
 	
 	@Override

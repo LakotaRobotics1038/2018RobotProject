@@ -26,6 +26,7 @@ public class PathfinderTest extends Command {
     
     @Override
     public void initialize() {
+    	System.out.println("Pathfinder Started");
     	// Create the Trajectory Configuration
     	//
     	// Arguments:
@@ -80,7 +81,7 @@ public class PathfinderTest extends Command {
     	double angleDifference = Pathfinder.boundHalfDegrees(desired_heading - gyro_heading);
     	double turn = 0.8 * (-1.0/80.0) * angleDifference;
 
-    	drive.tankDrive(l + turn, r - turn);
+    	drive.tankDrive(l + turn,r - turn);
     	System.out.printf("Path Output Calculated: %f,%f,%f\n", l, r, turn);
     }
     
