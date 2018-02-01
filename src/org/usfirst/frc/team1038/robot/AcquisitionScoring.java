@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1038.robot;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 
@@ -17,7 +18,8 @@ public class AcquisitionScoring {
     private Spark rightAcqMotor = new Spark(RIGHT_ACQ_MOTOR_PORT);
     private SpeedControllerGroup acqMotors = new SpeedControllerGroup(leftAcqMotor, rightAcqMotor);
     private DoubleSolenoid acqArmsHoriz = new DoubleSolenoid(ACQ_ARMS_OPEN, ACQ_ARMS_CLOSE);
-    private DoubleSolenoid acqArmsVert = new DoubleSolenoid(ACQ_ARMS_UP, ACQ_ARMS_DOWN);
+    private Spark acqArmsUpDown = new Spark(6);
+    private Encoder acqArmsUpDownEncoder = new Encoder(10, 11);
 	
     public void setAcqSpeed(double speed)
     {
