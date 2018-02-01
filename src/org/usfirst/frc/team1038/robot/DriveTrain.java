@@ -1,13 +1,18 @@
 package org.usfirst.frc.team1038.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
-public class DriveTrain extends Subsystem{
+public class DriveTrain extends Subsystem {
 	//Fields
-	
+//	private final static double P = 0.000;
+//	private final static double I = 0.000;
+//	private final static double D = 0.000;
+//	private final double TOLERANCE = 2.0;
 	private final int LEFT_ENCODER_CHANNEL_A = 0;
 	private final int RIGHT_ENCODER_CHANNEL_A = 2;
 	private final int LEFT_ENCODER_CHANNEL_B = 1;
@@ -18,14 +23,15 @@ public class DriveTrain extends Subsystem{
 	private final static int RIGHT_DRIVE_PORT = 1;
 	private static Spark leftDrive = new Spark(LEFT_DRIVE_PORT);
 	private static Spark rightDrive = new Spark(RIGHT_DRIVE_PORT);
-	private DoubleSolenoid shifter;/* = new DoubleSolenoid(0, 1);*/
-	private DoubleSolenoid PTO; /* = new DoubleSolenoid(2, 3);*/
+	private DoubleSolenoid shifter = new DoubleSolenoid(0, 1);
+	private DoubleSolenoid PTO = new DoubleSolenoid(2, 3);
 	private Encoder1038 leftDriveEncoder = new Encoder1038(LEFT_ENCODER_CHANNEL_A, LEFT_ENCODER_CHANNEL_B, false, ENCODER_COUNTS_PER_REV, WHEEL_DIAMETER);
-	private Encoder1038 rightDriveEncoder = new Encoder1038(RIGHT_ENCODER_CHANNEL_A, RIGHT_ENCODER_CHANNEL_B, true, ENCODER_COUNTS_PER_REV, WHEEL_DIAMETER);
+	private Encoder1038 rightDriveEncoder = new Encoder1038(RIGHT_ENCODER_CHANNEL_A, RIGHT_ENCODER_CHANNEL_B, false, ENCODER_COUNTS_PER_REV, WHEEL_DIAMETER);
 	private boolean isHighGear = false;
 	private boolean PTOisEngaged = false;
 	private DifferentialDrive differentialDrive;
 	private static DriveTrain driveTrain = new DriveTrain();
+	Compressor c = new Compressor();
 	
 	public static DriveTrain getInstance() {
 		if (driveTrain == null) {
@@ -37,6 +43,8 @@ public class DriveTrain extends Subsystem{
 	
 	//Constructor
 	public DriveTrain() {
+		//super(P, I, D);
+		//setAbsoluteTolerance(TOLERANCE);
 		leftDrive.setInverted(true);
 		rightDrive.setInverted(true);
 		differentialDrive = new DifferentialDrive(leftDrive, rightDrive);
@@ -118,7 +126,7 @@ public class DriveTrain extends Subsystem{
 	 */
 	public void PTOon() {
 		PTOisEngaged = true;
-		PTO.set(DoubleSolenoid.Value.kForward);
+		PTO.set(DoubleSolenoid.Value.kReverse);
 	}
 	
 	/**
@@ -126,7 +134,7 @@ public class DriveTrain extends Subsystem{
 	 */
 	public void PTOoff() {
 		PTOisEngaged = false;
-		PTO.set(DoubleSolenoid.Value.kReverse);
+		PTO.set(DoubleSolenoid.Value.kForward);
 	}
 	
 	/**
@@ -153,7 +161,7 @@ public class DriveTrain extends Subsystem{
 	 */
 	public void lowGear() {
 		isHighGear = false;
-		//shifter.set(DoubleSolenoid.Value.kReverse);
+		shifter.set(DoubleSolenoid.Value.kReverse);
 	}
 	
 	/**
@@ -183,4 +191,17 @@ public class DriveTrain extends Subsystem{
 	public void drive(double moveVal, double rotateVal) {
 		differentialDrive.curvatureDrive(moveVal, rotateVal, false);
 	}
+
+//	@Override
+//	protected double returnPIDInput() {
+//		// TODO Auto-generated method stub
+//		return leftDriveEncoder.getDistance();
+//	}
+//
+//	@Override
+//	protected void usePIDOutput(double output) {
+//		// TODO Auto-generated method stub
+//		differentialDrive.curvatureDrive(output, 0, false);
+//		
+//	}
 }

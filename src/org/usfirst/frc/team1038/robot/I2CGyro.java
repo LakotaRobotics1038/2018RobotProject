@@ -27,6 +27,7 @@ public class I2CGyro {
 		//I2CBus.write(0x10, 22);
 		I2CBus.write(COMMAND, GYRO_RECALIBRATE);
 		I2CBus.write(SENSOR_ID_CODE, NORMAL_MEASUREMENT_MODE);
+		System.out.println("Gyro Calibrated");
 	}
 	
 	public static I2CGyro getInstance() {
@@ -44,7 +45,7 @@ public class I2CGyro {
 	    if (I2CBus == null) {
 	      return 102.7;
 	    }
-	    I2CBus.read(0x03, 6, dataBuffer);
+	    I2CBus.read(COMMAND, 6, dataBuffer);
 		if (dataBuffer[1] >= 0) {
 	    	gyroVal = dataBuffer[1];
 		} else {
