@@ -11,8 +11,6 @@ import edu.wpi.first.wpilibj.command.PIDCommand;
 public class TurnCommand extends PIDCommand {
 	//fields
 	private double drivePower = 0.0;
-	private Timer timer = new Timer();
-	private boolean timerRunning = false;
 	private final double END_DRIVE_SPEED = 0.0;
 	private final double END_DRIVE_ROTATION = 0.0;
 	private final int TOLERANCE = 2;
@@ -39,10 +37,12 @@ public class TurnCommand extends PIDCommand {
 	}
 	
 	protected void execute() {
-	
 		turnPID.enable();
 		double PIDTurnAdjust = turnPID.get();
-		drive.dualArcadeDrive(drivePower, -PIDTurnAdjust);
+		if(getSetpoint() > 180)
+			drive.dualArcadeDrive(drivePower, PIDTurnAdjust);
+		else
+			drive.dualArcadeDrive(drivePower, -PIDTurnAdjust);
 		System.out.println("Current Angle: " + gyroSensor.getAngle() + ", PIDTurnAdjust: " + turnPID.get());
 	}
 	

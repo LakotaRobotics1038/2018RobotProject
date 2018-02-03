@@ -10,6 +10,7 @@ package org.usfirst.frc.team1038.robot;
 import edu.wpi.first.wpilibj.Compressor;
 
 import org.usfirst.frc.team1038.auton.PathfinderTest;
+import org.usfirst.frc.team1038.auton.Vision;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -51,6 +52,7 @@ public class Robot extends IterativeRobot {
 	private String m_autoSelected;
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
 	private PathfinderTest pathTest;
+	private Vision vision = new Vision();
     
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -110,6 +112,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 //		System.out.println(PressureSensor.getInstance().getPressure());
+		System.out.println(vision.getAngle());
 		driver();
 		operator();
 		Dashboard.update();
@@ -125,7 +128,7 @@ public class Robot extends IterativeRobot {
 	public void driver() {
 	
 		double driveDivider;
-		System.out.println(I2CGyro.getInstance().getAngle());
+		//System.out.println(I2CGyro.getInstance().getAngle());
 		//I2CGyro.getInstance().getAngle();
 		
 		if(driverJoystick.getBackButton())
