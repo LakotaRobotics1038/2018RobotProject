@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.Compressor;
 
 import org.usfirst.frc.team1038.auton.PathfinderTest;
 import org.usfirst.frc.team1038.auton.Vision;
+import org.usfirst.frc.team1038.subsystem.Climb;
+import org.usfirst.frc.team1038.subsystem.DriveTrain;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -69,6 +71,11 @@ public class Robot extends IterativeRobot {
 		pathTest = new PathfinderTest();
 		pathTest.initialize();
 	}
+	
+	@Override
+	public void robotPeriodic() {
+		
+	}
 
 	/**
 	 * This autonomous (along with the chooser code above) shows how to select
@@ -88,12 +95,6 @@ public class Robot extends IterativeRobot {
 		//TurnCommand turn = new TurnCommand(45);
 		//turn.start();
 	}
-	
-	@Override
-	public void teleopInit() {
-		robotDrive.resetEncoders();
-		rangeF = new LaserRangeFinder();
-	}
 
 	/**
 	 * This function is called periodically during autonomous.
@@ -105,6 +106,12 @@ public class Robot extends IterativeRobot {
 		pathTest.excecute();
 		System.out.println(I2CGyro.getInstance().getAngle());
 	}
+	
+	@Override
+	public void teleopInit() {
+		robotDrive.resetEncoders();
+		rangeF = new LaserRangeFinder();
+	}
 
 	/**
 	 * This function is called periodically during operator control.
@@ -112,19 +119,12 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 //		System.out.println(PressureSensor.getInstance().getPressure());
-		System.out.println(vision.getAngle());
+		//System.out.println(vision.getAngle());
 		driver();
 		operator();
 		Dashboard.update();
 	}
 
-	/**
-	 * This function is called periodically during test mode.
-	 */
-	@Override
-	public void testPeriodic() {
-	}
-	
 	public void driver() {
 	
 		double driveDivider;
@@ -221,5 +221,28 @@ public class Robot extends IterativeRobot {
 		{
 			rangeF.write();
 		}
+	}
+	
+	@Override
+	public void disabledInit() {
+		System.out.println("Robot Disabled");
+	}
+	
+	@Override
+	public void disabledPeriodic() {
+		
+	}
+	
+	@Override
+	public void testInit() {
+		
+	}
+
+	/**
+	 * This function is called periodically during test mode.
+	 */
+	@Override
+	public void testPeriodic() {
+		
 	}
 }

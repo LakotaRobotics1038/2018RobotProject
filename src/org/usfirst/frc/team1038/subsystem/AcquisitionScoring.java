@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1038.robot;
+package org.usfirst.frc.team1038.subsystem;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;

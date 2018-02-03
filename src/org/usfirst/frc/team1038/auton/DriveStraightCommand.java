@@ -3,9 +3,9 @@ package org.usfirst.frc.team1038.auton;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.PIDCommand;
 
-import org.usfirst.frc.team1038.robot.DriveTrain;
 import org.usfirst.frc.team1038.robot.I2CGyro;
 import org.usfirst.frc.team1038.robot.Robot;
+import org.usfirst.frc.team1038.subsystem.DriveTrain;
 
 public class DriveStraightCommand extends PIDCommand{
 

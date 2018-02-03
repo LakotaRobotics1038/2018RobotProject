@@ -1,9 +1,9 @@
 package org.usfirst.frc.team1038.auton;
 
 import org.usfirst.frc.team1038.robot.Conversions;
-import org.usfirst.frc.team1038.robot.DriveTrain;
 import org.usfirst.frc.team1038.robot.I2CGyro;
 import org.usfirst.frc.team1038.robot.Robot;
+import org.usfirst.frc.team1038.subsystem.DriveTrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 import jaci.pathfinder.Pathfinder;

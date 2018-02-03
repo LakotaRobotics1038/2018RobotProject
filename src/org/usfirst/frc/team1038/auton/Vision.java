@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1038.auton;
 
-import org.usfirst.frc.team1038.robot.DriveTrain;
+import org.usfirst.frc.team1038.subsystem.DriveTrain;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
