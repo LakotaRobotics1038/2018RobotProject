@@ -23,32 +23,36 @@ public class AcquisitionScoring {
 	
     public void setAcqSpeed(double speed)
     {
-    	acqMotorSpeed = speed;
+    		acqMotorSpeed = speed;
     }
     
-    public void aquire() {
-    	acqMotors.set(acqMotorSpeed);
+    public void aquire() 
+    {
+    		acqMotors.set(acqMotorSpeed);
     }
     
-    public void eject() {
-    	acqMotors.set(-acqMotorSpeed);
+    public void eject() 
+    {
+    		acqMotors.set(-acqMotorSpeed);
     }
     
-    public void raiseArms() {
-    	acqArmsHoriz.set(DoubleSolenoid.Value.kForward);
+    public void raiseArms() 
+    {
+    		acqArmsHoriz.set(DoubleSolenoid.Value.kForward);
     }
     
-    public void lowerArms() {
-    	acqArmsHoriz.set(DoubleSolenoid.Value.kReverse);
+    public void lowerArms() 
+    {
+    		acqArmsHoriz.set(DoubleSolenoid.Value.kReverse);
     }
     
     public void openArms()
     {
-    	acqArmsVert.set(DoubleSolenoid.Value.kForward);
+
     }
     
     public void closeArms()
     {
-    	acqArmsVert.set(DoubleSolenoid.Value.kReverse);
+
     }
 }

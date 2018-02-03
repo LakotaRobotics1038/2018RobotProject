@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Dashboard {
 
-	public static void execute()
+	public static void update()
 	{
 		SmartDashboard.putNumber("Gyro", I2CGyro.getInstance().getAngle());
 		SmartDashboard.putNumber("Left Encoder", DriveTrain.getInstance().getLeftDriveEncoderDistance());

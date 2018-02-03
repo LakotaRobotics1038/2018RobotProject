@@ -42,6 +42,7 @@ public class Robot extends IterativeRobot {
 	//Teleop
 	Joystick1038 driverJoystick = new Joystick1038(0);
 	Joystick1038 operatorJoystick = new Joystick1038(1);
+	LaserRangeFinder rangeF;
 	
 	//Auton
 	Scheduler schedule;
@@ -50,22 +51,6 @@ public class Robot extends IterativeRobot {
 	private String m_autoSelected;
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
 	private PathfinderTest pathTest;
-	
-    /**
-     * Convert feet to meters. This is included here for static imports.
-     */
-    public static double f2m(double feet)
-    {
-    	return 0.3 * feet;
-    }
-    
-    /**
-     * Convert meters to feet. This is included here for static imports.
-     */
-    public static double m2f(double meters)
-    {
-    	return 3.28 * meters;
-    }
     
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -105,6 +90,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		robotDrive.resetEncoders();
+		rangeF = new LaserRangeFinder();
 	}
 
 	/**
@@ -112,6 +98,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
+		Dashboard.update();
 		//schedule.run();
 		pathTest.excecute();
 		System.out.println(I2CGyro.getInstance().getAngle());
@@ -125,7 +112,7 @@ public class Robot extends IterativeRobot {
 //		System.out.println(PressureSensor.getInstance().getPressure());
 		driver();
 		operator();
-		Dashboard.execute();
+		Dashboard.update();
 	}
 
 	/**
@@ -203,19 +190,33 @@ public class Robot extends IterativeRobot {
 			autoClimbing = true;
 			robotClimb.autoArmRaise();
 		}
+		
 		if(autoClimbing)
 		{
 			autoClimbing = robotClimb.autoArmRaise();
 		}
+		
 		robotClimb.manualArmRaise(operatorJoystick.getLeftJoystickVertical());
+		
 		if(operatorJoystick.getRightButton())
 		{
 			lowering = true;
 			robotClimb.armLower();
 		}
+		
 		if(lowering)
 		{
 			lowering = robotClimb.armLower();
+		}
+		
+		if (operatorJoystick.getRightButton())
+		{
+			System.out.println(rangeF.read());
+		}
+		
+		if (operatorJoystick.getLeftButton())
+		{
+			rangeF.write();
 		}
 	}
 }
