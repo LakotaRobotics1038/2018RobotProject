@@ -25,6 +25,9 @@ public class PathfinderTest extends Command {
 	private DriveTrain drive = DriveTrain.getInstance();
 	private I2CGyro gyro = I2CGyro.getInstance();
     
+	public PathfinderTest() {
+		requires(Robot.robotDrive);
+	}
     @Override
     public void initialize() {
     	System.out.println("Pathfinder Started");
@@ -43,7 +46,8 @@ public class PathfinderTest extends Command {
         Waypoint[] points = new Waypoint[] {
         		//new Waypoint(-4, -1, Pathfinder.d2r(-45)),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
         		new Waypoint(-.6, 0, 0),         // Waypoint @ x=-2, y=-2, exit angle=0 radians
-        		new Waypoint(0, 0, 0)                           // Waypoint @ x=0, y=0,   exit angle=0 radians		
+        		//new Waypoint(0, 0, 1)//,                           // Waypoint @ x=0, y=0,   exit angle=0 radians		
+        		new Waypoint(0, 0, 0)
         };
 
         Trajectory trajectory = Pathfinder.generate(points, config);

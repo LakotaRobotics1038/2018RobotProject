@@ -94,6 +94,8 @@ public class Robot extends IterativeRobot {
 		schedule = Scheduler.getInstance();
 		//TurnCommand turn = new TurnCommand(45);
 		//turn.start();
+		//PathfinderTest pathfinder = new PathfinderTest();
+		//schedule.add(pathfinder);
 	}
 
 	/**
@@ -103,8 +105,9 @@ public class Robot extends IterativeRobot {
 	public void autonomousPeriodic() {
 		Dashboard.update();
 		//schedule.run();
-		pathTest.excecute();
-		System.out.println(I2CGyro.getInstance().getAngle());
+		//pathTest.excecute();
+		//System.out.println(I2CGyro.getInstance().getAngle());
+		System.out.println(vision.getAngle());
 	}
 	
 	@Override
@@ -119,7 +122,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 //		System.out.println(PressureSensor.getInstance().getPressure());
-		//System.out.println(vision.getAngle());
 		driver();
 		operator();
 		Dashboard.update();
