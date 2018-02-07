@@ -111,6 +111,7 @@ public class Robot extends IterativeRobot {
 		//pathTest.excecute();
 		//System.out.println(I2CGyro.getInstance().getAngle());
 		//System.out.println(vision.getAngle());
+		//visionCommand.execute();
 	}
 	
 	@Override
@@ -128,6 +129,7 @@ public class Robot extends IterativeRobot {
 		driver();
 		operator();
 		Dashboard.update();
+		System.out.println(vision.getAngle());
 	}
 
 	public void driver() {

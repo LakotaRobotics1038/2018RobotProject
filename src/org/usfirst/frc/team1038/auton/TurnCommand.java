@@ -5,7 +5,6 @@ import org.usfirst.frc.team1038.robot.Robot;
 import org.usfirst.frc.team1038.subsystem.DriveTrain;
 
 import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.PIDCommand;
 
 public class TurnCommand extends PIDCommand {
@@ -62,13 +61,11 @@ public class TurnCommand extends PIDCommand {
 
 	@Override
 	protected double returnPIDInput() {
-		// TODO Auto-generated method stub
 		return gyroSensor.getAngle();
 	}
 
 	@Override
 	protected void usePIDOutput(double turnPower) {
-		// TODO Auto-generated method stub
 		drive.dualArcadeDrive(drivePower, turnPower);		
 	}
 }

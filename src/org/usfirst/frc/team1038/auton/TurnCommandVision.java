@@ -24,7 +24,7 @@ public class TurnCommandVision extends PIDCommand {
 	//constructor
 	public TurnCommandVision() {
 		super(P, I, D, .2);
-		setSetpoint(0);
+		setSetpoint(2);
 		turnPID.setAbsoluteTolerance(TOLERANCE);
 		turnPID.setOutputRange(-.65, .65);
 		requires(Robot.robotDrive);
@@ -33,49 +33,65 @@ public class TurnCommandVision extends PIDCommand {
 	//methods
 	protected void initialize() {
 		gyroSensor.resetGyro();
-		super.setInputRange(-180, 180);
+		//super.setInputRange(-180, 180);
+		super.setInputRange(0, 359);
 	}
 	
-	protected void execute() {
+	public void execute() {
 		turnPID.enable();
 		double PIDTurnAdjust = turnPID.get();
-		if(getSetpoint() < camera.getAngle()) {
-			drive.dualArcadeDrive(drivePower, PIDTurnAdjust);
-			System.out.println("Turning Right");
-		}else if(getSetpoint() > camera.getAngle()) {
-			drive.dualArcadeDrive(drivePower, -PIDTurnAdjust);
-			System.out.println("Turning Left");
-		}else {
-			drive.dualArcadeDrive(END_DRIVE_SPEED, END_DRIVE_ROTATION);
-			System.out.println("Not Turning");
+//		if(getSetpoint() > camera.getAngle())
+//			drive.dualArcadeDrive(drivePower, PIDTurnAdjust);
+//		else
+//			drive.dualArcadeDrive(drivePower, -PIDTurnAdjust);
+		
+		//System.out.println("Current Angle: " + camera.getAngle() + ", PIDTurnAdjust: " + turnPID.get());
+		boolean hasSeen = false;
+		while(!hasSeen) {
+			if(camera.getAngle() != 0) {
+				hasSeen = true;
+				if(camera.getAngle() > 0) {
+					setSetpoint(camera.getAngle() + 2);
+				}else {
+					setSetpoint(360 + camera.getAngle() - 2);
+				}
+			}
 		}
-		System.out.println("Current Angle: " + camera.getAngle() + ", PIDTurnAdjust: " + turnPID.get());
+		System.out.println(camera.getAngle());
+		
+		if(getSetpoint() < 180) {
+			drive.dualArcadeDrive(drivePower, PIDTurnAdjust);
+		}else {
+			drive.dualArcadeDrive(drivePower, -PIDTurnAdjust);
+		}
+		
+		System.out.println("Current Angle: " + gyroSensor.getAngle() + ", PIDTurnAdjust: " + turnPID.get() + ", setPoint: " + getSetpoint());
 	}
 	
 	@Override
 	protected void end() {
 		turnPID.disable();
-		double visionAngle = camera.getAngle();
+		//double visionAngle = camera.getAngle();
 		drive.drive(END_DRIVE_SPEED, END_DRIVE_ROTATION);
-		System.out.println("Finished at " + visionAngle);
+		//System.out.println("Finished at " + visionAngle);
+		System.out.println("Finished at " + gyroSensor.getAngle());
 	}
 	
 	@Override
 	protected boolean isFinished() {
-		System.out.println("Checked: " + camera.getAngle());		
-		//return turnPID.onTarget();
-		return false;
+		//System.out.println("Checked: " + camera.getAngle());		
+		return turnPID.onTarget();
+		//return false;
 	}
 
 	@Override
 	protected double returnPIDInput() {
-		// TODO Auto-generated method stub
-		return camera.getAngle();
+		//return camera.getAngle();
+		return gyroSensor.getAngle();
 	}
 
 	@Override
 	protected void usePIDOutput(double turnPower) {
-		// TODO Auto-generated method stub
 		drive.dualArcadeDrive(drivePower, turnPower);		
 	}
 }
