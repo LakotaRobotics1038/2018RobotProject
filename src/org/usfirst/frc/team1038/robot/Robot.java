@@ -10,6 +10,7 @@ package org.usfirst.frc.team1038.robot;
 import edu.wpi.first.wpilibj.Compressor;
 
 import org.usfirst.frc.team1038.auton.PathfinderTest;
+import org.usfirst.frc.team1038.auton.TurnCommandVision;
 import org.usfirst.frc.team1038.auton.Vision;
 import org.usfirst.frc.team1038.subsystem.Climb;
 import org.usfirst.frc.team1038.subsystem.DriveTrain;
@@ -96,6 +97,8 @@ public class Robot extends IterativeRobot {
 		//turn.start();
 		//PathfinderTest pathfinder = new PathfinderTest();
 		//schedule.add(pathfinder);
+		TurnCommandVision visionCommand = new TurnCommandVision();
+		schedule.add(visionCommand);
 	}
 
 	/**
@@ -104,10 +107,10 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Dashboard.update();
-		//schedule.run();
+		schedule.run();
 		//pathTest.excecute();
 		//System.out.println(I2CGyro.getInstance().getAngle());
-		System.out.println(vision.getAngle());
+		//System.out.println(vision.getAngle());
 	}
 	
 	@Override
