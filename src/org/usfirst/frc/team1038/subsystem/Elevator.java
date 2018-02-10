@@ -9,8 +9,8 @@ public class Elevator extends Subsystem {
 	//fields
 	private final int ELEVATOR_CHANNEL_A = 4;
 	private final int ELEVATOR_CHANNEL_B = 5;
-	private final int ELEVATOR_PROX_HIGH_PORT = 6;
-	private final int ELEVATOR_PROX_LOW_PORT = 7;
+	private final int ELEVATOR_PROX_HIGH_PORT = 10;
+	private final int ELEVATOR_PROX_LOW_PORT = 11;
 	private final int ELEVATOR_MOTOR_PORT = 5;
 	//private final int ENCODER_COUNTS_PER_REVOLUTION; //find out val
 	//private final double WHEEL_DIAMETER; //need val

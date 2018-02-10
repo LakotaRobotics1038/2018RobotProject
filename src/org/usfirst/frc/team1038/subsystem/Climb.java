@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1038.subsystem;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -19,6 +20,8 @@ public class Climb extends Subsystem {
 	private boolean climbing = false;
 	private boolean lowering = false;
 	private double manualClimbingSpeed = 0;
+	private final int ARM_PROX_PORT = 12;
+	private DigitalInput armProx = new DigitalInput(ARM_PROX_PORT);
 	
 	public Climb()
 	{

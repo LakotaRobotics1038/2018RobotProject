@@ -32,6 +32,18 @@ public class Vision extends Subsystem {
 	public int getAngle() {
 		return (int)Math.round(netAngle.getDouble(-1));
 	}
+	
+	public void turnToAngle() {
+		while(this.getAngle() < -1 || this.getAngle() > 1) {
+			if(this.getAngle() > 1) {
+				robotDrive.dualArcadeDrive(0, -0.5);
+				System.out.println("turning left");
+			}else if(this.getAngle() < -1) {
+				robotDrive.dualArcadeDrive(0, 0.5);
+				System.out.println("turning right");
+			}
+		}
+	}
 
 	@Override
 	protected void initDefaultCommand() {

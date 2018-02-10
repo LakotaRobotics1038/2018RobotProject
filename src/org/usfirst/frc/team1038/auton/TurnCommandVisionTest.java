@@ -7,7 +7,7 @@ import org.usfirst.frc.team1038.subsystem.DriveTrain;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.PIDCommand;
 
-public class TurnCommand extends PIDCommand {
+public class TurnCommandVisionTest extends PIDCommand {
 	//fields
 	private double drivePower = 0.0;
 	private final double END_DRIVE_SPEED = 0.0;
@@ -16,20 +16,17 @@ public class TurnCommand extends PIDCommand {
 	private final static double P = 0.015;
 	private final static double I = 0.015;
 	private final static double D = 0.005;
-//	private final static double P = 0.007;
-//	private final static double I = 0.000;
-//	private final static double D = 0.000;
 	private I2CGyro gyroSensor = I2CGyro.getInstance();
+	private Vision camera = new Vision();
 	private DriveTrain drive = DriveTrain.getInstance();
 	private PIDController turnPID = getPIDController();
 	
 	//constructor
-	public TurnCommand(int setpoint) {
+	public TurnCommandVisionTest() {
 		super(P, I, D, .2);
-		setSetpoint(setpoint );//- 5);
+		setSetpoint(2);
 		turnPID.setAbsoluteTolerance(TOLERANCE);
-		turnPID.setOutputRange(-.75, .75);
-		turnPID.setInputRange(0, 359);
+		turnPID.setOutputRange(-.65, .65);
 		turnPID.setContinuous(true);
 		requires(Robot.robotDrive);
 	}
@@ -38,25 +35,39 @@ public class TurnCommand extends PIDCommand {
 	public void initialize() {
 		gyroSensor.resetGyro();
 		super.setInputRange(0, 359);
+		
+		if (camera.getAngle() > 0)
+			setSetpoint(camera.getAngle());
+		else if (camera.getAngle() < 0)
+			setSetpoint(360 + camera.getAngle());
+		else
+			System.out.println("target not found. Please try again.");
+		
+		//super.setInputRange(-180, 180);
 	}
 	
 	public void execute() {
 		turnPID.enable();
 		double PIDTurnAdjust = turnPID.get();
-//		if(getSetpoint() > 180) {
-		this.usePIDOutput(-PIDTurnAdjust);
-		if(PIDTurnAdjust > 0) {
-			System.out.println("Clockwise");
+	
+//		//if buttonPressed()
+//		if (camera.getAngle() > 0)
+//			setSetpoint(camera.getAngle());
+//		else if (camera.getAngle() < 0)
+//			setSetpoint(360 + camera.getAngle());
+//		else
+//			System.out.println("target not found. Please try again.");
+		
+	
+		//System.out.println(camera.getAngle());
+		
+		if(getSetpoint() < 180) {
+			drive.dualArcadeDrive(drivePower, PIDTurnAdjust);
 		}else {
-			System.out.println("Counter-Clockwise");
+			drive.dualArcadeDrive(drivePower, -PIDTurnAdjust);
 		}
-//			System.out.println("Clockwise");
-//		}
-//		else {
-//			drive.dualArcadeDrive(drivePower, -PIDTurnAdjust);
-//			System.out.println("Counter-Clockwise");
-//		}
-		System.out.println("Current Angle: " + gyroSensor.getAngle() + ", PIDTurnAdjust: " + turnPID.get() + ", Setpoint: " + getSetpoint());
+		
+		System.out.println("Current Angle: " + gyroSensor.getAngle() + ", PIDTurnAdjust: " + turnPID.get() + ", setPoint: " + getSetpoint());
 	}
 	
 	@Override
@@ -64,19 +75,22 @@ public class TurnCommand extends PIDCommand {
 		turnPID.disable();
 		turnPID.reset();
 		turnPID.free();
-		double gyroReading = gyroSensor.getAngle();
-		drive.drive(END_DRIVE_SPEED, END_DRIVE_ROTATION);
-		System.out.println("Finished at " + gyroReading);
+		//double visionAngle = camera.getAngle();
+		drive.dualArcadeDrive(END_DRIVE_SPEED, END_DRIVE_ROTATION);
+		//System.out.println("Finished at " + visionAngle);
+		System.out.println("Finished at " + gyroSensor.getAngle());
 	}
 	
 	@Override
 	public boolean isFinished() {
-		//System.out.println("Checked: " + gyroSensor.getAngle());		
+		//System.out.println("Checked: " + camera.getAngle());		
 		return turnPID.onTarget();
+		//return false;
 	}
 
 	@Override
 	protected double returnPIDInput() {
+		//return camera.getAngle();
 		return gyroSensor.getAngle();
 	}
 
@@ -85,3 +99,4 @@ public class TurnCommand extends PIDCommand {
 		drive.dualArcadeDrive(drivePower, turnPower);		
 	}
 }
+

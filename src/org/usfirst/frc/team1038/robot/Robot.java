@@ -10,7 +10,9 @@ package org.usfirst.frc.team1038.robot;
 import edu.wpi.first.wpilibj.Compressor;
 
 import org.usfirst.frc.team1038.auton.PathfinderTest;
+import org.usfirst.frc.team1038.auton.TurnCommand;
 import org.usfirst.frc.team1038.auton.TurnCommandVision;
+import org.usfirst.frc.team1038.auton.TurnCommandVisionTest;
 import org.usfirst.frc.team1038.auton.Vision;
 import org.usfirst.frc.team1038.subsystem.Climb;
 import org.usfirst.frc.team1038.subsystem.DriveTrain;
@@ -56,6 +58,14 @@ public class Robot extends IterativeRobot {
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
 	private PathfinderTest pathTest;
 	private Vision vision = new Vision();
+	TurnCommandVision visionCommand = new TurnCommandVision();
+	TurnCommandVisionTest visionCommandTest = null;
+	TurnCommand testCommand = null;
+	private boolean XButtonLastPressed;
+	private boolean AButtonLastPressed;
+	private boolean BButtonLastPressed;
+	private int desiredAngle;
+	private I2CGyro gyroSensor = I2CGyro.getInstance();
     
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -97,7 +107,6 @@ public class Robot extends IterativeRobot {
 		//turn.start();
 		//PathfinderTest pathfinder = new PathfinderTest();
 		//schedule.add(pathfinder);
-		TurnCommandVision visionCommand = new TurnCommandVision();
 		schedule.add(visionCommand);
 	}
 
@@ -118,6 +127,8 @@ public class Robot extends IterativeRobot {
 	public void teleopInit() {
 		robotDrive.resetEncoders();
 		rangeF = new LaserRangeFinder();
+		visionCommandTest = null;
+		desiredAngle = (int) gyroSensor.getAngle();
 	}
 
 	/**
@@ -129,7 +140,7 @@ public class Robot extends IterativeRobot {
 		driver();
 		operator();
 		Dashboard.update();
-		System.out.println(vision.getAngle());
+		//System.out.println(vision.getAngle());
 	}
 
 	public void driver() {
@@ -191,6 +202,56 @@ public class Robot extends IterativeRobot {
 		if(driverJoystick.getLeftTrigger())
 		{
 			robotDrive.PTOoff();
+		}
+		
+		if((driverJoystick.getAButton() == true) && (AButtonLastPressed == false)) {
+			System.out.println("A button just pressed");
+			desiredAngle += 45;
+			if(desiredAngle >= 360) {
+				desiredAngle = 0;
+			}
+			System.out.println("New desired angle is: " + desiredAngle);
+		}
+		AButtonLastPressed = driverJoystick.getAButton();
+		if((driverJoystick.getBButton() == true) && (BButtonLastPressed == false)) {
+			System.out.println("B button just pressed");
+			desiredAngle -= 45;
+			if(desiredAngle < 0) {
+				desiredAngle = 315;
+			}
+			System.out.println("New desired angle is: " + desiredAngle);
+		}
+		BButtonLastPressed = driverJoystick.getBButton();
+		if(driverJoystick.getXButton()) 
+		{
+//			vision.turnToAngle();
+			if(testCommand == null) {
+				testCommand = new TurnCommand(desiredAngle);
+				testCommand.initialize();
+				XButtonLastPressed = true;
+			}
+			testCommand.execute();
+			if(testCommand.isFinished()) {
+				testCommand.end();
+				testCommand = null;
+				XButtonLastPressed = false;
+			}
+			
+		}else if(!driverJoystick.getXButton()) {
+//			if(!(testCommand == null)) {
+//				testCommand.end();
+//			}
+//			testCommand = null;
+		}
+		if((XButtonLastPressed = true) && !(testCommand == null)) {
+			if(!(testCommand == null)) {
+				if( testCommand.isFinished()) {
+					testCommand.end();
+					XButtonLastPressed = false;
+				}else {
+					testCommand.execute();
+				}
+			}
 		}
 	}
 	
