@@ -14,8 +14,10 @@ import org.usfirst.frc.team1038.auton.TurnCommand;
 import org.usfirst.frc.team1038.auton.TurnCommandVision;
 import org.usfirst.frc.team1038.auton.TurnCommandVisionTest;
 import org.usfirst.frc.team1038.auton.Vision;
+import org.usfirst.frc.team1038.subsystem.AcquisitionScoring;
 import org.usfirst.frc.team1038.subsystem.Climb;
 import org.usfirst.frc.team1038.subsystem.DriveTrain;
+import org.usfirst.frc.team1038.subsystem.Elevator;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -45,6 +47,12 @@ public class Robot extends IterativeRobot {
 	public enum driveModes {tankDrive, singleArcadeDrive, dualArcadeDrive};
 	private driveModes currentDriveMode = driveModes.dualArcadeDrive;
 	
+		//Acquisition Scoring
+	private AcquisitionScoring acqSco = new AcquisitionScoring();
+	
+		//Elevator
+	private Elevator elevator = new Elevator();
+	
 	//Teleop
 	Joystick1038 driverJoystick = new Joystick1038(0);
 	Joystick1038 operatorJoystick = new Joystick1038(1);
@@ -56,7 +64,7 @@ public class Robot extends IterativeRobot {
 	private static final String kCustomAuto = "My Auto";
 	private String m_autoSelected;
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
-	private PathfinderTest pathTest;
+	//private PathfinderTest pathTest;
 	private Vision vision = new Vision();
 	TurnCommandVision visionCommand = new TurnCommandVision();
 	TurnCommandVisionTest visionCommandTest = null;
@@ -73,14 +81,14 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		c.stop();
+		//c.stop();
 		m_chooser.addDefault("Default Auto", kDefaultAuto);
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
 		I2CGyro.getInstance();
 		CameraServer.getInstance().addServer("raspberrypi.local:1180/?action=stream");
-		pathTest = new PathfinderTest();
-		pathTest.initialize();
+		//pathTest = new PathfinderTest();
+		//pathTest.initialize();
 	}
 	
 	@Override
