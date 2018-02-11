@@ -81,7 +81,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		//c.stop();
+		c.stop();
 		m_chooser.addDefault("Default Auto", kDefaultAuto);
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
