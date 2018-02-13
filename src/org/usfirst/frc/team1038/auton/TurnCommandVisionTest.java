@@ -26,15 +26,15 @@ public class TurnCommandVisionTest extends PIDCommand {
 		super(P, I, D, .2);
 		setSetpoint(2);
 		turnPID.setAbsoluteTolerance(TOLERANCE);
-		turnPID.setOutputRange(-.65, .65);
+		turnPID.setOutputRange(-.75, .75);
 		turnPID.setContinuous(true);
+		super.setInputRange(0, 359);
 		requires(Robot.robotDrive);
 	}
 	
 	//methods
 	public void initialize() {
 		gyroSensor.resetGyro();
-		super.setInputRange(0, 359);
 		
 		if (camera.getAngle() > 0)
 			setSetpoint(camera.getAngle());
@@ -42,30 +42,13 @@ public class TurnCommandVisionTest extends PIDCommand {
 			setSetpoint(360 + camera.getAngle());
 		else
 			System.out.println("target not found. Please try again.");
-		
-		//super.setInputRange(-180, 180);
 	}
 	
 	public void execute() {
 		turnPID.enable();
 		double PIDTurnAdjust = turnPID.get();
-	
-//		//if buttonPressed()
-//		if (camera.getAngle() > 0)
-//			setSetpoint(camera.getAngle());
-//		else if (camera.getAngle() < 0)
-//			setSetpoint(360 + camera.getAngle());
-//		else
-//			System.out.println("target not found. Please try again.");
-		
-	
-		//System.out.println(camera.getAngle());
-		
-		if(getSetpoint() < 180) {
-			drive.dualArcadeDrive(drivePower, PIDTurnAdjust);
-		}else {
-			drive.dualArcadeDrive(drivePower, -PIDTurnAdjust);
-		}
+
+		this.usePIDOutput(-PIDTurnAdjust);
 		
 		System.out.println("Current Angle: " + gyroSensor.getAngle() + ", PIDTurnAdjust: " + turnPID.get() + ", setPoint: " + getSetpoint());
 	}
@@ -75,22 +58,17 @@ public class TurnCommandVisionTest extends PIDCommand {
 		turnPID.disable();
 		turnPID.reset();
 		turnPID.free();
-		//double visionAngle = camera.getAngle();
 		drive.dualArcadeDrive(END_DRIVE_SPEED, END_DRIVE_ROTATION);
-		//System.out.println("Finished at " + visionAngle);
 		System.out.println("Finished at " + gyroSensor.getAngle());
 	}
 	
 	@Override
 	public boolean isFinished() {
-		//System.out.println("Checked: " + camera.getAngle());		
 		return turnPID.onTarget();
-		//return false;
 	}
 
 	@Override
 	protected double returnPIDInput() {
-		//return camera.getAngle();
 		return gyroSensor.getAngle();
 	}
 

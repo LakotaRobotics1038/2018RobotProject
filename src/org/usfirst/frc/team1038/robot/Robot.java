@@ -65,10 +65,11 @@ public class Robot extends IterativeRobot {
 	private String m_autoSelected;
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
 	//private PathfinderTest pathTest;
-	private Vision vision = new Vision();
-	TurnCommandVision visionCommand = new TurnCommandVision();
-	TurnCommandVisionTest visionCommandTest = null;
+	//private Vision vision = new Vision();
+	//TurnCommandVision visionCommand = new TurnCommandVision();
+	//TurnCommandVisionTest visionCommandTest = null;
 	TurnCommand testCommand = null;
+	PathfinderTest pathfinder = new PathfinderTest();
 	private boolean XButtonLastPressed;
 	private boolean AButtonLastPressed;
 	private boolean BButtonLastPressed;
@@ -113,9 +114,9 @@ public class Robot extends IterativeRobot {
 		schedule = Scheduler.getInstance();
 		//TurnCommand turn = new TurnCommand(45);
 		//turn.start();
-		//PathfinderTest pathfinder = new PathfinderTest();
 		//schedule.add(pathfinder);
-		schedule.add(visionCommand);
+		//schedule.add(visionCommand);
+		pathfinder.initialize();
 	}
 
 	/**
@@ -124,8 +125,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Dashboard.update();
-		schedule.run();
-		//pathTest.excecute();
+		//schedule.run();
+		pathfinder.excecute();
 		//System.out.println(I2CGyro.getInstance().getAngle());
 		//System.out.println(vision.getAngle());
 		//visionCommand.execute();
@@ -135,7 +136,7 @@ public class Robot extends IterativeRobot {
 	public void teleopInit() {
 		robotDrive.resetEncoders();
 		rangeF = new LaserRangeFinder();
-		visionCommandTest = null;
+		//visionCommandTest = null;
 		desiredAngle = (int) gyroSensor.getAngle();
 	}
 

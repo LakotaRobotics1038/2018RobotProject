@@ -45,8 +45,10 @@ public class PathfinderTest extends Command {
         Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, TIME_STEP, MAX_VELOCITY, MAX_ACC, MAX_JERK);
         Waypoint[] points = new Waypoint[] {
         		//new Waypoint(-4, -1, Pathfinder.d2r(-45)),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
-        		new Waypoint(-.6, 0, 0),         // Waypoint @ x=-2, y=-2, exit angle=0 radians
-        		//new Waypoint(0, 0, 1)//,                           // Waypoint @ x=0, y=0,   exit angle=0 radians		
+        		new Waypoint(-1, -1, Pathfinder.d2r(45)),         // Waypoint @ x=-2, y=-2, exit angle=0 radians
+        		//new Waypoint(0, 0, 1)//,                           // Waypoint @ x=0, y=0,   exit angle=0 radians
+        		//new Waypoint(0, 0, 0),
+        		//new Waypoint(-.6, 0, 0),
         		new Waypoint(0, 0, 0)
         };
 
@@ -94,10 +96,34 @@ public class PathfinderTest extends Command {
     		double desired_heading = Pathfinder.r2d(left.getHeading());  // Should also be in degrees
 
     		double angleDifference = Pathfinder.boundHalfDegrees(desired_heading - gyro_heading);
-    		double turn = 0.8 * (-1.0/80.0) * angleDifference;
-
-    		drive.tankDrive(l + turn,r - turn);
-    		System.out.printf("Path Output Calculated: %f,%f,%f\n", l, r, turn);
+    		double turn /*= 0.4 * (-1.0/80.0) * angleDifference*/; // 0.8 * (-1/80) = -0.01
+    		if(angleDifference > 0) {
+    			turn = -.6;
+    		}else if(angleDifference < 0) {
+    			turn = 0.6;
+    		}else {
+    			turn = 0;
+    		}
+    		
+    		if(l > 0.7) {
+    			l = 0.7;
+    		}
+    		
+    		if(r > 0.7) {
+    			r = 0.7;
+    		}
+    		
+    		double leftTurn = 0.75 * (l + turn);
+    		if(leftTurn > 0.75) {
+    			leftTurn = 0.75;
+    		}
+    		double rightTurn = 0.75 *(r - turn);
+    		if(rightTurn > 0.75) {
+    			rightTurn = 0.75;
+    		}
+    		
+    		drive.tankDrive(leftTurn, rightTurn);
+    		System.out.printf("Path Output Calculated: %f,%f,%f,%f,%f\n", l, r, turn, leftTurn, rightTurn);
     }
     
 	@Override

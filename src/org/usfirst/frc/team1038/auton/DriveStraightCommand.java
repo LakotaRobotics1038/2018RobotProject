@@ -11,7 +11,7 @@ public class DriveStraightCommand extends PIDCommand{
 
 	private double turnPower = 0.0;
 	private final double END_DRIVE_SPEED = 0.0;
-	private final double END_DRIVE_ROTATION = 0;
+	private final double END_DRIVE_ROTATION = 0.0;
 	private final int TOLERANCE = 2;
 	private final static double P = 0.015;
 	private final static double I = 0.015;
@@ -21,16 +21,16 @@ public class DriveStraightCommand extends PIDCommand{
 	private DriveTrain drive = DriveTrain.getInstance();
 	private PIDController drivePID = getPIDController();
 	
-	public double getDriveDistance() {
-		return driveDistance;
-	}
-	
 	public DriveStraightCommand(int setpoint) {
 		super(P, I, D, .2);
 		setSetpoint(setpoint - 5);
 		drivePID.setAbsoluteTolerance(TOLERANCE);
 		drivePID.setOutputRange(-.65, .65);
 		requires(Robot.robotDrive);
+	}
+	
+	public double getDriveDistance() {
+		return driveDistance;
 	}
 	
 	protected void initialize() {

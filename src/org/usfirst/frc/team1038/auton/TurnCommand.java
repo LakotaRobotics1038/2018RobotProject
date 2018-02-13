@@ -26,10 +26,10 @@ public class TurnCommand extends PIDCommand {
 	//constructor
 	public TurnCommand(int setpoint) {
 		super(P, I, D, .2);
-		setSetpoint(setpoint );//- 5);
+		setSetpoint(setpoint);
 		turnPID.setAbsoluteTolerance(TOLERANCE);
 		turnPID.setOutputRange(-.75, .75);
-		turnPID.setInputRange(0, 359);
+		super.setInputRange(0, 359);
 		turnPID.setContinuous(true);
 		requires(Robot.robotDrive);
 	}
@@ -37,25 +37,19 @@ public class TurnCommand extends PIDCommand {
 	//methods
 	public void initialize() {
 		gyroSensor.resetGyro();
-		super.setInputRange(0, 359);
+		//turnPID.setInputRange(0, 359);
 	}
 	
 	public void execute() {
 		turnPID.enable();
 		double PIDTurnAdjust = turnPID.get();
-//		if(getSetpoint() > 180) {
 		this.usePIDOutput(-PIDTurnAdjust);
 		if(PIDTurnAdjust > 0) {
 			System.out.println("Clockwise");
 		}else {
 			System.out.println("Counter-Clockwise");
 		}
-//			System.out.println("Clockwise");
-//		}
-//		else {
-//			drive.dualArcadeDrive(drivePower, -PIDTurnAdjust);
-//			System.out.println("Counter-Clockwise");
-//		}
+		
 		System.out.println("Current Angle: " + gyroSensor.getAngle() + ", PIDTurnAdjust: " + turnPID.get() + ", Setpoint: " + getSetpoint());
 	}
 	
@@ -71,7 +65,6 @@ public class TurnCommand extends PIDCommand {
 	
 	@Override
 	public boolean isFinished() {
-		//System.out.println("Checked: " + gyroSensor.getAngle());		
 		return turnPID.onTarget();
 	}
 
