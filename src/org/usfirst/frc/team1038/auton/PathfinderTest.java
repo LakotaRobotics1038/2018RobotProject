@@ -14,12 +14,12 @@ import jaci.pathfinder.modifiers.TankModifier;
 
 public class PathfinderTest extends Command {
 	
-	private final double WHEEL_DIAMETER = 6;
+	private final double WHEEL_DIAMETER = 0;
 	private final double TIME_STEP = .05;
 	private final double MAX_VELOCITY = .85;
 	private final double MAX_ACC = 2.0;
 	private final double MAX_JERK = 60.0;
-	private final double WHEELBASE_WIDTH = 37.25;
+	private final double WHEELBASE_WIDTH = 38.25;
 	private EncoderFollower left;
 	private EncoderFollower right;
 	private DriveTrain drive = DriveTrain.getInstance();
@@ -45,11 +45,11 @@ public class PathfinderTest extends Command {
         Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, TIME_STEP, MAX_VELOCITY, MAX_ACC, MAX_JERK);
         Waypoint[] points = new Waypoint[] {
         		//new Waypoint(-4, -1, Pathfinder.d2r(-45)),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
-        		new Waypoint(-1, -1, Pathfinder.d2r(45)),         // Waypoint @ x=-2, y=-2, exit angle=0 radians
+        		new Waypoint(0, 0, 0),         // Waypoint @ x=-2, y=-2, exit angle=0 radians
         		//new Waypoint(0, 0, 1)//,                           // Waypoint @ x=0, y=0,   exit angle=0 radians
         		//new Waypoint(0, 0, 0),
         		//new Waypoint(-.6, 0, 0),
-        		new Waypoint(0, 0, 0)
+        		new Waypoint(Conversions.f2m(4), 0, Pathfinder.d2r(180))
         };
 
         Trajectory trajectory = Pathfinder.generate(points, config);
@@ -63,16 +63,16 @@ public class PathfinderTest extends Command {
     		// 'getEncPosition' function.
     		// 1000 is the amount of encoder ticks per full revolution
     		// Wheel Diameter is the diameter of your wheels (or pulley for a track system) in meters
-    		left.configureEncoder(drive.getLeftDriveEncoderCount(), 225, Conversions.f2m(WHEEL_DIAMETER / 12.0));
-    		right.configureEncoder(drive.getRightDriveEncoderCount(), 225, Conversions.f2m(WHEEL_DIAMETER / 12.0));
+    		left.configureEncoder(drive.getLeftDriveEncoderCount(), 440, Conversions.f2m(WHEEL_DIAMETER / 12.0));
+    		right.configureEncoder(drive.getRightDriveEncoderCount(), 440, Conversions.f2m(WHEEL_DIAMETER / 12.0));
     		// The first argument is the proportional gain. Usually this will be quite high
     		// The second argument is the integral gain. This is unused for motion profiling
     		// The third argument is the derivative gain. Tweak this if you are unhappy with the tracking of the trajectory
     		// The fourth argument is the velocity ratio. This is 1 over the maximum velocity you provided in the 
     		// trajectory configuration (it translates m/s to a -1 to 1 scale that your motors can read)
     		// The fifth argument is your acceleration gain. Tweak this if you want to get to a higher or lower speed quicker
-    		left.configurePIDVA(1.0, 0.0, 0.0, 1 / MAX_VELOCITY, 0);
-    		right.configurePIDVA(1.0, 0.0, 0.0, 1 / MAX_VELOCITY, 0);
+    		left.configurePIDVA(1.0, 0.0, 0.0, 1 / MAX_VELOCITY, MAX_ACC);
+    		right.configurePIDVA(1.0, 0.0, 0.0, 1 / MAX_VELOCITY, MAX_ACC);
     		System.out.println("Pathfinder Configured");
     	}
     	
@@ -97,29 +97,37 @@ public class PathfinderTest extends Command {
 
     		double angleDifference = Pathfinder.boundHalfDegrees(desired_heading - gyro_heading);
     		double turn /*= 0.4 * (-1.0/80.0) * angleDifference*/; // 0.8 * (-1/80) = -0.01
-    		if(angleDifference > 0) {
-    			turn = -.6;
-    		}else if(angleDifference < 0) {
-    			turn = 0.6;
+    		if(angleDifference > 1) {
+    			turn = -.7;
+    		}else if(angleDifference < -1) {
+    			turn = 0.7;
     		}else {
     			turn = 0;
     		}
     		
     		if(l > 0.7) {
     			l = 0.7;
+    		}else if(l < -0.7) {
+    			l = -0.7;
     		}
     		
     		if(r > 0.7) {
     			r = 0.7;
+    		}else if(r < -0.7) {
+    			r = -0.7;
     		}
     		
-    		double leftTurn = 0.75 * (l + turn);
+    		double leftTurn = (l + turn);
     		if(leftTurn > 0.75) {
     			leftTurn = 0.75;
+    		}else if(leftTurn < -0.75) {
+    			leftTurn = -0.75;
     		}
-    		double rightTurn = 0.75 *(r - turn);
+    		double rightTurn = (r - turn);
     		if(rightTurn > 0.75) {
     			rightTurn = 0.75;
+    		}else if(rightTurn < -0.75) {
+    			rightTurn = -0.75;
     		}
     		
     		drive.tankDrive(leftTurn, rightTurn);
