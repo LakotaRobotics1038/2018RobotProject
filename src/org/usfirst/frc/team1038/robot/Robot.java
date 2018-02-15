@@ -40,7 +40,7 @@ public class Robot extends IterativeRobot {
 	private boolean lowering = false;
 	
 		//Pneumatics
-	private Compressor c = new Compressor();
+	//private Compressor c = new Compressor();
 	
 		//Drive
 	public static DriveTrain robotDrive = DriveTrain.getInstance();
@@ -48,7 +48,7 @@ public class Robot extends IterativeRobot {
 	private driveModes currentDriveMode = driveModes.dualArcadeDrive;
 	
 		//Acquisition Scoring
-	private AcquisitionScoring acqSco = new AcquisitionScoring();
+	//private AcquisitionScoring acqSco = new AcquisitionScoring();
 	
 		//Elevator
 	private Elevator elevator = new Elevator();
@@ -65,10 +65,11 @@ public class Robot extends IterativeRobot {
 	private String m_autoSelected;
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
 	//private PathfinderTest pathTest;
-	//private Vision vision = new Vision();
-	//TurnCommandVision visionCommand = new TurnCommandVision();
-	//TurnCommandVisionTest visionCommandTest = null;
+	private Vision vision = new Vision();
+	TurnCommandVision visionCommand = new TurnCommandVision();
+	TurnCommandVisionTest visionCommandTest = null;
 	TurnCommand testCommand = null;
+	
 	PathfinderTest pathfinder = new PathfinderTest();
 	private boolean XButtonLastPressed;
 	private boolean AButtonLastPressed;
@@ -82,7 +83,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		c.stop();
+		//c.stop();
 		m_chooser.addDefault("Default Auto", kDefaultAuto);
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
@@ -115,8 +116,10 @@ public class Robot extends IterativeRobot {
 		//TurnCommand turn = new TurnCommand(45);
 		//turn.start();
 		//schedule.add(pathfinder);
-		//schedule.add(visionCommand);
-		pathfinder.initialize();
+		schedule.add(visionCommand);
+		schedule.add(visionCommand);
+		schedule.add(visionCommand);
+		//pathfinder.initialize();
 	}
 
 	/**
@@ -125,8 +128,10 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Dashboard.update();
-		//schedule.run();
-		pathfinder.excecute();
+		schedule.run();
+		schedule.run();
+		schedule.run();
+		//pathfinder.excecute();
 		//System.out.println(I2CGyro.getInstance().getAngle());
 		//System.out.println(vision.getAngle());
 		//visionCommand.execute();
@@ -196,21 +201,21 @@ public class Robot extends IterativeRobot {
 	
 		if(driverJoystick.getRightTrigger())
 		{
-			robotDrive.highGear();
+			//robotDrive.highGear();
 		}
 		else if (robotDrive.isHighGear())
 		{
-			robotDrive.lowGear();
+			//robotDrive.lowGear();
 		}
 		
 		if(driverJoystick.getLeftButton())
 		{
-			robotDrive.PTOon();
+			//robotDrive.PTOon();
 		}
 		
 		if(driverJoystick.getLeftTrigger())
 		{
-			robotDrive.PTOoff();
+			//robotDrive.PTOoff();
 		}
 		
 		if((driverJoystick.getAButton() == true) && (AButtonLastPressed == false)) {
@@ -240,11 +245,11 @@ public class Robot extends IterativeRobot {
 				XButtonLastPressed = true;
 			}
 			testCommand.execute();
-			if(testCommand.isFinished()) {
-				testCommand.end();
-				testCommand = null;
-				XButtonLastPressed = false;
-			}
+//			if(testCommand.isFinished()) {
+//				testCommand.end();
+//				testCommand = null;
+//				XButtonLastPressed = false;
+//			}
 			
 		}else if(!driverJoystick.getXButton()) {
 //			if(!(testCommand == null)) {
@@ -253,14 +258,17 @@ public class Robot extends IterativeRobot {
 //			testCommand = null;
 		}
 		if((XButtonLastPressed = true) && !(testCommand == null)) {
-			if(!(testCommand == null)) {
-				if( testCommand.isFinished()) {
-					testCommand.end();
-					XButtonLastPressed = false;
-				}else {
-					testCommand.execute();
-				}
+			if(testCommand.isFinished()) {
+				testCommand.end();
+				XButtonLastPressed = false;
+				testCommand = null;
+			}else {
+				testCommand.execute();
 			}
+		}
+		
+		if(driverJoystick.getYButton()) {
+			
 		}
 	}
 	

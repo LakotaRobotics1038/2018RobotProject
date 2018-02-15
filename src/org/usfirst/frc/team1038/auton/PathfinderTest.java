@@ -24,6 +24,9 @@ public class PathfinderTest extends Command {
 	private EncoderFollower right;
 	private DriveTrain drive = DriveTrain.getInstance();
 	private I2CGyro gyro = I2CGyro.getInstance();
+	private final static double P = 0.015;
+	private final static double I = 0.015;
+	private final static double D = 0.005;
     
 	public PathfinderTest() {
 		requires(Robot.robotDrive);
@@ -49,7 +52,7 @@ public class PathfinderTest extends Command {
         		//new Waypoint(0, 0, 1)//,                           // Waypoint @ x=0, y=0,   exit angle=0 radians
         		//new Waypoint(0, 0, 0),
         		//new Waypoint(-.6, 0, 0),
-        		new Waypoint(Conversions.f2m(4), 0, Pathfinder.d2r(180))
+        		new Waypoint(Conversions.f2m(4), 0, 0)
         };
 
         Trajectory trajectory = Pathfinder.generate(points, config);
@@ -63,16 +66,16 @@ public class PathfinderTest extends Command {
     		// 'getEncPosition' function.
     		// 1000 is the amount of encoder ticks per full revolution
     		// Wheel Diameter is the diameter of your wheels (or pulley for a track system) in meters
-    		left.configureEncoder(drive.getLeftDriveEncoderCount(), 440, Conversions.f2m(WHEEL_DIAMETER / 12.0));
-    		right.configureEncoder(drive.getRightDriveEncoderCount(), 440, Conversions.f2m(WHEEL_DIAMETER / 12.0));
+    		left.configureEncoder(0/*drive.getLeftDriveEncoderCount()*/, 220, Conversions.f2m(WHEEL_DIAMETER / 12.0));
+    		right.configureEncoder(0/*drive.getRightDriveEncoderCount()*/, 220, Conversions.f2m(WHEEL_DIAMETER / 12.0));
     		// The first argument is the proportional gain. Usually this will be quite high
     		// The second argument is the integral gain. This is unused for motion profiling
     		// The third argument is the derivative gain. Tweak this if you are unhappy with the tracking of the trajectory
     		// The fourth argument is the velocity ratio. This is 1 over the maximum velocity you provided in the 
     		// trajectory configuration (it translates m/s to a -1 to 1 scale that your motors can read)
     		// The fifth argument is your acceleration gain. Tweak this if you want to get to a higher or lower speed quicker
-    		left.configurePIDVA(1.0, 0.0, 0.0, 1 / MAX_VELOCITY, MAX_ACC);
-    		right.configurePIDVA(1.0, 0.0, 0.0, 1 / MAX_VELOCITY, MAX_ACC);
+    		left.configurePIDVA(P, I, D, 1 / MAX_VELOCITY, MAX_ACC);
+    		right.configurePIDVA(P, I, D, 1 / MAX_VELOCITY, MAX_ACC);
     		System.out.println("Pathfinder Configured");
     	}
     	
@@ -81,22 +84,23 @@ public class PathfinderTest extends Command {
     		// Do something with the new Trajectory...
     		double l = left.calculate(drive.getLeftDriveEncoderCount());
     		double r = right.calculate(drive.getRightDriveEncoderCount());
-    		
-    		if (l > 1 || l < -1)
-    		{
-    			l /= Math.abs(l);
-    		}
-    		
-    		if (r > 1 || r < -1)
-    		{
-    			r /= Math.abs(r);
-    		}
+//    		
+//    		if (l > 1 || l < -1)
+//    		{
+//    			l /= Math.abs(l);
+//    		}
+//    		
+//    		if (r > 1 || r < -1)
+//    		{
+//    			r /= Math.abs(r);
+//    		}
 
     		double gyro_heading = gyro.getAngle();    // Assuming the gyro is giving a value in degrees
     		double desired_heading = Pathfinder.r2d(left.getHeading());  // Should also be in degrees
 
     		double angleDifference = Pathfinder.boundHalfDegrees(desired_heading - gyro_heading);
-    		double turn /*= 0.4 * (-1.0/80.0) * angleDifference*/; // 0.8 * (-1/80) = -0.01
+    		double turn = 0; // 0.8 * (-1/80) = -0.01
+    		
     		if(angleDifference > 1) {
     			turn = -.7;
     		}else if(angleDifference < -1) {

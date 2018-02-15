@@ -25,15 +25,14 @@ public class DriveTrain extends Subsystem {
 	private final static int RIGHT_DRIVE_PORT = 1;
 	private static Spark leftDrive = new Spark(LEFT_DRIVE_PORT);
 	private static Spark rightDrive = new Spark(RIGHT_DRIVE_PORT);
-	private DoubleSolenoid shifter = new DoubleSolenoid(0, 1);
-	private DoubleSolenoid PTO = new DoubleSolenoid(2, 3);
+	//private DoubleSolenoid shifter = new DoubleSolenoid(0, 1);
+	//private DoubleSolenoid PTO = new DoubleSolenoid(2, 3);
 	private Encoder1038 leftDriveEncoder = new Encoder1038(LEFT_ENCODER_CHANNEL_A, LEFT_ENCODER_CHANNEL_B, false, ENCODER_COUNTS_PER_REV, WHEEL_DIAMETER);
 	private Encoder1038 rightDriveEncoder = new Encoder1038(RIGHT_ENCODER_CHANNEL_A, RIGHT_ENCODER_CHANNEL_B, false, ENCODER_COUNTS_PER_REV, WHEEL_DIAMETER);
 	private boolean isHighGear = false;
 	private boolean PTOisEngaged = false;
 	private DifferentialDrive differentialDrive;
-	private static DriveTrain driveTrain = new DriveTrain();
-	Compressor c = new Compressor();
+	private static DriveTrain driveTrain;
 	
 	public static DriveTrain getInstance() {
 		if (driveTrain == null) {
@@ -128,7 +127,7 @@ public class DriveTrain extends Subsystem {
 	 */
 	public void PTOon() {
 		PTOisEngaged = true;
-		PTO.set(DoubleSolenoid.Value.kReverse);
+		//PTO.set(DoubleSolenoid.Value.kReverse);
 	}
 	
 	/**
@@ -136,7 +135,7 @@ public class DriveTrain extends Subsystem {
 	 */
 	public void PTOoff() {
 		PTOisEngaged = false;
-		PTO.set(DoubleSolenoid.Value.kForward);
+		//PTO.set(DoubleSolenoid.Value.kForward);
 	}
 	
 	/**
@@ -155,7 +154,7 @@ public class DriveTrain extends Subsystem {
 	 */
 	public void highGear() {
 		isHighGear = true;
-		shifter.set(DoubleSolenoid.Value.kForward);
+		//shifter.set(DoubleSolenoid.Value.kForward);
 	}
 	
 	/**
@@ -163,7 +162,7 @@ public class DriveTrain extends Subsystem {
 	 */
 	public void lowGear() {
 		isHighGear = false;
-		shifter.set(DoubleSolenoid.Value.kReverse);
+		//shifter.set(DoubleSolenoid.Value.kReverse);
 	}
 	
 	/**

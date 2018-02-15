@@ -12,9 +12,9 @@ public class TurnCommandVision extends PIDCommand {
 	private double drivePower = 0.0;
 	private final double END_DRIVE_SPEED = 0.0;
 	private final double END_DRIVE_ROTATION = 0.0;
-	private final int TOLERANCE = 1;
+	private final int TOLERANCE = 2;
 	private final static double P = 0.015;
-	private final static double I = 0.015;
+	private final static double I = 0.010;
 	private final static double D = 0.005;
 	private I2CGyro gyroSensor = I2CGyro.getInstance();
 	private Vision camera = new Vision();
@@ -25,7 +25,7 @@ public class TurnCommandVision extends PIDCommand {
 	//constructor
 	public TurnCommandVision() {
 		super(P, I, D, .2);
-		setSetpoint(2);
+		setSetpoint(5);
 		turnPID.setAbsoluteTolerance(TOLERANCE);
 		turnPID.setOutputRange(-.65, .65);
 		super.setInputRange(0, 359);
@@ -62,10 +62,11 @@ public class TurnCommandVision extends PIDCommand {
 	protected void end() {
 		turnPID.disable();
 		turnPID.reset();
-		turnPID.free();
+		hasSeen = false;
 		drive.drive(END_DRIVE_SPEED, END_DRIVE_ROTATION);
 		double gyroReading = gyroSensor.getAngle();
 		System.out.println("Finished at " + gyroReading);
+		setSetpoint(5);
 	}
 	
 	@Override
