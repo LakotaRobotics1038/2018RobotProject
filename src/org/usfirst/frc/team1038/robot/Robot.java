@@ -129,8 +129,6 @@ public class Robot extends IterativeRobot {
 	public void autonomousPeriodic() {
 		Dashboard.update();
 		schedule.run();
-		schedule.run();
-		schedule.run();
 		//pathfinder.excecute();
 		//System.out.println(I2CGyro.getInstance().getAngle());
 		//System.out.println(vision.getAngle());
