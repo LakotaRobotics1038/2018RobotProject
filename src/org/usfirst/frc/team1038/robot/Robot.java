@@ -65,7 +65,7 @@ public class Robot extends IterativeRobot {
 	private String m_autoSelected;
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
 	//private PathfinderTest pathTest;
-	private Vision vision = new Vision();
+	//private Vision vision = new Vision();
 	TurnCommandVision visionCommand = new TurnCommandVision();
 	TurnCommandVisionTest visionCommandTest = null;
 	TurnCommand testCommand = null;
@@ -81,7 +81,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		c.stop();
+		//c.stop();
 		m_chooser.addDefault("Default Auto", kDefaultAuto);
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
@@ -115,7 +115,7 @@ public class Robot extends IterativeRobot {
 		//turn.start();
 		//PathfinderTest pathfinder = new PathfinderTest();
 		//schedule.add(pathfinder);
-		schedule.add(visionCommand);
+		//schedule.add(visionCommand);
 	}
 
 	/**
@@ -135,7 +135,7 @@ public class Robot extends IterativeRobot {
 	public void teleopInit() {
 		robotDrive.resetEncoders();
 		rangeF = new LaserRangeFinder();
-		visionCommandTest = null;
+		//visionCommandTest = null;
 		desiredAngle = (int) gyroSensor.getAngle();
 	}
 
