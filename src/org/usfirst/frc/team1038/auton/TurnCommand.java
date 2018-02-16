@@ -12,7 +12,7 @@ public class TurnCommand extends PIDCommand {
 	private double drivePower = 0.0;
 	private final double END_DRIVE_SPEED = 0.0;
 	private final double END_DRIVE_ROTATION = 0.0;
-	private final int TOLERANCE = 2;
+	private final int TOLERANCE = 1;
 	private final static double P = 0.015;
 	private final static double I = 0.015;
 	private final static double D = 0.005;

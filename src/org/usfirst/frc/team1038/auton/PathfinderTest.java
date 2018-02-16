@@ -14,7 +14,7 @@ import jaci.pathfinder.modifiers.TankModifier;
 
 public class PathfinderTest extends Command {
 	
-	private final double WHEEL_DIAMETER = 0;
+	private final double WHEEL_DIAMETER = 6;
 	private final double TIME_STEP = .05;
 	private final double MAX_VELOCITY = .85;
 	private final double MAX_ACC = 2.0;
@@ -99,43 +99,43 @@ public class PathfinderTest extends Command {
     		double desired_heading = Pathfinder.r2d(left.getHeading());  // Should also be in degrees
 
     		double angleDifference = Pathfinder.boundHalfDegrees(desired_heading - gyro_heading);
-    		double turn = 0; // 0.8 * (-1/80) = -0.01
+    		double turn = 0.8 * (-1/80) * angleDifference; // 0.8 * (-1/80) = -0.01
     		
-    		if(angleDifference > 1) {
-    			turn = -.7;
-    		}else if(angleDifference < -1) {
-    			turn = 0.7;
-    		}else {
-    			turn = 0;
-    		}
+//    		if(angleDifference > 1) {
+//    			turn = -.7;
+//    		}else if(angleDifference < -1) {
+//    			turn = 0.7;
+//    		}else {
+//    			turn = 0;
+//    		}
+//    		
+//    		if(l > 0.7) {
+//    			l = 0.7;
+//    		}else if(l < -0.7) {
+//    			l = -0.7;
+//    		}
+//    		
+//    		if(r > 0.7) {
+//    			r = 0.7;
+//    		}else if(r < -0.7) {
+//    			r = -0.7;
+//    		}
+//    		
+//    		double leftTurn = (l + turn);
+//    		if(leftTurn > 0.75) {
+//    			leftTurn = 0.75;
+//    		}else if(leftTurn < -0.75) {
+//    			leftTurn = -0.75;
+//    		}
+//    		double rightTurn = (r - turn);
+//    		if(rightTurn > 0.75) {
+//    			rightTurn = 0.75;
+//    		}else if(rightTurn < -0.75) {
+//    			rightTurn = -0.75;
+//    		}
     		
-    		if(l > 0.7) {
-    			l = 0.7;
-    		}else if(l < -0.7) {
-    			l = -0.7;
-    		}
-    		
-    		if(r > 0.7) {
-    			r = 0.7;
-    		}else if(r < -0.7) {
-    			r = -0.7;
-    		}
-    		
-    		double leftTurn = (l + turn);
-    		if(leftTurn > 0.75) {
-    			leftTurn = 0.75;
-    		}else if(leftTurn < -0.75) {
-    			leftTurn = -0.75;
-    		}
-    		double rightTurn = (r - turn);
-    		if(rightTurn > 0.75) {
-    			rightTurn = 0.75;
-    		}else if(rightTurn < -0.75) {
-    			rightTurn = -0.75;
-    		}
-    		
-    		drive.tankDrive(leftTurn, rightTurn);
-    		System.out.printf("Path Output Calculated: %f,%f,%f,%f,%f\n", l, r, turn, leftTurn, rightTurn);
+    		drive.tankDrive(l + turn, r - turn);
+    		System.out.printf("Path Output Calculated: %f,%f,%f,%f,%f\n", l, r, turn, l + turn, r - turn);
     }
     
 	@Override

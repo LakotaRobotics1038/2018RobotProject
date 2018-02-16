@@ -62,7 +62,6 @@ public class DriveStraightCommand extends PIDCommand{
 	
 	@Override
 	protected double returnPIDInput() {
-		// TODO Auto-generated method stub
 		return drive.getLeftDriveEncoderDistance();
 	}
 

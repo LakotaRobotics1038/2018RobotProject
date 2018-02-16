@@ -14,6 +14,7 @@ import org.usfirst.frc.team1038.auton.TurnCommand;
 import org.usfirst.frc.team1038.auton.TurnCommandVision;
 import org.usfirst.frc.team1038.auton.TurnCommandVisionTest;
 import org.usfirst.frc.team1038.auton.Vision;
+import org.usfirst.frc.team1038.auton.VisionDriveToTarget;
 import org.usfirst.frc.team1038.subsystem.AcquisitionScoring;
 import org.usfirst.frc.team1038.subsystem.Climb;
 import org.usfirst.frc.team1038.subsystem.DriveTrain;
@@ -67,6 +68,7 @@ public class Robot extends IterativeRobot {
 	//private PathfinderTest pathTest;
 	private Vision vision = new Vision();
 	TurnCommandVision visionCommand = new TurnCommandVision();
+	VisionDriveToTarget visionDrive = new VisionDriveToTarget();
 	TurnCommandVisionTest visionCommandTest = null;
 	TurnCommand testCommand = null;
 	
@@ -116,10 +118,9 @@ public class Robot extends IterativeRobot {
 		//TurnCommand turn = new TurnCommand(45);
 		//turn.start();
 		//schedule.add(pathfinder);
-		schedule.add(visionCommand);
-		schedule.add(visionCommand);
-		schedule.add(visionCommand);
-		//pathfinder.initialize();
+		//schedule.add(visionCommand);
+		//schedule.add(visionDrive);
+		pathfinder.initialize();
 	}
 
 	/**
@@ -128,8 +129,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Dashboard.update();
-		schedule.run();
-		//pathfinder.excecute();
+		//schedule.run();
+		pathfinder.excecute();
 		//System.out.println(I2CGyro.getInstance().getAngle());
 		//System.out.println(vision.getAngle());
 		//visionCommand.execute();
