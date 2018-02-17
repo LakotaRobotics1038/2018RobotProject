@@ -67,8 +67,8 @@ public class PathfinderTest extends Command {
     		// 'getEncPosition' function.
     		// 1000 is the amount of encoder ticks per full revolution
     		// Wheel Diameter is the diameter of your wheels (or pulley for a track system) in meters
-    		left.configureEncoder(0/*drive.getLeftDriveEncoderCount()*/, 220, Conversions.f2m(WHEEL_DIAMETER / 12.0));
-    		right.configureEncoder(0/*drive.getRightDriveEncoderCount()*/, 220, Conversions.f2m(WHEEL_DIAMETER / 12.0));
+    		left.configureEncoder(drive.getLeftDriveEncoderCount(), 220, Conversions.f2m(WHEEL_DIAMETER / 12.0));
+    		right.configureEncoder(drive.getRightDriveEncoderCount(), 220, Conversions.f2m(WHEEL_DIAMETER / 12.0));
     		// The first argument is the proportional gain. Usually this will be quite high
     		// The second argument is the integral gain. This is unused for motion profiling
     		// The third argument is the derivative gain. Tweak this if you are unhappy with the tracking of the trajectory
