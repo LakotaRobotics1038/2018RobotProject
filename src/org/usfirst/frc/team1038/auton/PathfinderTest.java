@@ -16,8 +16,8 @@ public class PathfinderTest extends Command {
 	
 	private final double WHEEL_DIAMETER = 6;
 	private final double TIME_STEP = .05;
-	private final double MAX_VELOCITY = .85;
-	private final double MAX_ACC = 2.0;
+	private final double MAX_VELOCITY = .45;
+	private final double MAX_ACC = 1.0;
 	private final double MAX_JERK = 60.0;
 	private final double WHEELBASE_WIDTH = 38.25;
 	private EncoderFollower left;
@@ -47,12 +47,13 @@ public class PathfinderTest extends Command {
     		// Max Jerk:            60.0 m/s/s/s
         Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, TIME_STEP, MAX_VELOCITY, MAX_ACC, MAX_JERK);
         Waypoint[] points = new Waypoint[] {
-        		//new Waypoint(-4, -1, Pathfinder.d2r(-45)),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
-        		new Waypoint(0, 0, 0),         // Waypoint @ x=-2, y=-2, exit angle=0 radians
+        		new Waypoint(Conversions.f2m(-4), Conversions.f2m(-1), Pathfinder.d2r(-45)),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
+        		new Waypoint(Conversions.f2m(-2), Conversions.f2m(-2), 0),
+        		new Waypoint(0, 0, 0)         // Waypoint @ x=-2, y=-2, exit angle=0 radians
         		//new Waypoint(0, 0, 1)//,                           // Waypoint @ x=0, y=0,   exit angle=0 radians
         		//new Waypoint(0, 0, 0),
         		//new Waypoint(-.6, 0, 0),
-        		new Waypoint(Conversions.f2m(4), 0, 0)
+        		//new Waypoint(Conversions.f2m(4), 0, Pathfinder.d2r(-90))
         };
 
         Trajectory trajectory = Pathfinder.generate(points, config);
