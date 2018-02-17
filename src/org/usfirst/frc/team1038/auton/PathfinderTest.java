@@ -16,7 +16,7 @@ public class PathfinderTest extends Command {
 	
 	private final double WHEEL_DIAMETER = 6;
 	private final double TIME_STEP = .05;
-	private final double MAX_VELOCITY = .45;
+	private final double MAX_VELOCITY = .85;
 	private final double MAX_ACC = 1.0;
 	private final double MAX_JERK = 60.0;
 	private final double WHEELBASE_WIDTH = 38.25;
@@ -45,15 +45,18 @@ public class PathfinderTest extends Command {
     		// Max Velocity:        1.7 m/s
     		// Max Acceleration:    2.0 m/s/s
     		// Max Jerk:            60.0 m/s/s/s
-        Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, TIME_STEP, MAX_VELOCITY, MAX_ACC, MAX_JERK);
+        Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_LOW, TIME_STEP, MAX_VELOCITY, MAX_ACC, MAX_JERK);
         Waypoint[] points = new Waypoint[] {
-        		new Waypoint(Conversions.f2m(-4), Conversions.f2m(-1), Pathfinder.d2r(-45)),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
-        		new Waypoint(Conversions.f2m(-2), Conversions.f2m(-2), 0),
-        		new Waypoint(0, 0, 0)         // Waypoint @ x=-2, y=-2, exit angle=0 radians
-        		//new Waypoint(0, 0, 1)//,                           // Waypoint @ x=0, y=0,   exit angle=0 radians
-        		//new Waypoint(0, 0, 0),
-        		//new Waypoint(-.6, 0, 0),
-        		//new Waypoint(Conversions.f2m(4), 0, Pathfinder.d2r(-90))
+        		
+        		/*
+        		 * input * 10 = destination in inches
+        		 */
+        		
+        		new Waypoint(0, 0, Pathfinder.d2r(0)),    //Waypoint @ x= 0, y= 0, exit angle= 0 degrees
+        		new Waypoint(3, 0, Pathfinder.d2r(45)),   //Waypoint @ x= 30in, y= 0, exit angle= 45 degrees
+        		new Waypoint(4, 3, Pathfinder.d2r(90)),   //Waypoint @ x= 40in, y= 30in, exit angle= 90 degrees
+        		new Waypoint(4, 9, Pathfinder.d2r(45)),   //Waypoint @ x= 40in, y= 90in, exit angle= 45 degrees
+        		new Waypoint(8, 10, Pathfinder.d2r(0))    //Waypoint @ x= 80in, y= 10in, exit angle= 0 degrees
         };
 
         Trajectory trajectory = Pathfinder.generate(points, config);
@@ -85,58 +88,48 @@ public class PathfinderTest extends Command {
     		// Do something with the new Trajectory...
     		double l = left.calculate(drive.getLeftDriveEncoderCount());
     		double r = right.calculate(drive.getRightDriveEncoderCount());
-//    		
-//    		if (l > 1 || l < -1)
-//    		{
-//    			l /= Math.abs(l);
-//    		}
-//    		
-//    		if (r > 1 || r < -1)
-//    		{
-//    			r /= Math.abs(r);
-//    		}
 
     		double gyro_heading = gyro.getAngle();    // Assuming the gyro is giving a value in degrees
     		double desired_heading = Pathfinder.r2d(left.getHeading());  // Should also be in degrees
 
     		double angleDifference = Pathfinder.boundHalfDegrees(desired_heading - gyro_heading);
-    		double turn = 0.8 * (-1/80) * angleDifference; // 0.8 * (-1/80) = -0.01
+    		double turn /*= 0.8 * (-1/80) * angleDifference*/; // 0.8 * (-1/80) = -0.01
     		
-//    		if(angleDifference > 1) {
-//    			turn = -.7;
-//    		}else if(angleDifference < -1) {
-//    			turn = 0.7;
-//    		}else {
-//    			turn = 0;
-//    		}
-//    		
-//    		if(l > 0.7) {
-//    			l = 0.7;
-//    		}else if(l < -0.7) {
-//    			l = -0.7;
-//    		}
-//    		
-//    		if(r > 0.7) {
-//    			r = 0.7;
-//    		}else if(r < -0.7) {
-//    			r = -0.7;
-//    		}
-//    		
-//    		double leftTurn = (l + turn);
-//    		if(leftTurn > 0.75) {
-//    			leftTurn = 0.75;
-//    		}else if(leftTurn < -0.75) {
-//    			leftTurn = -0.75;
-//    		}
-//    		double rightTurn = (r - turn);
-//    		if(rightTurn > 0.75) {
-//    			rightTurn = 0.75;
-//    		}else if(rightTurn < -0.75) {
-//    			rightTurn = -0.75;
-//    		}
+    		if(angleDifference > 1) {
+    			turn = -.75;
+    		}else if(angleDifference < -1) {
+    			turn = 0.75;
+    		}else {
+    			turn = 0;
+    		}
     		
-    		drive.tankDrive(l + turn, r - turn);
-    		System.out.printf("Path Output Calculated: %f,%f,%f,%f,%f\n", l, r, turn, l + turn, r - turn);
+    		if(l > 0.75) {
+    			l = 0.75;
+    		}else if(l < -0.75) {
+    			l = -0.75;
+    		}
+    		
+    		if(r > 0.75) {
+    			r = 0.75;
+    		}else if(r < -0.75) {
+    			r = -0.75;
+    		}
+    		
+    		double leftTurn = (l + turn);
+    		if(leftTurn > 0.8) {
+    			leftTurn = 0.8;
+    		}else if(leftTurn < -0.8) {
+    			leftTurn = -0.8;
+    		}
+    		double rightTurn = (r - turn);
+    		if(rightTurn > 0.8) {
+    			rightTurn = 0.8;
+    		}else if(rightTurn < -0.8) {
+    			rightTurn = -0.8;
+    		}
+    		
+    		drive.tankDrive(leftTurn, rightTurn);
+    		System.out.printf("Path Output Calculated: %f,%f,%f,%f,%f\n", l, r, turn, leftTurn, rightTurn);
     }
     
 	@Override

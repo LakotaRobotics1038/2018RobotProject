@@ -119,8 +119,8 @@ public class Robot extends IterativeRobot {
 		//turn.start();
 		//schedule.add(pathfinder);
 		//schedule.add(visionCommand);
-		//schedule.add(visionDrive);
-		pathfinder.initialize();
+		schedule.add(visionDrive);
+		//pathfinder.initialize();
 	}
 
 	/**
@@ -129,8 +129,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Dashboard.update();
-		//schedule.run();
-		pathfinder.excecute();
+		schedule.run();
+		//pathfinder.excecute();
 		//System.out.println(I2CGyro.getInstance().getAngle());
 		//System.out.println(vision.getAngle());
 		//visionCommand.execute();

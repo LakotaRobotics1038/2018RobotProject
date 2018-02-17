@@ -14,6 +14,8 @@ public class VisionDriveToTarget extends PIDCommand{
 	private final static double P = 0.015;
 	private final static double I = 0.012;
 	private final static double D = 0.005;
+	private double leftPower;
+	private double rightPower;
 	private Vision camera = new Vision();
 	private DriveTrain drive = DriveTrain.getInstance();
 	private PIDController turnPID = getPIDController();
@@ -22,7 +24,7 @@ public class VisionDriveToTarget extends PIDCommand{
 		super(P, I, D, .2);
 		setSetpoint(0);
 		turnPID.setAbsoluteTolerance(TOLERANCE);
-		turnPID.setOutputRange(-.65, .65);
+		turnPID.setOutputRange(-.75, .75);
 		super.setInputRange(-180, 180);
 		turnPID.setContinuous(true);
 		requires(Robot.robotDrive);
@@ -54,7 +56,22 @@ public class VisionDriveToTarget extends PIDCommand{
 
 	@Override
 	protected void usePIDOutput(double turnPower) {
-		drive.dualArcadeDrive(drivePower, turnPower);
+		leftPower = drivePower + (0.5 * turnPower);
+		rightPower = drivePower - (0.5 * turnPower);
+		if(leftPower > 0.75) {
+			leftPower= 0.75;
+		}else if(leftPower < -0.75) {
+			leftPower = -0.75;
+		}
+		
+		if(rightPower > 0.75) {
+			rightPower = 0.75;
+		}else if(rightPower < -0.75) {
+			rightPower = -0.75;
+		}
+		
+		System.out.println("LeftPower: " + leftPower + ", RightPower: " + rightPower);
+		drive.tankDrive(leftPower, rightPower);
 	}
 
 	@Override
