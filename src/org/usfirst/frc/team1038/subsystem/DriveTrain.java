@@ -15,7 +15,7 @@ public class DriveTrain extends Subsystem {
 	private final int RIGHT_ENCODER_CHANNEL_A = 2;
 	private final int LEFT_ENCODER_CHANNEL_B = 1;
 	private final int RIGHT_ENCODER_CHANNEL_B = 3;
-	private final int ENCODER_COUNTS_PER_REV = 220;
+	private final int ENCODER_COUNTS_PER_REV = 210;
 	private final double WHEEL_DIAMETER = 6;
 	private final static int LEFT_DRIVE_PORT = 0;
 	private final static int RIGHT_DRIVE_PORT = 1;

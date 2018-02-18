@@ -15,7 +15,7 @@ public class Climb extends Subsystem {
 	private Spark armMotor = new Spark(ARM_MOTOR_PORT);
 	private Encoder armEncoder = new Encoder(ARM_ENCODER_PORT_A, ARM_ENCODER_PORT_B);
 	private double encoderDistance = 0;
-	private final double FINAL_DISTANCE = 3;
+	private final double FINAL_DISTANCE = 10000000;
 	private final double RAISE_SPEED = 0.4;
 	private boolean climbing = false;
 	private boolean lowering = false;
@@ -49,16 +49,16 @@ public class Climb extends Subsystem {
 	public void  manualArmRaise(double joystickPower)
 	{
 		//move telescopic arm manually
-		encoderDistance = armEncoder.getDistance();
-		joystickPower = manualClimbingSpeed;
-		if(encoderDistance < FINAL_DISTANCE)
-		{
-		armMotor.set(manualClimbingSpeed);
-		}
-		else 
-		{
-			armMotor.set(0);
-		}
+//		encoderDistance = armEncoder.getDistance();
+//		joystickPower = manualClimbingSpeed;
+//		if(encoderDistance < FINAL_DISTANCE)
+//		{
+		armMotor.set(joystickPower);
+//		}
+//		else 
+//		{
+//			armMotor.set(0);
+//		}
 	}
 	
 	public boolean armLower()

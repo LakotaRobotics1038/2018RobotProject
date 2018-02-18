@@ -33,6 +33,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * project.
  */
 public class Robot extends IterativeRobot {
+	private final int HIGH_PRESSURE_SENSOR_PORT = 0;
+	private final int LOW_PRESSURE_SENSOR_PORT = 1;
+	private PressureSensor lowPressureSensor = new PressureSensor(LOW_PRESSURE_SENSOR_PORT);
+	private PressureSensor highPressureSensor = new PressureSensor(HIGH_PRESSURE_SENSOR_PORT);
+	
 	//Subsystems
 		//Climb
 	private Climb robotClimb = new Climb();
@@ -56,7 +61,6 @@ public class Robot extends IterativeRobot {
 	//Teleop
 	Joystick1038 driverJoystick = new Joystick1038(0);
 	Joystick1038 operatorJoystick = new Joystick1038(1);
-	LaserRangeFinder rangeF;
 	
 	//Auton
 	Scheduler schedule;
@@ -94,7 +98,7 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void robotPeriodic() {
-		
+		Dashboard.update(lowPressureSensor.getPressure(), highPressureSensor.getPressure());
 	}
 
 	/**
@@ -124,7 +128,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		Dashboard.update();
 		schedule.run();
 		//pathTest.excecute();
 		//System.out.println(I2CGyro.getInstance().getAngle());
@@ -135,7 +138,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		robotDrive.resetEncoders();
-		rangeF = new LaserRangeFinder();
 		//visionCommandTest = null;
 		desiredAngle = (int) gyroSensor.getAngle();
 	}
@@ -145,25 +147,21 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-//		System.out.println(PressureSensor.getInstance().getPressure());
 		driver();
 		operator();
-		Dashboard.update();
-		//System.out.println(vision.getAngle());
 	}
 
 	public void driver() {
 	
 		double driveDivider;
-		//System.out.println(I2CGyro.getInstance().getAngle());
-		//I2CGyro.getInstance().getAngle();
-		
-		if(driverJoystick.getBackButton())
-			I2CGyro.getInstance().recalibrateGyro();
 		
 		if(!driverJoystick.getRightButton() && !robotDrive.isHighGear()) {
-			driveDivider = .65;
+			driveDivider = .75;
 		}
+//		else if (!elevator.getLowProx())
+//		{
+//			driveDivider = .5;
+//		}
 		else	 {
 			driveDivider = 1;
 		}
@@ -194,7 +192,7 @@ public class Robot extends IterativeRobot {
 			}	
 		}
 	
-		if(driverJoystick.getRightTrigger())
+		if(driverJoystick.getRightTrigger() && !elevator.getLowProx())
 		{
 			robotDrive.highGear();
 		}
@@ -277,6 +275,7 @@ public class Robot extends IterativeRobot {
 		}
 		
 		robotClimb.manualArmRaise(operatorJoystick.getLeftJoystickVertical());
+		elevator.move(operatorJoystick.getRightJoystickVertical());
 		
 		if(operatorJoystick.getRightButton())
 		{
@@ -287,16 +286,6 @@ public class Robot extends IterativeRobot {
 		if(lowering)
 		{
 			lowering = robotClimb.armLower();
-		}
-		
-		if (operatorJoystick.getRightButton())
-		{
-			System.out.println(rangeF.read());
-		}
-		
-		if (operatorJoystick.getLeftButton())
-		{
-			rangeF.write();
 		}
 	}
 	
