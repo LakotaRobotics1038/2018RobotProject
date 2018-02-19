@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1038.robot;
 
 import org.usfirst.frc.team1038.subsystem.DriveTrain;
+import org.usfirst.frc.team1038.subsystem.Elevator;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -13,5 +14,7 @@ public class Dashboard {
 		SmartDashboard.putNumber("Right Encoder", DriveTrain.getInstance().getRightDriveEncoderDistance());
 		SmartDashboard.putNumber("High Pressure", highPressure);
 		SmartDashboard.putNumber("Low Pressure", lowPressure);
+		SmartDashboard.putNumber("Elevator Encoder", Elevator.getInstance().getEncoderCount());
+		SmartDashboard.putNumber("Elevator Motor Value", Elevator.getInstance().getMotorOutput());
 	}
 }

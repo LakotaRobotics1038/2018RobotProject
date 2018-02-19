@@ -14,17 +14,35 @@ public class AcquisitionScoring {
 	private final int ACQ_ARMS_UP_DOWN_PORT = 6;
 	private final int ACQ_ARMS_ENCODER_A_PORT = 6;
 	private final int ACQ_ARMS_ENCODER_B_PORT = 7;
-	private double acqMotorSpeed = 0.0;
+	private final double ACQ_UP_DOWN_SPEED = .5;
+	private double acqMotorSpeed = 0.4;
 	private Spark leftAcqMotor = new Spark(LEFT_ACQ_MOTOR_PORT);
     private Spark rightAcqMotor = new Spark(RIGHT_ACQ_MOTOR_PORT);
     private SpeedControllerGroup acqMotors = new SpeedControllerGroup(leftAcqMotor, rightAcqMotor);
-    private DoubleSolenoid acqArmsHoriz = new DoubleSolenoid(ACQ_ARMS_OPEN, ACQ_ARMS_CLOSE);
+    private DoubleSolenoid acqArmsOpenClose = new DoubleSolenoid(ACQ_ARMS_OPEN, ACQ_ARMS_CLOSE);
     private Spark acqArmsUpDown = new Spark(ACQ_ARMS_UP_DOWN_PORT);
     private Encoder acqArmsUpDownEncoder = new Encoder(ACQ_ARMS_ENCODER_A_PORT, ACQ_ARMS_ENCODER_B_PORT);
-	
-    public void setAcqSpeed(double speed)
+    private static AcquisitionScoring acqSco;
+    
+    public static AcquisitionScoring getInstance() {
+		if (acqSco == null) {
+			System.out.println("Creating a new Acquisition/Scoring");
+			acqSco = new AcquisitionScoring();
+		}
+		return acqSco;
+	}
+    
+    private AcquisitionScoring()
     {
-    		acqMotorSpeed = speed;
+    	
+    }
+	
+    public void setAcqSpeed(boolean up)
+    {
+    		if (acqMotorSpeed <= 1 && up)
+    			acqMotorSpeed += .2;
+    		else if (acqMotorSpeed >= 0 && !up)
+    			acqMotorSpeed -= .2;
     }
     
     public void aquire() 
@@ -32,28 +50,30 @@ public class AcquisitionScoring {
     		acqMotors.set(acqMotorSpeed);
     }
     
-    public void eject() 
+    public void dispose() 
     {
     		acqMotors.set(-acqMotorSpeed);
     }
     
     public void raiseArms() 
     {
-    		acqArmsHoriz.set(DoubleSolenoid.Value.kForward);
+    		if (acqArmsUpDownEncoder.get() < 0 /*TODO: Find value*/)
+    			acqArmsUpDown.set(ACQ_UP_DOWN_SPEED);
     }
     
     public void lowerArms() 
     {
-    		acqArmsHoriz.set(DoubleSolenoid.Value.kReverse);
+    		if (acqArmsUpDownEncoder.get() > 0)
+    			acqArmsUpDown.set(-ACQ_UP_DOWN_SPEED);
     }
     
     public void openArms()
     {
-
+    		acqArmsOpenClose.set(DoubleSolenoid.Value.kForward);
     }
     
     public void closeArms()
     {
-
+    		acqArmsOpenClose.set(DoubleSolenoid.Value.kReverse);
     }
 }

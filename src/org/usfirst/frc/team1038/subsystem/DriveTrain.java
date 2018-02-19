@@ -28,19 +28,19 @@ public class DriveTrain extends Subsystem {
 	private boolean isHighGear = false;
 	private boolean PTOisEngaged = false;
 	private DifferentialDrive differentialDrive;
-	private static DriveTrain driveTrain = new DriveTrain();
+	private static DriveTrain driveTrain;
 	Compressor c = new Compressor();
 	
 	public static DriveTrain getInstance() {
 		if (driveTrain == null) {
-			System.out.println("Creating a new driveTrain");
+			System.out.println("Creating a new DriveTrain");
 			driveTrain = new DriveTrain();
 		}
 		return driveTrain;
 	}
 	
 	//Constructor
-	public DriveTrain() {
+	private DriveTrain() {
 		leftDrive.setInverted(false);
 		rightDrive.setInverted(false);
 		differentialDrive = new DifferentialDrive(leftDrive, rightDrive);

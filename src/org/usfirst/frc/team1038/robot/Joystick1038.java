@@ -110,4 +110,9 @@ public class Joystick1038 {
 	{
 		return joystick.getRawAxis(RIGHT_STICK_HORIZONTAL);
 	}
+	
+	public double getPOV()
+	{
+		return joystick.getPOV();
+	}
 }
