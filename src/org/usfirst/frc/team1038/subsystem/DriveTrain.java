@@ -103,10 +103,10 @@ public class DriveTrain extends Subsystem {
 	 * Toggle the PTO between on and off
 	 */
 	public void togglePTO() {
-		if(PTOisEngaged == true) {
-			PTOisEngaged = false;
+		if(PTOisEngaged) {
+			PTOoff();
 		}else {
-			PTOisEngaged = true;
+			PTOon();
 		}
 	}
 	
@@ -130,10 +130,10 @@ public class DriveTrain extends Subsystem {
 	 * Toggle the Gear between high and low
 	 */
 	public void toggleGear() {
-		if(isHighGear == true) {
-			isHighGear = false;
+		if(isHighGear) {
+			lowGear();
 		}else {
-			isHighGear = true;
+			highGear();
 		}
 	}
 	
