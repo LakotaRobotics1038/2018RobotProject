@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.PIDCommand;
 
 public class VisionDriveToTarget extends PIDCommand{
 	
-	private double drivePower = 0.45;
+	private double drivePower = 0.60;
 	private final double END_DRIVE_SPEED = 0.0;
 	private final double END_DRIVE_ROTATION = 0.0;
 	private final int TOLERANCE = 1;
