@@ -29,7 +29,6 @@ public class DriveTrain extends Subsystem {
 	private boolean PTOisEngaged = false;
 	private DifferentialDrive differentialDrive;
 	private static DriveTrain driveTrain;
-	Compressor c = new Compressor();
 	
 	public static DriveTrain getInstance() {
 		if (driveTrain == null) {
