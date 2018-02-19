@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1038.robot;
 
+import org.usfirst.frc.team1038.subsystem.AcquisitionScoring;
 import org.usfirst.frc.team1038.subsystem.DriveTrain;
 import org.usfirst.frc.team1038.subsystem.Elevator;
 
@@ -16,5 +17,6 @@ public class Dashboard {
 		SmartDashboard.putNumber("Low Pressure", lowPressure);
 		SmartDashboard.putNumber("Elevator Encoder", Elevator.getInstance().getEncoderCount());
 		SmartDashboard.putNumber("Elevator Motor Value", Elevator.getInstance().getMotorOutput());
+		SmartDashboard.putNumber("Acq Motor Speed", AcquisitionScoring.getInstance().getAcqSpeed());
 	}
 }

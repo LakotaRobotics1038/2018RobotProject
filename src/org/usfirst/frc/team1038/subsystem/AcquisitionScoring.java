@@ -15,6 +15,8 @@ public class AcquisitionScoring {
 	private final int ACQ_ARMS_ENCODER_A_PORT = 6;
 	private final int ACQ_ARMS_ENCODER_B_PORT = 7;
 	private final double ACQ_UP_DOWN_SPEED = .5;
+	private final double MIN_ACQ_SPEED = .6;
+	private final double MAX_ACQ_SPEED = 1;
 	private double acqMotorSpeed = 0.4;
 	private Spark leftAcqMotor = new Spark(LEFT_ACQ_MOTOR_PORT);
     private Spark rightAcqMotor = new Spark(RIGHT_ACQ_MOTOR_PORT);
@@ -34,14 +36,19 @@ public class AcquisitionScoring {
     
     private AcquisitionScoring()
     {
-    	
+    		leftAcqMotor.setInverted(true);
+    }
+    
+    public double getAcqSpeed()
+    {
+    		return acqMotorSpeed;
     }
 	
     public void setAcqSpeed(boolean up)
     {
-    		if (acqMotorSpeed <= 1 && up)
+    		if (acqMotorSpeed < MAX_ACQ_SPEED && up)
     			acqMotorSpeed += .2;
-    		else if (acqMotorSpeed >= 0 && !up)
+    		else if (acqMotorSpeed > MIN_ACQ_SPEED && !up)
     			acqMotorSpeed -= .2;
     }
     
@@ -53,6 +60,11 @@ public class AcquisitionScoring {
     public void dispose() 
     {
     		acqMotors.set(-acqMotorSpeed);
+    }
+    
+    public void stop()
+    {
+    		acqMotors.set(0);
     }
     
     public void raiseArms() 

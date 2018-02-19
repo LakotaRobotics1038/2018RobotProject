@@ -52,6 +52,8 @@ public class Robot extends IterativeRobot {
 	
 		//Acquisition Scoring
 	private AcquisitionScoring acqSco = AcquisitionScoring.getInstance();
+	private boolean povUpLastPressed = false;
+	private boolean povDownLastPressed = false;
 	
 		//Elevator
 	private Elevator elevator = Elevator.getInstance();
@@ -151,10 +153,10 @@ public class Robot extends IterativeRobot {
 		if(!driverJoystick.getRightButton() && !robotDrive.isHighGear()) {
 			driveDivider = .75;
 		}
-		else if (!elevator.getLowProx())
-		{
-			driveDivider = .5;
-		}
+//		else if (!elevator.getLowProx())
+//		{
+//			driveDivider = .5;
+//		}
 		else	 {
 			driveDivider = 1;
 		}
@@ -210,14 +212,15 @@ public class Robot extends IterativeRobot {
 		robotClimb.move(operatorJoystick.getLeftJoystickVertical());
 		elevator.move(operatorJoystick.getRightJoystickVertical());
 		
-		if (operatorJoystick.getPOV() == 0)
-		{
+		if (operatorJoystick.getPOV() == 0 && !povUpLastPressed) {
 			acqSco.setAcqSpeed(true);
-		}
-		
-		if (operatorJoystick.getPOV() == 180)
-		{
+			povUpLastPressed = true;
+		} else if (operatorJoystick.getPOV() == 180 && !povDownLastPressed) {
 			acqSco.setAcqSpeed(false);
+			povDownLastPressed = true;
+		} else if (operatorJoystick.getPOV() == -1) {
+			povUpLastPressed = false;
+			povDownLastPressed = false;
 		}
 		
 		if (operatorJoystick.getLeftButton())
@@ -230,14 +233,12 @@ public class Robot extends IterativeRobot {
 			acqSco.closeArms();
 		}
 		
-		if (operatorJoystick.getLeftButton())
-		{
+		if (operatorJoystick.getRightButton()) {
 			acqSco.aquire();
-		}
-		
-		if (operatorJoystick.getRightTrigger())
-		{
+		} else if (operatorJoystick.getRightTrigger()) {
 			acqSco.dispose();
+		} else {
+			acqSco.stop();
 		}
 		
 		if (operatorJoystick.getYButton())
