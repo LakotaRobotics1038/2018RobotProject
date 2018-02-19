@@ -17,11 +17,11 @@ public class I2CGyro {
 	private final int GYRO_RECALIBRATE = 0x4E;
 	private final int RESET_Z_AXIS_INTEGRATOR = 0x52;
 	private I2C I2CBus;
-	private static I2CGyro gyroSensor = new I2CGyro();
+	private static I2CGyro gyroSensor;
 	private double gyroVal;
 	
 	//Class constructor
-	public I2CGyro()
+	private I2CGyro()
 	{
 		I2CBus = new I2C(I2C.Port.kOnboard, DEVICE_ADDRESS);
 		//I2CBus.write(0x10, 22);
@@ -32,7 +32,7 @@ public class I2CGyro {
 	
 	public static I2CGyro getInstance() {
 		if (gyroSensor == null) {
-			System.out.println("Creating a new gyroSensor");
+			System.out.println("Creating a new Gyro");
 			gyroSensor = new I2CGyro();
 		}
 		return gyroSensor;

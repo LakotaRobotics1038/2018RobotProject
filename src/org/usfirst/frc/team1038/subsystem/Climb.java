@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1038.subsystem;
 
+import org.usfirst.frc.team1038.robot.Prox;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
@@ -14,17 +16,23 @@ public class Climb extends Subsystem {
 	private final int ARM_ENCODER_PORT_B = 9;
 	private Spark armMotor = new Spark(ARM_MOTOR_PORT);
 	private Encoder armEncoder = new Encoder(ARM_ENCODER_PORT_A, ARM_ENCODER_PORT_B);
-	private double encoderDistance = 0;
-	private final double FINAL_DISTANCE = 3;
+	private final double FINAL_DISTANCE = 0;
 	private final double RAISE_SPEED = 0.4;
 	private boolean climbing = false;
 	private boolean lowering = false;
-	private double manualClimbingSpeed = 0;
 	private final int ARM_PROX_PORT = 12;
-	private DigitalInput armProx = new DigitalInput(ARM_PROX_PORT);
+	private Prox armProx = new Prox(ARM_PROX_PORT);
+	private static Climb climb;
 	
-	public Climb()
-	{
+	public static Climb getInstance() {
+		if (climb == null) {
+			System.out.println("Creating a new Climb");
+			climb = new Climb();
+		}
+		return climb;
+	}
+	
+	private Climb() {
 		
 	}
 	
@@ -34,7 +42,7 @@ public class Climb extends Subsystem {
 		//pushes out telescoping arm
 //		encoderDistance = armEncoder.getDistance();
 		armMotor.set(RAISE_SPEED);
-		if(encoderDistance < FINAL_DISTANCE/*set to distance in inches from rest to bar*/)
+		if(armEncoder.get() < FINAL_DISTANCE/*set to distance in inches from rest to bar*/)
 		{
 			climbing = true;
 		}
@@ -46,27 +54,27 @@ public class Climb extends Subsystem {
 		return climbing;
 	}
 	
-	public void  manualArmRaise(double joystickPower)
+	public void move (double joystickPower)
 	{
-		//move telescopic arm manually
-		encoderDistance = armEncoder.getDistance();
-		joystickPower = manualClimbingSpeed;
-		if(encoderDistance < FINAL_DISTANCE)
-		{
-		armMotor.set(manualClimbingSpeed);
-		}
-		else 
-		{
-			armMotor.set(0);
-		}
+		if ((armEncoder.get() <= 0 && joystickPower > 0) || armEncoder.get() > 0)
+			armMotor.set(joystickPower);
+	}
+	
+	public void resetEncoder()
+	{
+		armEncoder.reset();
+	}
+	
+	public boolean getProx()
+	{
+		return armProx.get();
 	}
 	
 	public boolean armLower()
 	{
 		// lowers telescoping arm
-		encoderDistance =  armEncoder.getDistance();
 		armMotor.set(RAISE_SPEED*-1);
-		if(encoderDistance < FINAL_DISTANCE/*set to distance in inches from rest to bar*/)
+		if(armEncoder.get() < FINAL_DISTANCE) //TODO: Find value
 		{
 			lowering = true;
 		}

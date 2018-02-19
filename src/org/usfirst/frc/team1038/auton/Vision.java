@@ -20,7 +20,8 @@ public class Vision extends Subsystem {
 	//Constructor
 	public Vision() {
 		piTable.setNetworkIdentity("RoboRIO");
-		piTable.startClient("10.10.38.77", 1735);
+		piTable.startClient("raspberrypi.local", 1735);
+>>>>>>> 346fcc65e342c01d7a445cfc2d2330e8b6a93e48
 		
 	}
 	

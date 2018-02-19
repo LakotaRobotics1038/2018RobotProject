@@ -14,7 +14,6 @@ import org.usfirst.frc.team1038.auton.TurnCommand;
 import org.usfirst.frc.team1038.auton.TurnCommandVision;
 import org.usfirst.frc.team1038.auton.TurnCommandVisionTest;
 import org.usfirst.frc.team1038.auton.Vision;
-import org.usfirst.frc.team1038.auton.VisionDriveToTarget;
 import org.usfirst.frc.team1038.subsystem.AcquisitionScoring;
 import org.usfirst.frc.team1038.subsystem.Climb;
 import org.usfirst.frc.team1038.subsystem.DriveTrain;
@@ -34,30 +33,32 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * project.
  */
 public class Robot extends IterativeRobot {
+	private final int HIGH_PRESSURE_SENSOR_PORT = 0;
+	private final int LOW_PRESSURE_SENSOR_PORT = 1;
+	private PressureSensor lowPressureSensor = new PressureSensor(LOW_PRESSURE_SENSOR_PORT);
+	private PressureSensor highPressureSensor = new PressureSensor(HIGH_PRESSURE_SENSOR_PORT);
+	
 	//Subsystems
 		//Climb
-	private Climb robotClimb = new Climb();
-	private boolean autoClimbing = false;
-	private boolean lowering = false;
+	private Climb robotClimb = Climb.getInstance();
 	
 		//Pneumatics
-	//private Compressor c = new Compressor();
+	private Compressor c = new Compressor();
 	
 		//Drive
 	public static DriveTrain robotDrive = DriveTrain.getInstance();
-	public enum driveModes {tankDrive, singleArcadeDrive, dualArcadeDrive};
+	public enum driveModes { tankDrive, singleArcadeDrive, dualArcadeDrive };
 	private driveModes currentDriveMode = driveModes.dualArcadeDrive;
 	
 		//Acquisition Scoring
-	//private AcquisitionScoring acqSco = new AcquisitionScoring();
+	private AcquisitionScoring acqSco = AcquisitionScoring.getInstance();
 	
 		//Elevator
-	private Elevator elevator = new Elevator();
+	private Elevator elevator = Elevator.getInstance();
 	
 	//Teleop
 	Joystick1038 driverJoystick = new Joystick1038(0);
 	Joystick1038 operatorJoystick = new Joystick1038(1);
-	LaserRangeFinder rangeF;
 	
 	//Auton
 	Scheduler schedule;
@@ -65,18 +66,6 @@ public class Robot extends IterativeRobot {
 	private static final String kCustomAuto = "My Auto";
 	private String m_autoSelected;
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
-	//private PathfinderTest pathTest;
-	private Vision vision = new Vision();
-	TurnCommandVision visionCommand = new TurnCommandVision();
-	VisionDriveToTarget visionDrive = new VisionDriveToTarget();
-	TurnCommandVisionTest visionCommandTest = null;
-	TurnCommand testCommand = null;
-	
-	PathfinderTest pathfinder = new PathfinderTest();
-	private boolean XButtonLastPressed;
-	private boolean AButtonLastPressed;
-	private boolean BButtonLastPressed;
-	private int desiredAngle;
 	private I2CGyro gyroSensor = I2CGyro.getInstance();
     
 	/**
@@ -95,9 +84,15 @@ public class Robot extends IterativeRobot {
 		//pathTest.initialize();
 	}
 	
+	
 	@Override
 	public void robotPeriodic() {
-		
+		Dashboard.update(lowPressureSensor.getPressure(), highPressureSensor.getPressure());
+		elevator.elevatorPeriodic();
+		if (elevator.getLowProx())
+			elevator.resetEncoder();
+		if (robotClimb.getProx())
+			robotClimb.resetEncoder();
 	}
 
 	/**
@@ -117,10 +112,9 @@ public class Robot extends IterativeRobot {
 		schedule = Scheduler.getInstance();
 		//TurnCommand turn = new TurnCommand(45);
 		//turn.start();
+		//PathfinderTest pathfinder = new PathfinderTest();
 		//schedule.add(pathfinder);
 		//schedule.add(visionCommand);
-		schedule.add(visionDrive);
-		//pathfinder.initialize();
 	}
 
 	/**
@@ -128,9 +122,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		Dashboard.update();
 		schedule.run();
-		//pathfinder.excecute();
+		//pathTest.excecute();
 		//System.out.println(I2CGyro.getInstance().getAngle());
 		//System.out.println(vision.getAngle());
 		//visionCommand.execute();
@@ -139,9 +132,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		robotDrive.resetEncoders();
-		rangeF = new LaserRangeFinder();
 		//visionCommandTest = null;
-		desiredAngle = (int) gyroSensor.getAngle();
 	}
 
 	/**
@@ -149,24 +140,20 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-//		System.out.println(PressureSensor.getInstance().getPressure());
 		driver();
 		operator();
-		Dashboard.update();
-		//System.out.println(vision.getAngle());
 	}
 
 	public void driver() {
 	
 		double driveDivider;
-		//System.out.println(I2CGyro.getInstance().getAngle());
-		//I2CGyro.getInstance().getAngle();
-		
-		if(driverJoystick.getBackButton())
-			I2CGyro.getInstance().recalibrateGyro();
 		
 		if(!driverJoystick.getRightButton() && !robotDrive.isHighGear()) {
-			driveDivider = .65;
+			driveDivider = .75;
+		}
+		else if (!elevator.getLowProx())
+		{
+			driveDivider = .5;
 		}
 		else	 {
 			driveDivider = 1;
@@ -198,112 +185,79 @@ public class Robot extends IterativeRobot {
 			}	
 		}
 	
-		if(driverJoystick.getRightTrigger())
+		if(driverJoystick.getRightTrigger() && elevator.getLowProx())
 		{
-			//robotDrive.highGear();
+			robotDrive.highGear();
 		}
 		else if (robotDrive.isHighGear())
 		{
-			//robotDrive.lowGear();
+			robotDrive.lowGear();
 		}
 		
 		if(driverJoystick.getLeftButton())
 		{
-			//robotDrive.PTOon();
+			robotDrive.PTOon();
 		}
 		
 		if(driverJoystick.getLeftTrigger())
 		{
-			//robotDrive.PTOoff();
-		}
-		
-		if((driverJoystick.getAButton() == true) && (AButtonLastPressed == false)) {
-			System.out.println("A button just pressed");
-			desiredAngle += 45;
-			if(desiredAngle >= 360) {
-				desiredAngle = 0;
-			}
-			System.out.println("New desired angle is: " + desiredAngle);
-		}
-		AButtonLastPressed = driverJoystick.getAButton();
-		if((driverJoystick.getBButton() == true) && (BButtonLastPressed == false)) {
-			System.out.println("B button just pressed");
-			desiredAngle -= 45;
-			if(desiredAngle < 0) {
-				desiredAngle = 315;
-			}
-			System.out.println("New desired angle is: " + desiredAngle);
-		}
-		BButtonLastPressed = driverJoystick.getBButton();
-		if(driverJoystick.getXButton()) 
-		{
-//			vision.turnToAngle();
-			if(testCommand == null) {
-				testCommand = new TurnCommand(desiredAngle);
-				testCommand.initialize();
-				XButtonLastPressed = true;
-			}
-			testCommand.execute();
-//			if(testCommand.isFinished()) {
-//				testCommand.end();
-//				testCommand = null;
-//				XButtonLastPressed = false;
-//			}
-			
-		}else if(!driverJoystick.getXButton()) {
-//			if(!(testCommand == null)) {
-//				testCommand.end();
-//			}
-//			testCommand = null;
-		}
-		if((XButtonLastPressed = true) && !(testCommand == null)) {
-			if(testCommand.isFinished()) {
-				testCommand.end();
-				XButtonLastPressed = false;
-				testCommand = null;
-			}else {
-				testCommand.execute();
-			}
-		}
-		
-		if(driverJoystick.getYButton()) {
-			
+			robotDrive.PTOoff();
 		}
 	}
 	
 	public void operator() {
-		if(operatorJoystick.getRightTrigger())
+		
+		robotClimb.move(operatorJoystick.getLeftJoystickVertical());
+		elevator.move(operatorJoystick.getRightJoystickVertical());
+		
+		if (operatorJoystick.getPOV() == 0)
 		{
-			autoClimbing = true;
-			robotClimb.autoArmRaise();
+			acqSco.setAcqSpeed(true);
 		}
 		
-		if(autoClimbing)
+		if (operatorJoystick.getPOV() == 180)
 		{
-			autoClimbing = robotClimb.autoArmRaise();
-		}
-		
-		robotClimb.manualArmRaise(operatorJoystick.getLeftJoystickVertical());
-		
-		if(operatorJoystick.getRightButton())
-		{
-			lowering = true;
-			robotClimb.armLower();
-		}
-		
-		if(lowering)
-		{
-			lowering = robotClimb.armLower();
-		}
-		
-		if (operatorJoystick.getRightButton())
-		{
-			System.out.println(rangeF.read());
+			acqSco.setAcqSpeed(false);
 		}
 		
 		if (operatorJoystick.getLeftButton())
 		{
-			rangeF.write();
+			acqSco.openArms();
+		}
+		
+		if (operatorJoystick.getLeftTrigger()) 
+		{
+			acqSco.closeArms();
+		}
+		
+		if (operatorJoystick.getLeftButton())
+		{
+			acqSco.aquire();
+		}
+		
+		if (operatorJoystick.getRightTrigger())
+		{
+			acqSco.dispose();
+		}
+		
+		if (operatorJoystick.getYButton())
+		{
+			elevator.moveToScaleHigh();
+		}
+		
+		if (operatorJoystick.getXButton())
+		{
+			elevator.moveToSwitch();
+		}
+		
+		if (operatorJoystick.getAButton())
+		{
+			elevator.moveToFloor();
+		}
+		
+		if (operatorJoystick.getBButton())
+		{
+			elevator.moveToScaleLow();
 		}
 	}
 	
@@ -327,6 +281,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
-		
+		System.out.println(operatorJoystick.getRightJoystickVertical());
+		driver();
+		operator();
 	}
 }
