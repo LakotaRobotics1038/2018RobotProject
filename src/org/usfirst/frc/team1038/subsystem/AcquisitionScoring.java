@@ -36,7 +36,7 @@ public class AcquisitionScoring {
     
     private AcquisitionScoring()
     {
-    		leftAcqMotor.setInverted(true);
+    		rightAcqMotor.setInverted(true);
     }
     
     public double getAcqSpeed()
