@@ -45,7 +45,7 @@ public class PathfinderTest extends Command {
     		// Max Velocity:        1.7 m/s
     		// Max Acceleration:    2.0 m/s/s
     		// Max Jerk:            60.0 m/s/s/s
-        Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_LOW, TIME_STEP, MAX_VELOCITY, MAX_ACC, MAX_JERK);
+        Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, TIME_STEP, MAX_VELOCITY, MAX_ACC, MAX_JERK);
         Waypoint[] points = new Waypoint[] {
         		
         		/*
@@ -53,10 +53,19 @@ public class PathfinderTest extends Command {
         		 */
         		
         		new Waypoint(0, 0, Pathfinder.d2r(0)),    //Waypoint @ x= 0, y= 0, exit angle= 0 degrees
-        		new Waypoint(3, 0, Pathfinder.d2r(45)),   //Waypoint @ x= 30in, y= 0, exit angle= 45 degrees
-        		new Waypoint(4, 3, Pathfinder.d2r(90)),   //Waypoint @ x= 40in, y= 30in, exit angle= 90 degrees
-        		new Waypoint(4, 9, Pathfinder.d2r(45)),   //Waypoint @ x= 40in, y= 90in, exit angle= 45 degrees
-        		new Waypoint(8, 10, Pathfinder.d2r(0))    //Waypoint @ x= 80in, y= 10in, exit angle= 0 degrees
+//        		new Waypoint(-3, 0, Pathfinder.d2r(-45)),   //Waypoint @ x= 30in, y= 0, exit angle= 45 degrees
+//        		new Waypoint(-4, -3, Pathfinder.d2r(-90)),   //Waypoint @ x= 40in, y= 30in, exit angle= 90 degrees
+//        		new Waypoint(-4, -9, Pathfinder.d2r(-45)),   //Waypoint @ x= 40in, y= 90in, exit angle= 45 degrees
+//        		new Waypoint(-8, -10, Pathfinder.d2r(0))    //Waypoint @ x= 80in, y= 10in, exit angle= 0 degrees
+
+        		new Waypoint(2, -0.5, Pathfinder.d2r(-30)),    //Waypoint @ x= 80in, y= 10in, exit angle= 0 degrees
+        		new Waypoint(4, -1, Pathfinder.d2r(-30))    //Waypoint @ x= 80in, y= 10in, exit angle= 0 degrees
+        		
+//        		new Waypoint(0,0,Pathfinder.d2r(0)),
+//        		new Waypoint(8, 0 , Pathfinder.d2r(45)),
+//        		new Waypoint(9,1, Pathfinder.d2r(90)),
+//        		new Waypoint(9,3, Pathfinder.d2r(90)),
+//        		new Waypoint(10, 4, Pathfinder.d2r(45))
         };
 
         Trajectory trajectory = Pathfinder.generate(points, config);
@@ -93,39 +102,43 @@ public class PathfinderTest extends Command {
     		double desired_heading = Pathfinder.r2d(left.getHeading());  // Should also be in degrees
 
     		double angleDifference = Pathfinder.boundHalfDegrees(desired_heading - gyro_heading);
-    		double turn /*= 0.8 * (-1/80) * angleDifference*/; // 0.8 * (-1/80) = -0.01
+    		double turn = 0; /*= 0.8 * (-1/80) * angleDifference*/ // 0.8 * (-1/80) = -0.01
     		
-    		if(angleDifference > 1) {
-    			turn = -.75;
+    		if(angleDifference > 20) {
+    			turn = 0.7;
+    		}else if(angleDifference > 1) {
+    			turn = 0.5;
+    		}else if(angleDifference < -20) {
+    			turn = -0.7;
     		}else if(angleDifference < -1) {
-    			turn = 0.75;
+    			turn = -0.5;
     		}else {
     			turn = 0;
     		}
     		
-    		if(l > 0.75) {
-    			l = 0.75;
-    		}else if(l < -0.75) {
-    			l = -0.75;
+    		if(l > 0.7) {
+    			l = 0.7;
+    		}else if(l < -0.7) {
+    			l = -0.7;
     		}
     		
-    		if(r > 0.75) {
-    			r = 0.75;
-    		}else if(r < -0.75) {
-    			r = -0.75;
+    		if(r > 0.7) {
+    			r = 0.7;
+    		}else if(r < -0.7) {
+    			r = -0.7;
     		}
     		
     		double leftTurn = (l + turn);
-    		if(leftTurn > 0.8) {
-    			leftTurn = 0.8;
-    		}else if(leftTurn < -0.8) {
-    			leftTurn = -0.8;
+    		if(leftTurn > 0.75) {
+    			leftTurn = 0.75;
+    		}else if(leftTurn < -0.75) {
+    			leftTurn = -0.75;
     		}
     		double rightTurn = (r - turn);
-    		if(rightTurn > 0.8) {
-    			rightTurn = 0.8;
-    		}else if(rightTurn < -0.8) {
-    			rightTurn = -0.8;
+    		if(rightTurn > 0.75) {
+    			rightTurn = 0.75;
+    		}else if(rightTurn < -0.75) {
+    			rightTurn = -0.75;
     		}
     		
     		drive.tankDrive(leftTurn, rightTurn);

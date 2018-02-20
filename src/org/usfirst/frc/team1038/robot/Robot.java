@@ -9,6 +9,7 @@ package org.usfirst.frc.team1038.robot;
 
 import edu.wpi.first.wpilibj.Compressor;
 
+import org.usfirst.frc.team1038.auton.AutonSelector;
 import org.usfirst.frc.team1038.auton.PathfinderTest;
 import org.usfirst.frc.team1038.auton.TurnCommand;
 import org.usfirst.frc.team1038.auton.TurnCommandVision;
@@ -64,9 +65,15 @@ public class Robot extends IterativeRobot {
 	Scheduler schedule;
 	private static final String kDefaultAuto = "Default";
 	private static final String kCustomAuto = "My Auto";
-	private String m_autoSelected;
-	private SendableChooser<String> m_chooser = new SendableChooser<>();
+	private static final String kLeftPosition ="L";
+	private static final String kCenterPosition ="C";
+	private static final String kRightPosition ="R";
+	private String autoSelected;
+	private SendableChooser<String> autoChooser = new SendableChooser<>();
+	private SendableChooser<String> startPosition = new SendableChooser<>();
 	private I2CGyro gyroSensor = I2CGyro.getInstance();
+	private AutonSelector autonSelector = AutonSelector.getInstance();
+	private PathfinderTest pathTest;
     
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -74,14 +81,18 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		//c.stop();
-		m_chooser.addDefault("Default Auto", kDefaultAuto);
-		m_chooser.addObject("My Auto", kCustomAuto);
-		SmartDashboard.putData("Auto choices", m_chooser);
+		c.stop();
+		autoChooser.addDefault("Default Auto", kDefaultAuto);
+		autoChooser.addObject("My Auto", kCustomAuto);
+		startPosition.addDefault("Center", kCenterPosition);
+		startPosition.addObject("Left", kLeftPosition);
+		startPosition.addObject("Right", kRightPosition);
+		SmartDashboard.putData("Start Position", startPosition);
+		SmartDashboard.putData("Auto choices", autoChooser);
 		I2CGyro.getInstance();
 		CameraServer.getInstance().addServer("raspberrypi.local:1180/?action=stream");
-		//pathTest = new PathfinderTest();
-		//pathTest.initialize();
+		pathTest = new PathfinderTest();
+		pathTest.initialize();
 	}
 	
 	
@@ -108,12 +119,13 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		m_autoSelected = m_chooser.getSelected();
+		gyroSensor.resetGyro();
+		autoSelected = autoChooser.getSelected();
 		schedule = Scheduler.getInstance();
 		//TurnCommand turn = new TurnCommand(45);
 		//turn.start();
-		//PathfinderTest pathfinder = new PathfinderTest();
-		//schedule.add(pathfinder);
+		PathfinderTest pathfinder = new PathfinderTest();
+		schedule.add(pathfinder);
 		//schedule.add(visionCommand);
 	}
 
@@ -122,8 +134,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		schedule.run();
-		//pathTest.excecute();
+		//schedule.run();
+		pathTest.excecute();
 		//System.out.println(I2CGyro.getInstance().getAngle());
 		//System.out.println(vision.getAngle());
 		//visionCommand.execute();
@@ -131,6 +143,7 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void teleopInit() {
+		gyroSensor.resetGyro();
 		robotDrive.resetEncoders();
 		//visionCommandTest = null;
 	}

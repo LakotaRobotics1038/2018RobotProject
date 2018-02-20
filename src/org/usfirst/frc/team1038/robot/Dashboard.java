@@ -6,6 +6,8 @@ import org.usfirst.frc.team1038.subsystem.Elevator;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Dashboard {
+	
+	private static String position = SmartDashboard.getString("Start Position", "C");
 
 	public static void update(double lowPressure, double highPressure)
 	{
@@ -16,5 +18,9 @@ public class Dashboard {
 		SmartDashboard.putNumber("Low Pressure", lowPressure);
 		SmartDashboard.putNumber("Elevator Encoder", Elevator.getInstance().getEncoderCount());
 		SmartDashboard.putNumber("Elevator Motor Value", Elevator.getInstance().getMotorOutput());
+	}
+	
+	public static String getPosition() {
+		return position;
 	}
 }
