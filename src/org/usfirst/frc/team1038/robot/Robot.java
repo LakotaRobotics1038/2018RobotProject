@@ -44,7 +44,7 @@ public class Robot extends IterativeRobot {
 	private Climb robotClimb = Climb.getInstance();
 	
 		//Pneumatics
-	private Compressor c = new Compressor();
+	//private Compressor c = new Compressor();
 	
 		//Drive
 	public static DriveTrain robotDrive = DriveTrain.getInstance();
@@ -52,7 +52,7 @@ public class Robot extends IterativeRobot {
 	private driveModes currentDriveMode = driveModes.dualArcadeDrive;
 	
 		//Acquisition Scoring
-	private AcquisitionScoring acqSco = AcquisitionScoring.getInstance();
+	//private AcquisitionScoring acqSco = AcquisitionScoring.getInstance();
 	
 		//Elevator
 	private Elevator elevator = Elevator.getInstance();
@@ -81,7 +81,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		c.stop();
+		//c.stop();
 		autoChooser.addDefault("Default Auto", kDefaultAuto);
 		autoChooser.addObject("My Auto", kCustomAuto);
 		startPosition.addDefault("Center", kCenterPosition);
@@ -92,7 +92,6 @@ public class Robot extends IterativeRobot {
 		I2CGyro.getInstance();
 		CameraServer.getInstance().addServer("raspberrypi.local:1180/?action=stream");
 		pathTest = new PathfinderTest();
-		pathTest.initialize();
 	}
 	
 	
@@ -119,6 +118,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		pathTest.initialize();
 		gyroSensor.resetGyro();
 		autoSelected = autoChooser.getSelected();
 		schedule = Scheduler.getInstance();
@@ -225,32 +225,32 @@ public class Robot extends IterativeRobot {
 		
 		if (operatorJoystick.getPOV() == 0)
 		{
-			acqSco.setAcqSpeed(true);
+			//acqSco.setAcqSpeed(true);
 		}
 		
 		if (operatorJoystick.getPOV() == 180)
 		{
-			acqSco.setAcqSpeed(false);
+			//acqSco.setAcqSpeed(false);
 		}
 		
 		if (operatorJoystick.getLeftButton())
 		{
-			acqSco.openArms();
+			//acqSco.openArms();
 		}
 		
 		if (operatorJoystick.getLeftTrigger()) 
 		{
-			acqSco.closeArms();
+			//acqSco.closeArms();
 		}
 		
 		if (operatorJoystick.getLeftButton())
 		{
-			acqSco.aquire();
+			//acqSco.aquire();
 		}
 		
 		if (operatorJoystick.getRightTrigger())
 		{
-			acqSco.dispose();
+			//acqSco.dispose();
 		}
 		
 		if (operatorJoystick.getYButton())
