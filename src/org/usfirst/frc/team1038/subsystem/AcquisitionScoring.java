@@ -26,6 +26,7 @@ public class AcquisitionScoring extends PIDSubsystem {
 	private final static double D = 0.0;
 	private final int UP_DOWN_MAX = 470;
 	private double acqMotorSpeed = 0.4;
+	private boolean armsOpen;
 	private Spark leftAcqMotor = new Spark(LEFT_ACQ_MOTOR_PORT);
     private Spark rightAcqMotor = new Spark(RIGHT_ACQ_MOTOR_PORT);
     private SpeedControllerGroup acqMotors = new SpeedControllerGroup(leftAcqMotor, rightAcqMotor);
@@ -104,7 +105,6 @@ public class AcquisitionScoring extends PIDSubsystem {
     {
     		double PIDValue = acqUpDownController.get();
     		usePIDOutput(PIDValue);
-    		System.out.println(acqArmsUpDownEncoder.get());
     }
     
 	@Override
@@ -122,16 +122,23 @@ public class AcquisitionScoring extends PIDSubsystem {
     public void openArms()
     {
     		acqArmsOpenClose.set(DoubleSolenoid.Value.kForward);
+    		armsOpen = true;
     }
     
     public void closeArms()
     {
     		acqArmsOpenClose.set(DoubleSolenoid.Value.kReverse);
+    		armsOpen = false;
     }
     
     public int getUpDownEncoder()
     {
     		return acqArmsUpDownEncoder.get();
+    }
+    
+    public boolean areArmsOpen()
+    {
+    		return armsOpen;
     }
 
 	@Override

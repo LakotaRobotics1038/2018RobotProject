@@ -154,7 +154,7 @@ public class Robot extends IterativeRobot {
 		if(!driverJoystick.getRightButton() && !robotDrive.isHighGear()) {
 			driveDivider = .75;
 		}
-		else if (!elevator.getLowProx())
+		else if (elevator.getEncoderCount() > 10)
 		{
 			driveDivider = .5;
 		}

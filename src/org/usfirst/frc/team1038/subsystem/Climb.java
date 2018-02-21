@@ -38,22 +38,22 @@ public class Climb extends Subsystem {
 	}
 	
 	//methods
-	public boolean autoArmRaise()
-	{
-		//pushes out telescoping arm
-//		encoderDistance = armEncoder.getDistance();
-		armMotor.set(RAISE_SPEED);
-		if(armEncoder.get() < FINAL_DISTANCE/*set to distance in inches from rest to bar*/)
-		{
-			climbing = true;
-		}
-		else
-		{
-		climbing = false;
-		armMotor.set(0);
-		}
-		return climbing;
-	}
+//	public boolean autoArmRaise()
+//	{
+//		//pushes out telescoping arm
+////		encoderDistance = armEncoder.getDistance();
+//		armMotor.set(RAISE_SPEED);
+//		if(armEncoder.get() < FINAL_DISTANCE/*set to distance in inches from rest to bar*/)
+//		{
+//			climbing = true;
+//		}
+//		else
+//		{
+//		climbing = false;
+//		armMotor.set(0);
+//		}
+//		return climbing;
+//	}
 	
 	public void move (double joystickPower)
 	{
@@ -61,6 +61,8 @@ public class Climb extends Subsystem {
 		{
 			if (AcquisitionScoring.getInstance().getUpDownEncoder() > ACQ_ARMS_DEADBAND)
 				AcquisitionScoring.getInstance().armsToZero();
+			if (AcquisitionScoring.getInstance().areArmsOpen())
+				AcquisitionScoring.getInstance().closeArms();
 			armMotor.set(joystickPower);
 		}
 	}
@@ -75,21 +77,21 @@ public class Climb extends Subsystem {
 		return armProx.get();
 	}
 	
-	public boolean armLower()
-	{
-		// lowers telescoping arm
-		armMotor.set(RAISE_SPEED*-1);
-		if(armEncoder.get() < FINAL_DISTANCE) //TODO: Find value
-		{
-			lowering = true;
-		}
-		else
-		{
-			lowering = false;
-			armMotor.set(0);
-		}
-		return lowering;
-	}
+//	public boolean armLower()
+//	{
+//		// lowers telescoping arm
+//		armMotor.set(RAISE_SPEED*-1);
+//		if(armEncoder.get() < FINAL_DISTANCE) //TODO: Find value
+//		{
+//			lowering = true;
+//		}
+//		else
+//		{
+//			lowering = false;
+//			armMotor.set(0);
+//		}
+//		return lowering;
+//	}
 
 	@Override
 	protected void initDefaultCommand() {

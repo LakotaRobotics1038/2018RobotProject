@@ -13,8 +13,8 @@ public class Elevator extends PIDSubsystem {
 
 	//fields
 	private final int TOLERANCE = 1;
-	private final static double P = 4.0;
-	private final static double I = .001;
+	private final static double P = 3.5;
+	private final static double I = .000;
 	private final static double D = .001;
 	private final static int SCALE_HIGH = 615;
 	private final int SCALE_LOW = 480;
