@@ -66,43 +66,39 @@ public class Elevator extends PIDSubsystem {
 		return elevatorSpark.get();
 	}
 	
-	@Override
-	protected void initDefaultCommand() {
-		// TODO Auto-generated method stub
-	}
-	
 	public void elevatorPeriodic() {
 		double PIDValue = elevatorPID.get();
 		usePIDOutput(-PIDValue);
 	}
 	
 	public void moveToScaleHigh() {
-		elevatorPID.enable();
+		enable();
 		setSetpoint(SCALE_HIGH);
 	}
 	
 
 	public void moveToScaleLow() {
-		elevatorPID.enable();
+		enable();
 		setSetpoint(MIDDLE);
 	}
 	
 	public void moveToSwitch() {
-		elevatorPID.enable();
+		enable();
 		setSetpoint(SWITCH);
 	}
 	
 	public void moveToPortal() {
-		elevatorPID.enable();
+		enable();
 		setSetpoint(PORTAL);
 	}
 	
 	public void moveToFloor() {
-		elevatorPID.enable();
+		enable();
 		setSetpoint(FLOOR);
 	}
 	
 	public void move(double joystickValue) {
+		enable();
 		if(getSetpoint() <= SCALE_HIGH && joystickValue > .09)
 		{
 			setSetpoint(getSetpoint() + 2);
@@ -126,5 +122,10 @@ public class Elevator extends PIDSubsystem {
 	protected void usePIDOutput(double output) {
 		if ((output > 0 && !lowProx.get()) || (output < 0 && !highProx.get()))
 			elevatorSpark.set(output);
+	}
+	
+	@Override
+	protected void initDefaultCommand() {
+		// TODO Auto-generated method stub
 	}
 }

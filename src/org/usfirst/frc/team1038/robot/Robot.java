@@ -91,6 +91,7 @@ public class Robot extends IterativeRobot {
 	public void robotPeriodic() {
 		Dashboard.update(lowPressureSensor.getPressure(), highPressureSensor.getPressure());
 		elevator.elevatorPeriodic();
+		acqSco.AcquisitionPeriodic();
 		if (elevator.getLowProx())
 			elevator.resetEncoder();
 		if (robotClimb.getProx())
@@ -153,10 +154,10 @@ public class Robot extends IterativeRobot {
 		if(!driverJoystick.getRightButton() && !robotDrive.isHighGear()) {
 			driveDivider = .75;
 		}
-//		else if (!elevator.getLowProx())
-//		{
-//			driveDivider = .5;
-//		}
+		else if (!elevator.getLowProx())
+		{
+			driveDivider = .5;
+		}
 		else	 {
 			driveDivider = 1;
 		}
@@ -199,11 +200,23 @@ public class Robot extends IterativeRobot {
 		if(driverJoystick.getLeftButton())
 		{
 			robotDrive.PTOon();
-		}
-		
-		if(driverJoystick.getLeftTrigger())
+		} else if(driverJoystick.getLeftTrigger())
 		{
 			robotDrive.PTOoff();
+		}
+		
+		if (driverJoystick.getYButton())
+		{
+			elevator.moveToScaleHigh();
+		} else if (driverJoystick.getXButton())
+		{
+			elevator.moveToSwitch();
+		} else if (driverJoystick.getAButton())
+		{
+			elevator.moveToFloor();
+		} else if (driverJoystick.getBButton())
+		{
+			elevator.moveToScaleLow();
 		}
 	}
 	
@@ -241,29 +254,22 @@ public class Robot extends IterativeRobot {
 			acqSco.stop();
 		}
 		
-		if (operatorJoystick.getYButton())
-		{
-			elevator.moveToScaleHigh();
-		}
-		
-		if (operatorJoystick.getXButton())
-		{
-			elevator.moveToSwitch();
-		}
-		
 		if (operatorJoystick.getAButton())
 		{
-			elevator.moveToFloor();
-		}
-		
-		if (operatorJoystick.getBButton())
+			acqSco.armsToZero();
+		} else if (operatorJoystick.getBButton())
 		{
-			elevator.moveToScaleLow();
+			acqSco.armsTo45();
+		} else if (operatorJoystick.getYButton())
+		{
+			acqSco.armsTo90();
 		}
 	}
 	
 	@Override
 	public void disabledInit() {
+		acqSco.disable();
+		elevator.disable();
 		System.out.println("Robot Disabled");
 	}
 	

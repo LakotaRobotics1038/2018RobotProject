@@ -14,6 +14,7 @@ public class Climb extends Subsystem {
 	private final int ARM_MOTOR_PORT = 2;
 	private final int ARM_ENCODER_PORT_A = 8;
 	private final int ARM_ENCODER_PORT_B = 9;
+	private final int ACQ_ARMS_DEADBAND = 10;
 	private Spark armMotor = new Spark(ARM_MOTOR_PORT);
 	private Encoder armEncoder = new Encoder(ARM_ENCODER_PORT_A, ARM_ENCODER_PORT_B);
 	private final double FINAL_DISTANCE = 0;
@@ -57,7 +58,11 @@ public class Climb extends Subsystem {
 	public void move (double joystickPower)
 	{
 		if ((armEncoder.get() <= 0 && joystickPower > 0) || armEncoder.get() > 0)
+		{
+			if (AcquisitionScoring.getInstance().getUpDownEncoder() > ACQ_ARMS_DEADBAND)
+				AcquisitionScoring.getInstance().armsToZero();
 			armMotor.set(joystickPower);
+		}
 	}
 	
 	public void resetEncoder()
