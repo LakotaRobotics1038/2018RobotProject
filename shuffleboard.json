@@ -1,5 +1,5 @@
 {
-  "dividerPosition": 0.003961965134706815,
+  "dividerPosition": 0.01347068145800317,
   "tabPane": [
     {
       "title": "SmartDashboard",
@@ -76,18 +76,7 @@
               "_title": "Low Pressure"
             }
           },
-          "4,0": {
-            "size": [
-              2,
-              2
-            ],
-            "content": {
-              "_type": "PID Controller",
-              "_source0": "network_table:///LiveWindow/Elevator/PIDController",
-              "_title": "LiveWindow/Elevator/PIDController"
-            }
-          },
-          "2,2": {
+          "7,2": {
             "size": [
               1,
               1
@@ -98,7 +87,7 @@
               "_title": "Elevator Encoder"
             }
           },
-          "3,2": {
+          "4,2": {
             "size": [
               2,
               1
@@ -109,7 +98,7 @@
               "_title": "Elevator Motor Value"
             }
           },
-          "6,0": {
+          "6,2": {
             "size": [
               1,
               1
@@ -118,6 +107,52 @@
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/Acq Motor Speed",
               "_title": "Acq Motor Speed"
+            }
+          },
+          "4,0": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "PID Controller",
+              "_source0": "network_table:///SmartDashboard/Elevator PID Controller",
+              "_title": "Elevator PID Controller"
+            }
+          },
+          "6,0": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "PID Controller",
+              "_source0": "network_table:///SmartDashboard/Acq PID Controller",
+              "_title": "Acq PID Controller"
+            }
+          },
+          "0,2": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Speed Controller",
+              "_source0": "network_table:///SmartDashboard/AcqUpDown",
+              "_title": "AcqUpDown",
+              "controllable": false,
+              "orientation": "HORIZONTAL"
+            }
+          },
+          "2,2": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Encoder",
+              "_source0": "network_table:///LiveWindow/Ungrouped/Encoder[3]",
+              "_title": "LiveWindow/Ungrouped/Encoder[3]"
             }
           }
         }
@@ -283,91 +318,69 @@
                   "_title": "Ungrouped/Compressor[0]/Pressure switch",
                   "colorWhenTrue": "#7CFC00FF",
                   "colorWhenFalse": "#8B0000FF"
+                },
+                {
+                  "_type": "Speed Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/SpeedControllerGroup[1]",
+                  "_title": "Ungrouped/SpeedControllerGroup[1]",
+                  "controllable": false,
+                  "orientation": "HORIZONTAL"
+                },
+                {
+                  "_type": "Encoder",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Encoder[2]",
+                  "_title": "Ungrouped/Encoder[2]"
+                },
+                {
+                  "_type": "Speed Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Spark[6]",
+                  "_title": "Ungrouped/Spark[6]",
+                  "controllable": false,
+                  "orientation": "HORIZONTAL"
+                },
+                {
+                  "_type": "Encoder",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Encoder[3]",
+                  "_title": "Ungrouped/Encoder[3]"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/DoubleSolenoid[0,4]/Value",
+                  "_title": "Ungrouped/DoubleSolenoid[0,4]/Value"
+                },
+                {
+                  "_type": "Boolean Box",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/DigitalInput[10]/Value",
+                  "_title": "Ungrouped/DigitalInput[10]/Value",
+                  "colorWhenTrue": "#7CFC00FF",
+                  "colorWhenFalse": "#8B0000FF"
+                },
+                {
+                  "_type": "Speed Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Spark[4]",
+                  "_title": "Ungrouped/Spark[4]",
+                  "controllable": false,
+                  "orientation": "HORIZONTAL"
+                },
+                {
+                  "_type": "Speed Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Spark[3]",
+                  "_title": "Ungrouped/Spark[3]",
+                  "controllable": false,
+                  "orientation": "HORIZONTAL"
                 }
               ]
             }
           },
-          "1,1": {
+          "2,1": {
             "size": [
-              1,
+              2,
               2
             ],
             "content": {
               "_type": "PID Controller",
               "_source0": "network_table:///LiveWindow/Elevator/PIDController",
               "_title": "LiveWindow/Elevator/PIDController"
-            }
-          },
-          "4,0": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Speed Controller",
-              "_source0": "network_table:///LiveWindow/Ungrouped/SpeedControllerGroup[1]",
-              "_title": "Ungrouped/SpeedControllerGroup[1]",
-              "controllable": false,
-              "orientation": "HORIZONTAL"
-            }
-          },
-          "2,1": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Speed Controller",
-              "_source0": "network_table:///LiveWindow/Ungrouped/Spark[6]",
-              "_title": "Ungrouped/Spark[6]",
-              "controllable": false,
-              "orientation": "HORIZONTAL"
-            }
-          },
-          "4,1": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Encoder",
-              "_source0": "network_table:///LiveWindow/Ungrouped/Encoder[2]",
-              "_title": "Ungrouped/Encoder[2]"
-            }
-          },
-          "0,1": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///LiveWindow/Ungrouped/DoubleSolenoid[0,4]/Value",
-              "_title": "Ungrouped/DoubleSolenoid[0,4]/Value"
-            }
-          },
-          "2,2": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Encoder",
-              "_source0": "network_table:///LiveWindow/Ungrouped/Encoder[3]",
-              "_title": "Ungrouped/Encoder[3]"
-            }
-          },
-          "0,2": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Boolean Box",
-              "_source0": "network_table:///LiveWindow/Ungrouped/DigitalInput[10]/Value",
-              "_title": "Ungrouped/DigitalInput[10]/Value",
-              "colorWhenTrue": "#7CFC00FF",
-              "colorWhenFalse": "#8B0000FF"
             }
           },
           "4,2": {
@@ -383,7 +396,7 @@
               "colorWhenFalse": "#8B0000FF"
             }
           },
-          "5,2": {
+          "4,1": {
             "size": [
               1,
               1
@@ -394,7 +407,7 @@
               "_title": "Ungrouped/Encoder[4]/Speed"
             }
           },
-          "6,0": {
+          "5,0": {
             "size": [
               1,
               4
@@ -537,32 +550,6 @@
               ]
             }
           },
-          "0,3": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Speed Controller",
-              "_source0": "network_table:///LiveWindow/Ungrouped/Spark[4]",
-              "_title": "Ungrouped/Spark[4]",
-              "controllable": false,
-              "orientation": "HORIZONTAL"
-            }
-          },
-          "2,3": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Speed Controller",
-              "_source0": "network_table:///LiveWindow/Ungrouped/Spark[3]",
-              "_title": "Ungrouped/Spark[3]",
-              "controllable": false,
-              "orientation": "HORIZONTAL"
-            }
-          },
           "4,3": {
             "size": [
               1,
@@ -574,7 +561,7 @@
               "_title": "AcquisitionScoring/PIDController/p"
             }
           },
-          "5,3": {
+          "4,0": {
             "size": [
               1,
               1
@@ -585,15 +572,159 @@
               "_title": "AcquisitionScoring/PIDController/i"
             }
           },
-          "7,0": {
+          "0,1": {
             "size": [
-              1,
+              2,
               2
             ],
             "content": {
               "_type": "PID Controller",
               "_source0": "network_table:///LiveWindow/AcquisitionScoring/PIDController",
               "_title": "AcquisitionScoring/PIDController"
+            }
+          },
+          "6,0": {
+            "size": [
+              2,
+              4
+            ],
+            "content": {
+              "_type": "List Layout",
+              "_source0": "network_table:///LiveWindow/Ungrouped",
+              "_title": "Ungrouped",
+              "_children": [
+                {
+                  "_type": "Speed Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Spark[2]",
+                  "_title": "Spark[2]",
+                  "controllable": false,
+                  "orientation": "HORIZONTAL"
+                },
+                {
+                  "_type": "Boolean Box",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/DigitalInput[12]/Value",
+                  "_title": "DigitalInput[12]/Value",
+                  "colorWhenTrue": "#7CFC00FF",
+                  "colorWhenFalse": "#8B0000FF"
+                },
+                {
+                  "_type": "Voltage View",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/AnalogInput[0]",
+                  "_title": "AnalogInput[0]",
+                  "min": 0.0,
+                  "max": 5.0,
+                  "center": 0.0,
+                  "orientation": "HORIZONTAL",
+                  "numTickMarks": 5.0
+                },
+                {
+                  "_type": "Voltage View",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/AnalogInput[1]",
+                  "_title": "AnalogInput[1]",
+                  "min": 0.0,
+                  "max": 5.0,
+                  "center": 0.0,
+                  "orientation": "HORIZONTAL",
+                  "numTickMarks": 5.0
+                },
+                {
+                  "_type": "Speed Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Spark[5]",
+                  "_title": "Spark[5]",
+                  "controllable": false,
+                  "orientation": "HORIZONTAL"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/DoubleSolenoid[0,4]/Value",
+                  "_title": "DoubleSolenoid[0,4]/Value"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/DoubleSolenoid[0,0]/Value",
+                  "_title": "DoubleSolenoid[0,0]/Value"
+                },
+                {
+                  "_type": "Encoder",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Encoder[2]",
+                  "_title": "Encoder[2]"
+                },
+                {
+                  "_type": "Speed Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/SpeedControllerGroup[1]",
+                  "_title": "SpeedControllerGroup[1]",
+                  "controllable": false,
+                  "orientation": "HORIZONTAL"
+                },
+                {
+                  "_type": "Speed Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Spark[6]",
+                  "_title": "Spark[6]",
+                  "controllable": false,
+                  "orientation": "HORIZONTAL"
+                },
+                {
+                  "_type": "Boolean Box",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/DigitalInput[11]/Value",
+                  "_title": "DigitalInput[11]/Value",
+                  "colorWhenTrue": "#7CFC00FF",
+                  "colorWhenFalse": "#8B0000FF"
+                },
+                {
+                  "_type": "Differential Drivebase",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/DifferentialDrive[1]",
+                  "_title": "DifferentialDrive[1]",
+                  "numberOfWheels": 4,
+                  "wheelDiameter": 80.0,
+                  "showVectors": true
+                },
+                {
+                  "_type": "Boolean Box",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Compressor[0]/Enabled",
+                  "_title": "Compressor[0]/Enabled",
+                  "colorWhenTrue": "#7CFC00FF",
+                  "colorWhenFalse": "#8B0000FF"
+                },
+                {
+                  "_type": "Boolean Box",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Compressor[0]/Pressure switch",
+                  "_title": "Compressor[0]/Pressure switch",
+                  "colorWhenTrue": "#7CFC00FF",
+                  "colorWhenFalse": "#8B0000FF"
+                },
+                {
+                  "_type": "Encoder",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Encoder[3]",
+                  "_title": "Encoder[3]"
+                },
+                {
+                  "_type": "Encoder",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Encoder[0]",
+                  "_title": "Encoder[0]"
+                },
+                {
+                  "_type": "Encoder",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Encoder[4]",
+                  "_title": "Encoder[4]"
+                },
+                {
+                  "_type": "Boolean Box",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/DigitalInput[10]/Value",
+                  "_title": "DigitalInput[10]/Value",
+                  "colorWhenTrue": "#7CFC00FF",
+                  "colorWhenFalse": "#8B0000FF"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/DoubleSolenoid[0,2]/Value",
+                  "_title": "DoubleSolenoid[0,2]/Value"
+                },
+                {
+                  "_type": "Encoder",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Encoder[1]",
+                  "_title": "Encoder[1]"
+                }
+              ]
             }
           }
         }

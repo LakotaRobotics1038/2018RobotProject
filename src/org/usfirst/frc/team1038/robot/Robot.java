@@ -76,7 +76,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		//c.stop();
+		c.stop();
 		m_chooser.addDefault("Default Auto", kDefaultAuto);
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
@@ -92,8 +92,13 @@ public class Robot extends IterativeRobot {
 		Dashboard.update(lowPressureSensor.getPressure(), highPressureSensor.getPressure());
 		elevator.elevatorPeriodic();
 		acqSco.AcquisitionPeriodic();
-		if (elevator.getLowProx())
+		
+		if (elevator.getLowProx()) {
 			elevator.resetEncoder();
+			if (elevator.getSetpoint() == 0)
+				elevator.disable();
+		}
+			
 		if (robotClimb.getProx())
 			robotClimb.resetEncoder();
 	}
@@ -222,8 +227,8 @@ public class Robot extends IterativeRobot {
 	
 	public void operator() {
 		
-		robotClimb.move(operatorJoystick.getLeftJoystickVertical());
-		elevator.move(operatorJoystick.getRightJoystickVertical());
+		robotClimb.move(operatorJoystick.getRightJoystickVertical());
+		elevator.move(operatorJoystick.getLeftJoystickVertical());
 		
 		if (operatorJoystick.getPOV() == 0 && !povUpLastPressed) {
 			acqSco.setAcqSpeed(true);
