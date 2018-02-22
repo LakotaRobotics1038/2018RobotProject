@@ -10,6 +10,8 @@ package org.usfirst.frc.team1038.robot;
 import edu.wpi.first.wpilibj.Compressor;
 
 import org.usfirst.frc.team1038.auton.AutonSelector;
+import org.usfirst.frc.team1038.auton.AutonWaypointPath;
+import org.usfirst.frc.team1038.auton.Pathfinder1038;
 import org.usfirst.frc.team1038.auton.PathfinderTest;
 import org.usfirst.frc.team1038.auton.TurnCommand;
 import org.usfirst.frc.team1038.auton.TurnCommandVision;
@@ -63,17 +65,18 @@ public class Robot extends IterativeRobot {
 	
 	//Auton
 	Scheduler schedule;
-	private static final String kDefaultAuto = "Default";
 	private static final String kCustomAuto = "My Auto";
-	private static final String kLeftPosition ="L";
-	private static final String kCenterPosition ="C";
-	private static final String kRightPosition ="R";
+	private static final String kLeftPosition = "L";
+	private static final String kCenterPosition = "C";
+	private static final String kRightPosition = "R";
+	private static final String kForwardAuto = "Forward";
 	private String autoSelected;
-	private SendableChooser<String> autoChooser = new SendableChooser<>();
-	private SendableChooser<String> startPosition = new SendableChooser<>();
+	public static SendableChooser<String> autoChooser = new SendableChooser<>();
+	public static SendableChooser<String> startPosition = new SendableChooser<>();
 	private I2CGyro gyroSensor = I2CGyro.getInstance();
 	private AutonSelector autonSelector = AutonSelector.getInstance();
-	private PathfinderTest pathTest;
+	private AutonWaypointPath waypointPath = AutonWaypointPath.getInstance();
+	private Pathfinder1038 autonPath = new Pathfinder1038(waypointPath.waypointPathChoice());
     
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -82,22 +85,21 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		//c.stop();
-		autoChooser.addDefault("Default Auto", kDefaultAuto);
+		autoChooser.addDefault("Forward Auton", kForwardAuto);
 		autoChooser.addObject("My Auto", kCustomAuto);
 		startPosition.addDefault("Center", kCenterPosition);
 		startPosition.addObject("Left", kLeftPosition);
 		startPosition.addObject("Right", kRightPosition);
 		SmartDashboard.putData("Start Position", startPosition);
-		SmartDashboard.putData("Auto choices", autoChooser);
+		SmartDashboard.putData("Auton choices", autoChooser);
 		I2CGyro.getInstance();
 		CameraServer.getInstance().addServer("raspberrypi.local:1180/?action=stream");
-		pathTest = new PathfinderTest();
 	}
 	
 	
 	@Override
 	public void robotPeriodic() {
-		Dashboard.update(lowPressureSensor.getPressure(), highPressureSensor.getPressure());
+		Dashboard.getInstance().update(lowPressureSensor.getPressure(), highPressureSensor.getPressure());
 		elevator.elevatorPeriodic();
 		if (elevator.getLowProx())
 			elevator.resetEncoder();
@@ -118,14 +120,12 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		pathTest.initialize();
 		gyroSensor.resetGyro();
 		autoSelected = autoChooser.getSelected();
 		schedule = Scheduler.getInstance();
+		autonSelector.chooseAuton();
 		//TurnCommand turn = new TurnCommand(45);
 		//turn.start();
-		PathfinderTest pathfinder = new PathfinderTest();
-		schedule.add(pathfinder);
 		//schedule.add(visionCommand);
 	}
 
@@ -135,10 +135,10 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		//schedule.run();
-		pathTest.excecute();
 		//System.out.println(I2CGyro.getInstance().getAngle());
 		//System.out.println(vision.getAngle());
 		//visionCommand.execute();
+		//autonSelector.chooseAuton();
 	}
 	
 	@Override

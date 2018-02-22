@@ -7,9 +7,24 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Dashboard {
 	
-	private static String position = SmartDashboard.getString("Start Position", "C");
-
-	public static void update(double lowPressure, double highPressure)
+	private String position;
+	private String autonChooser;
+	private static Dashboard dashboard;
+	
+	public static Dashboard getInstance() {
+		if (dashboard == null) {
+			System.out.println("Creating a new Dashboard");
+			dashboard = new Dashboard();
+		}
+		return dashboard;
+	}
+	
+	private Dashboard()
+	{
+		
+	}
+	
+	public void update(double lowPressure, double highPressure)
 	{
 		SmartDashboard.putNumber("Gyro", I2CGyro.getInstance().getAngle());
 		SmartDashboard.putNumber("Left Encoder", DriveTrain.getInstance().getLeftDriveEncoderDistance());
@@ -18,9 +33,18 @@ public class Dashboard {
 		SmartDashboard.putNumber("Low Pressure", lowPressure);
 		SmartDashboard.putNumber("Elevator Encoder", Elevator.getInstance().getEncoderCount());
 		SmartDashboard.putNumber("Elevator Motor Value", Elevator.getInstance().getMotorOutput());
+		position = SmartDashboard.getString((String)Robot.startPosition.getSelected(), "None");
+		autonChooser = SmartDashboard.getString((String)Robot.autoChooser.getSelected(), "None");
+
+		System.out.println(autonChooser);
+		System.out.println(position);
 	}
 	
-	public static String getPosition() {
+	public String getPosition() {
 		return position;
+	}
+	
+	public String getAutonChooser() {
+		return autonChooser;
 	}
 }

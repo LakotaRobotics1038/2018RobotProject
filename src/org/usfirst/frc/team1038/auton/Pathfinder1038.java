@@ -30,6 +30,20 @@ public class Pathfinder1038 extends Command {
 	private final static double I = 0.015;
 	private final static double D = 0.005;
 	public File File1038 = new File("1038File.traj");
+	public static File NFile = new File("NFile.traj");
+	public static File FFile = new File("FFile.traj");
+	public static File CLFile = new File("CLFile.traj");
+	public static File CLLFile = new File("CLLFile.traj");
+	public static File CRFile = new File("CRFile.traj");
+	public static File CRRFile = new File("CRRFile.traj");
+	public static File LLRFile = new File("LLRFile.traj");
+	public static File LLLFile = new File("LLLFile.traj");
+	public static File LLFile = new File("LLFile.traj");
+	public static File LRRFile = new File("LRRFile.traj");
+	public static File RRFile = new File("RRFile.traj");
+	public static File RLLFile = new File("RLLFile.traj");
+	public static File RRLFile = new File("RLLFile.traj");
+	public static File RRRFile = new File("RRRFile.traj");
 	private Waypoint[] points;
     
 	public Pathfinder1038(Waypoint[] path) {
