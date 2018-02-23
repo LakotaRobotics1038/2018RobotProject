@@ -550,9 +550,9 @@
               ]
             }
           },
-          "4,3": {
+          "3,3": {
             "size": [
-              1,
+              2,
               1
             ],
             "content": {
@@ -561,9 +561,9 @@
               "_title": "AcquisitionScoring/PIDController/p"
             }
           },
-          "4,0": {
+          "0,3": {
             "size": [
-              1,
+              2,
               1
             ],
             "content": {
@@ -590,7 +590,6 @@
             ],
             "content": {
               "_type": "List Layout",
-              "_source0": "network_table:///LiveWindow/Ungrouped",
               "_title": "Ungrouped",
               "_children": [
                 {

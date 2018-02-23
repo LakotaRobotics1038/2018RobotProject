@@ -15,13 +15,16 @@ public class Elevator extends PIDSubsystem {
 	//fields
 	private static Elevator elevator;
 	private final int TOLERANCE = 5;
-	private final static double P = 4;
-	private final static double I = .0001;
-	private final static double D = .001;
+	private final static double P_UP = .0034;
+	private final static double I_UP = .0001;
+	private final static double D_UP = .000;
+	private final static double P_DOWN = .00036;
+	private final static double I_DOWN = .000;
+	private final static double D_DOWN = .000;
 	private final static int SCALE_HIGH = 615;
 	private final int SCALE_LOW = 480;
 	private final int MIDDLE = 300;
-	private final int SWITCH = 10;
+	private final int SWITCH = 30;
 	private final int PORTAL = 0; // TODO find value
 	private final int FLOOR = 0;
 	private final int ELEVATOR_CHANNEL_A = 4;
@@ -45,9 +48,10 @@ public class Elevator extends PIDSubsystem {
 	}
 	
 	private Elevator() {
-		super(P / SCALE_HIGH, I /*/ SCALE_HIGH*/, D /*/ SCALE_HIGH*/);
+		super(P_UP, I_UP, D_UP);
 		elevatorPID.setAbsoluteTolerance(TOLERANCE);
-		elevatorPID.setOutputRange(-.2, 0 + ramp);
+		//elevatorPID.setOutputRange(-.2, 0 + ramp);
+		elevatorPID.setOutputRange(-.1, .75);
 		super.setInputRange(0, 615);
 		elevatorPID.setContinuous(false);
 		SmartDashboard.putData("Elevator PID Controller", elevatorPID);
@@ -74,33 +78,68 @@ public class Elevator extends PIDSubsystem {
 		if (elevatorPID.isEnabled())
 		{
 			double PIDValue = elevatorPID.get();
+			//System.out.println(elevatorPID.getP() + " " + elevatorPID.getI() + " " + elevatorPID.getD());
 			usePIDOutput(PIDValue);
+		}
+	}
+	
+	private boolean goingDown(int newSetpoint)
+	{
+		if (getSetpoint() > newSetpoint)
+		{
+			System.out.println("Going Down");
+			return true;
+		}
+		else
+		{
+			System.out.println("Going Up");
+			return false;
 		}
 	}
 	
 	public void moveToScaleHigh() {
 		enable();
+		if (goingDown(SCALE_HIGH))
+			elevatorPID.setPID(P_DOWN, I_DOWN, D_DOWN);
+		else
+			elevatorPID.setPID(P_UP, I_UP, D_UP);
 		setSetpoint(SCALE_HIGH);
 	}
 	
 
 	public void moveToScaleLow() {
 		enable();
+		if (goingDown(SCALE_LOW))
+			elevatorPID.setPID(P_DOWN, I_DOWN, D_DOWN);
+		else
+			elevatorPID.setPID(P_UP, I_UP, D_UP);
 		setSetpoint(MIDDLE);
 	}
 	
 	public void moveToSwitch() {
 		enable();
+		if (goingDown(SWITCH))
+			elevatorPID.setPID(P_DOWN, I_DOWN, D_DOWN);
+		else
+			elevatorPID.setPID(P_UP, I_UP, D_UP);
 		setSetpoint(SWITCH);
 	}
 	
 	public void moveToPortal() {
 		enable();
+		if (goingDown(PORTAL))
+			elevatorPID.setPID(P_DOWN, I_DOWN, D_DOWN);
+		else
+			elevatorPID.setPID(P_UP, I_UP, D_UP);
 		setSetpoint(PORTAL);
 	}
 	
 	public void moveToFloor() {
 		enable();
+		if (goingDown(FLOOR))
+			elevatorPID.setPID(P_DOWN, I_DOWN, D_DOWN);
+		else
+			elevatorPID.setPID(P_UP, I_UP, D_UP);
 		setSetpoint(FLOOR);
 	}
 	
@@ -131,7 +170,7 @@ public class Elevator extends PIDSubsystem {
 		if ((output < 0 && !lowProx.get()) || (output > 0 && !highProx.get()))
 		{
 			elevatorMotor.set(output);
-			elevatorPID.setOutputRange(-.2, output + ramp);
+			//elevatorPID.setOutputRange(-.2, output + ramp);
 		}
 	}
 	

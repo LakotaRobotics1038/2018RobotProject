@@ -57,6 +57,8 @@ public class Robot extends IterativeRobot {
 	
 		//Elevator
 	private Elevator elevator = Elevator.getInstance();
+	private enum DriverLastPressed { none, xButton, aButton, bButton, yButton };
+	private DriverLastPressed driverLastPressed = DriverLastPressed.none;
 	
 	//Teleop
 	Joystick1038 driverJoystick = new Joystick1038(0);
@@ -76,7 +78,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		c.stop();
+		//c.stop();
 		m_chooser.addDefault("Default Auto", kDefaultAuto);
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
@@ -193,7 +195,7 @@ public class Robot extends IterativeRobot {
 			}	
 		}
 	
-		if(driverJoystick.getRightTrigger() && elevator.getLowProx())
+		if(driverJoystick.getRightTrigger() && elevator.getEncoderCount() < 40)
 		{
 			robotDrive.highGear();
 		}
@@ -210,18 +212,22 @@ public class Robot extends IterativeRobot {
 			robotDrive.PTOoff();
 		}
 		
-		if (driverJoystick.getYButton())
-		{
-			elevator.moveToScaleHigh();
-		} else if (driverJoystick.getXButton())
-		{
-			elevator.moveToSwitch();
-		} else if (driverJoystick.getAButton())
+		if (driverJoystick.getAButton() && driverLastPressed != DriverLastPressed.aButton)
 		{
 			elevator.moveToFloor();
-		} else if (driverJoystick.getBButton())
+			driverLastPressed = DriverLastPressed.aButton;
+		} else if (driverJoystick.getXButton() && driverLastPressed != DriverLastPressed.xButton)
+		{
+			elevator.moveToSwitch();
+			driverLastPressed = DriverLastPressed.xButton;
+		} else if (driverJoystick.getYButton() && driverLastPressed != DriverLastPressed.yButton)
+		{
+			elevator.moveToScaleHigh();
+			driverLastPressed = DriverLastPressed.yButton;
+		} else if (driverJoystick.getBButton() && driverLastPressed != DriverLastPressed.bButton)
 		{
 			elevator.moveToScaleLow();
+			driverLastPressed = DriverLastPressed.bButton;
 		}
 	}
 	

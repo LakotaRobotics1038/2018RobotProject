@@ -62,7 +62,7 @@ public class Climb extends Subsystem {
 				if (AcquisitionScoring.getInstance().areArmsOpen())
 					AcquisitionScoring.getInstance().closeArms();
 			}
-			armMotor.set(joystickPower);
+			armMotor.set(joystickPower / 2);
 		}
 	}
 	
