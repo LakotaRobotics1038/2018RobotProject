@@ -27,6 +27,7 @@ public class PathfinderTest extends Command {
 	private final static double P = 0.015;
 	private final static double I = 0.015;
 	private final static double D = 0.005;
+	double angleDifference;
     
 	public PathfinderTest() {
 		requires(Robot.robotDrive);
@@ -52,11 +53,11 @@ public class PathfinderTest extends Command {
         		 * TODO Use Pathfinder.ftToDrive() to tell it distance
         		 */
         		
-        		new Waypoint(Conversions.ftToDrive(0), Conversions.ftToDrive(-5), Pathfinder.d2r(0)),    //Waypoint @ x= 0, y= 0, exit angle= 0 degrees
-        		new Waypoint(Conversions.ftToDrive(5), Conversions.ftToDrive(-6), Pathfinder.d2r(0)),
+        		new Waypoint(Conversions.ftToDrive(0), Conversions.ftToDrive(0), Pathfinder.d2r(0)),    //Waypoint @ x= 0, y= 0, exit angle= 0 degrees
+        		new Waypoint(Conversions.ftToDrive(5), Conversions.ftToDrive(0), Pathfinder.d2r(45))/*,
         		new Waypoint(Conversions.ftToDrive(8), Conversions.ftToDrive(-6), Pathfinder.d2r(45)),
         		new Waypoint(Conversions.ftToDrive(10), Conversions.ftToDrive(-5), Pathfinder.d2r(90)),
-        		new Waypoint(Conversions.ftToDrive(10), Conversions.ftToDrive(5), Pathfinder.d2r(90))
+        		new Waypoint(Conversions.ftToDrive(10), Conversions.ftToDrive(5), Pathfinder.d2r(90))*/
         		
         };
 
@@ -93,18 +94,18 @@ public class PathfinderTest extends Command {
     		double gyro_heading = gyro.getAngle();    // Assuming the gyro is giving a value in degrees
     		double desired_heading = Pathfinder.r2d(left.getHeading());  // Should also be in degrees
 
-    		double angleDifference = Pathfinder.boundHalfDegrees(desired_heading - gyro_heading);
-    		double turn = 0; /*= 0.8 * (-1/80) * angleDifference*/ // 0.8 * (-1/80) = -0.01
+    		angleDifference = Pathfinder.boundHalfDegrees(desired_heading - gyro_heading);
+    		double turn = 0.8 * (-1/80) * angleDifference; // 0.8 * (-1/80) = -0.01
     		
-    		if(angleDifference > 20) {
+    		if(turn > 0.7) {
     			turn = 0.7;
-    		}else if(angleDifference > 1) {
-    			turn = 0.5;
-    		}else if(angleDifference < -20) {
+//    		}else if(turn < 0.5 && angleDifference > 1) {
+//    			turn = 0.5;
+    		}else if(turn < -0.7) {
     			turn = -0.7;
-    		}else if(angleDifference < -1) {
-    			turn = -0.5;
-    		}else {
+//    		}else if(turn < -0.5 && angleDifference < -1) {
+//    			turn = -0.5;
+    		}else if((angleDifference < 2) && (angleDifference > -2)){
     			turn = 0;
     		}
     		
@@ -134,12 +135,11 @@ public class PathfinderTest extends Command {
     		}
     		
     		drive.tankDrive(leftTurn, rightTurn);
-    		System.out.printf("Path Output Calculated: %f,%f,%f,%f,%f\n", l, r, turn, leftTurn, rightTurn);
+    		System.out.printf("Path Output Calculated: %f,%f,%f,%f,%f,%f\n", l, r, turn, leftTurn, rightTurn, angleDifference);
     }
     
 	@Override
-	protected boolean isFinished() {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean isFinished() {
+		return (left.isFinished() && right.isFinished() && angleDifference == 0);
 	}
 }

@@ -33,11 +33,8 @@ public class Dashboard {
 		SmartDashboard.putNumber("Low Pressure", lowPressure);
 		SmartDashboard.putNumber("Elevator Encoder", Elevator.getInstance().getEncoderCount());
 		SmartDashboard.putNumber("Elevator Motor Value", Elevator.getInstance().getMotorOutput());
-		position = SmartDashboard.getString((String)Robot.startPosition.getSelected(), "None");
-		autonChooser = SmartDashboard.getString((String)Robot.autoChooser.getSelected(), "None");
-
-		System.out.println(autonChooser);
-		System.out.println(position);
+		position = Robot.startPosition.getSelected();
+		autonChooser = Robot.autoChooser.getSelected();
 	}
 	
 	public String getPosition() {

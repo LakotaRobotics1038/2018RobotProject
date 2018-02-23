@@ -148,7 +148,6 @@ public class Pathfinder1038 extends Command {
     
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
-		return false;
+		return (left.isFinished() && right.isFinished());
 	}
 }

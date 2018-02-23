@@ -65,7 +65,7 @@ public class Robot extends IterativeRobot {
 	
 	//Auton
 	Scheduler schedule;
-	private static final String kCustomAuto = "My Auto";
+	private static final String kCustomAuto = "Custom";
 	private static final String kLeftPosition = "L";
 	private static final String kCenterPosition = "C";
 	private static final String kRightPosition = "R";
@@ -76,7 +76,9 @@ public class Robot extends IterativeRobot {
 	private I2CGyro gyroSensor = I2CGyro.getInstance();
 	private AutonSelector autonSelector = AutonSelector.getInstance();
 	private AutonWaypointPath waypointPath = AutonWaypointPath.getInstance();
-	private Pathfinder1038 autonPath = new Pathfinder1038(waypointPath.waypointPathChoice());
+	private Pathfinder1038 autonPath;
+	private Dashboard dashboard = Dashboard.getInstance();
+	private PathfinderTest pathTest = new PathfinderTest();
     
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -99,7 +101,9 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void robotPeriodic() {
-		Dashboard.getInstance().update(lowPressureSensor.getPressure(), highPressureSensor.getPressure());
+		dashboard.update(lowPressureSensor.getPressure(), highPressureSensor.getPressure());
+
+		//autonSelector.chooseAuton();
 		elevator.elevatorPeriodic();
 		if (elevator.getLowProx())
 			elevator.resetEncoder();
@@ -120,13 +124,15 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		//autonSelector.chooseAuton();
+		autonPath = new Pathfinder1038(waypointPath.waypointPathChoice());
 		gyroSensor.resetGyro();
 		autoSelected = autoChooser.getSelected();
 		schedule = Scheduler.getInstance();
-		autonSelector.chooseAuton();
 		//TurnCommand turn = new TurnCommand(45);
 		//turn.start();
 		//schedule.add(visionCommand);
+		pathTest.initialize();
 	}
 
 	/**
@@ -139,6 +145,9 @@ public class Robot extends IterativeRobot {
 		//System.out.println(vision.getAngle());
 		//visionCommand.execute();
 		//autonSelector.chooseAuton();
+		if(!(pathTest.isFinished())) {
+			pathTest.excecute();
+		}
 	}
 	
 	@Override
