@@ -101,8 +101,8 @@ public class Robot extends IterativeRobot {
 				elevator.disable();
 		}
 			
-		if (robotClimb.getProx())
-			robotClimb.resetEncoder();
+//		if (robotClimb.getProx())
+//			robotClimb.resetEncoder();
 	}
 
 	/**
@@ -161,9 +161,9 @@ public class Robot extends IterativeRobot {
 		if(!driverJoystick.getRightButton() && !robotDrive.isHighGear()) {
 			driveDivider = .75;
 		}
-		else if (elevator.getEncoderCount() > 10)
+		else if (elevator.getEncoderCount() > 20)
 		{
-			driveDivider = .5;
+			driveDivider = .3;
 		}
 		else	 {
 			driveDivider = 1;
@@ -195,7 +195,7 @@ public class Robot extends IterativeRobot {
 			}	
 		}
 	
-		if(driverJoystick.getRightTrigger() && elevator.getEncoderCount() < 40)
+		if(driverJoystick.getRightTrigger() && elevator.getEncoderCount() < 20)
 		{
 			robotDrive.highGear();
 		}

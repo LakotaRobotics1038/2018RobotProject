@@ -24,7 +24,7 @@ public class Elevator extends PIDSubsystem {
 	private final static int SCALE_HIGH = 615;
 	private final int SCALE_LOW = 480;
 	private final int MIDDLE = 300;
-	private final int SWITCH = 30;
+	private final int SWITCH = 220;
 	private final int PORTAL = 0; // TODO find value
 	private final int FLOOR = 0;
 	private final int ELEVATOR_CHANNEL_A = 4;
@@ -37,7 +37,6 @@ public class Elevator extends PIDSubsystem {
 	private Prox highProx = new Prox(ELEVATOR_PROX_HIGH_PORT);
 	private Prox lowProx = new Prox(ELEVATOR_PROX_LOW_PORT);
 	private PIDController elevatorPID = getPIDController();
-	private double ramp = .2;
 	
 	public static Elevator getInstance() {
 		if (elevator == null) {
@@ -113,7 +112,7 @@ public class Elevator extends PIDSubsystem {
 			elevatorPID.setPID(P_DOWN, I_DOWN, D_DOWN);
 		else
 			elevatorPID.setPID(P_UP, I_UP, D_UP);
-		setSetpoint(MIDDLE);
+		setSetpoint(SCALE_LOW);
 	}
 	
 	public void moveToSwitch() {

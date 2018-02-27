@@ -27,7 +27,7 @@ public class AcquisitionScoring extends PIDSubsystem {
 	private final static double D = 0.0001;
 	private final int TOLERANCE = 5;
 	private final static int UP_DOWN_MAX = 490;
-	private double acqMotorSpeed = 0.4;
+	private double acqMotorSpeed = 0.8;
 	private boolean armsOpen;
 	private Spark leftAcqMotor = new Spark(LEFT_ACQ_MOTOR_PORT);
     private Spark rightAcqMotor = new Spark(RIGHT_ACQ_MOTOR_PORT);

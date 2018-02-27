@@ -53,7 +53,7 @@ public class Climb extends Subsystem {
 	
 	public void move (double joystickPower)
 	{
-		if ((armEncoder.get() <= 0 && joystickPower > 0) || armEncoder.get() > 0)
+		if (armEncoder.get() <= 8 && (joystickPower > .1 || joystickPower < -.1))
 		{
 			if (armEncoder.get() > 0)
 			{
@@ -64,6 +64,8 @@ public class Climb extends Subsystem {
 			}
 			armMotor.set(joystickPower / 2);
 		}
+		else
+			armMotor.set(0);
 	}
 	
 	public void resetEncoder()
