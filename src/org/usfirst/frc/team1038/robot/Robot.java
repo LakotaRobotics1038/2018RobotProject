@@ -24,6 +24,7 @@ import org.usfirst.frc.team1038.subsystem.Elevator;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -76,7 +77,7 @@ public class Robot extends IterativeRobot {
 	private I2CGyro gyroSensor = I2CGyro.getInstance();
 	private AutonSelector autonSelector = AutonSelector.getInstance();
 	private AutonWaypointPath waypointPath = AutonWaypointPath.getInstance();
-	private Pathfinder1038 autonPath;
+	private CommandGroup autonPath;
 	private Dashboard dashboard = Dashboard.getInstance();
 	private PathfinderTest pathTest = new PathfinderTest();
     
@@ -125,14 +126,15 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		//autonSelector.chooseAuton();
-		autonPath = new Pathfinder1038(waypointPath.waypointPathChoice());
+		autonPath = waypointPath.autonChoice();
 		gyroSensor.resetGyro();
 		autoSelected = autoChooser.getSelected();
 		schedule = Scheduler.getInstance();
 		//TurnCommand turn = new TurnCommand(45);
 		//turn.start();
 		//schedule.add(visionCommand);
-		pathTest.initialize();
+		//pathTest.initialize();
+		schedule.add(autonPath);
 	}
 
 	/**
@@ -145,9 +147,12 @@ public class Robot extends IterativeRobot {
 		//System.out.println(vision.getAngle());
 		//visionCommand.execute();
 		//autonSelector.chooseAuton();
-		if(!(pathTest.isFinished())) {
-			pathTest.excecute();
-		}
+		schedule.run();
+//		if(!(pathTest.isFinished())) {
+//			pathTest.excecute();
+//		}else {
+//			System.out.println("Path done");
+//		}
 	}
 	
 	@Override

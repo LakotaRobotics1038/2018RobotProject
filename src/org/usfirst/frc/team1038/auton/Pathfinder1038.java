@@ -29,9 +29,12 @@ public class Pathfinder1038 extends Command {
 	private final static double P = 0.015;
 	private final static double I = 0.015;
 	private final static double D = 0.005;
+	double angleDifference;
+	public File choosenFile;
 	public File File1038 = new File("1038File.traj");
 	public static File NFile = new File("NFile.traj");
 	public static File FFile = new File("FFile.traj");
+	public static File CFFile = new File("CFFile.traj");
 	public static File CLFile = new File("CLFile.traj");
 	public static File CLLFile = new File("CLLFile.traj");
 	public static File CRFile = new File("CRFile.traj");
@@ -44,10 +47,9 @@ public class Pathfinder1038 extends Command {
 	public static File RLLFile = new File("RLLFile.traj");
 	public static File RRLFile = new File("RLLFile.traj");
 	public static File RRRFile = new File("RRRFile.traj");
-	private Waypoint[] points;
     
-	public Pathfinder1038(Waypoint[] path) {
-		points = path;
+	public Pathfinder1038(File cFile) {
+		choosenFile = cFile;
 		requires(Robot.robotDrive);
 	}
     @Override
@@ -67,7 +69,7 @@ public class Pathfinder1038 extends Command {
         Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_LOW, TIME_STEP, MAX_VELOCITY, MAX_ACC, MAX_JERK);
         
         //Write to file 
-        Trajectory trajectory = Pathfinder.readFromFile(File1038);
+        Trajectory trajectory = Pathfinder.readFromFile(choosenFile);
 
         //Trajectory trajectory = Pathfinder.generate(points, config);
         
@@ -102,19 +104,26 @@ public class Pathfinder1038 extends Command {
     		double gyro_heading = gyro.getAngle();    // Assuming the gyro is giving a value in degrees
     		double desired_heading = Pathfinder.r2d(left.getHeading());  // Should also be in degrees
 
-    		double angleDifference = Pathfinder.boundHalfDegrees(desired_heading - gyro_heading);
-    		double turn = 0; /*= 0.8 * (-1/80) * angleDifference*/ // 0.8 * (-1/80) = -0.01
-    		
-    		if(angleDifference > 20) {
-    			turn = 0.7;
-    		}else if(angleDifference > 1) {
-    			turn = 0.5;
-    		}else if(angleDifference < -20) {
-    			turn = -0.7;
-    		}else if(angleDifference < -1) {
-    			turn = -0.5;
-    		}else {
-    			turn = 0;
+    		angleDifference = Pathfinder.boundHalfDegrees(desired_heading - gyro_heading);
+    		System.out.println("Desired: " + desired_heading + " Current:" + gyro_heading + " Angle Difference: " + angleDifference);
+    		double turn = 0;
+    		if(left.isFinished() && right.isFinished()) {
+	    		turn = 0.05 * angleDifference; // 0.8 * (-1/80) = -0.01
+	    		System.out.println("Default turn: " + turn);
+	    		
+	    		if(angleDifference < 2 && angleDifference > -2) {
+	    			turn = 0;
+	    		}else if(angleDifference < 20 && angleDifference > 2) {
+	    			turn = 0.5;
+	    		}else if(angleDifference > -20 && angleDifference < -2) {
+	    			turn = 0.5;
+	    		}
+	    		
+	    		if(turn > 0.7) {
+	    			turn = 0.7;
+	    		}else if(turn < -0.7) {
+	    			turn = -0.7;
+	    		}
     		}
     		
     		if(l > 0.7) {
@@ -143,11 +152,11 @@ public class Pathfinder1038 extends Command {
     		}
     		
     		drive.tankDrive(leftTurn, rightTurn);
-    		System.out.printf("Path Output Calculated: %f,%f,%f,%f,%f\n", l, r, turn, leftTurn, rightTurn);
+    		System.out.printf("Path Output Calculated: %f,%f,%f,%f,%f,%f\n", l, r, turn, leftTurn, rightTurn, angleDifference);
     }
     
 	@Override
-	protected boolean isFinished() {
-		return (left.isFinished() && right.isFinished());
+	public boolean isFinished() {
+		return (left.isFinished() && right.isFinished() && (angleDifference < 2 && angleDifference > -2));
 	}
 }

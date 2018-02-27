@@ -54,7 +54,7 @@ public class PathfinderTest extends Command {
         		 */
         		
         		new Waypoint(Conversions.ftToDrive(0), Conversions.ftToDrive(0), Pathfinder.d2r(0)),    //Waypoint @ x= 0, y= 0, exit angle= 0 degrees
-        		new Waypoint(Conversions.ftToDrive(5), Conversions.ftToDrive(0), Pathfinder.d2r(45))/*,
+        		new Waypoint(Conversions.ftToDrive(5), Conversions.ftToDrive(0), Pathfinder.d2r(70))/*,
         		new Waypoint(Conversions.ftToDrive(8), Conversions.ftToDrive(-6), Pathfinder.d2r(45)),
         		new Waypoint(Conversions.ftToDrive(10), Conversions.ftToDrive(-5), Pathfinder.d2r(90)),
         		new Waypoint(Conversions.ftToDrive(10), Conversions.ftToDrive(5), Pathfinder.d2r(90))*/
@@ -95,18 +95,25 @@ public class PathfinderTest extends Command {
     		double desired_heading = Pathfinder.r2d(left.getHeading());  // Should also be in degrees
 
     		angleDifference = Pathfinder.boundHalfDegrees(desired_heading - gyro_heading);
-    		double turn = 0.8 * (-1/80) * angleDifference; // 0.8 * (-1/80) = -0.01
-    		
-    		if(turn > 0.7) {
-    			turn = 0.7;
-//    		}else if(turn < 0.5 && angleDifference > 1) {
-//    			turn = 0.5;
-    		}else if(turn < -0.7) {
-    			turn = -0.7;
-//    		}else if(turn < -0.5 && angleDifference < -1) {
-//    			turn = -0.5;
-    		}else if((angleDifference < 2) && (angleDifference > -2)){
-    			turn = 0;
+    		System.out.println("Desired: " + desired_heading + " Current:" + gyro_heading + " Angle Difference: " + angleDifference);
+    		double turn = 0;
+    		if(left.isFinished() && right.isFinished()) {
+	    		turn = 0.05 * angleDifference; // 0.8 * (-1/80) = -0.01
+	    		System.out.println("Default turn: " + turn);
+	    		
+	    		if(angleDifference < 2 && angleDifference > -2) {
+	    			turn = 0;
+	    		}else if(angleDifference < 20 && angleDifference > 2) {
+	    			turn = 0.5;
+	    		}else if(angleDifference > -20 && angleDifference < -2) {
+	    			turn = 0.5;
+	    		}
+	    		
+	    		if(turn > 0.7) {
+	    			turn = 0.7;
+	    		}else if(turn < -0.7) {
+	    			turn = -0.7;
+	    		}
     		}
     		
     		if(l > 0.7) {
@@ -140,6 +147,6 @@ public class PathfinderTest extends Command {
     
 	@Override
 	public boolean isFinished() {
-		return (left.isFinished() && right.isFinished() && angleDifference == 0);
+		return (left.isFinished() && right.isFinished() && (angleDifference < 2 && angleDifference > -2));
 	}
 }

@@ -130,17 +130,6 @@
               "_source0": "network_table:///SmartDashboard/Auton choices",
               "_title": "Auton choices"
             }
-          },
-          "6,0": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Auto choices/selected",
-              "_title": "Auto choices/selected"
-            }
           }
         }
       }

@@ -1,17 +1,16 @@
 package org.usfirst.frc.team1038.auton;
 
-import org.usfirst.frc.team1038.robot.Conversions;
-
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
 
-public class AutonWaypointPath {
+public class AutonWaypointPath{
 	private final double TIME_STEP = .05;
 	private final double MAX_VELOCITY = .85;
 	private final double MAX_ACC = 1.0;
 	private final double MAX_JERK = 60.0;
-	private Waypoint[] points;
+	private CommandGroup autonSequence;
 	private String autonPath;
 	private static AutonSelector autonSelector = AutonSelector.getInstance();
 	private static AutonWaypointPath waypointPath;
@@ -29,59 +28,70 @@ public class AutonWaypointPath {
 		
 	}
 	
-	public Waypoint[] waypointPathChoice() {
+	public CommandGroup autonChoice() {
 		autonPath = autonSelector.chooseAuton();
 		switch (autonPath) {
 			case "N":
-				points = new Waypoint[] {
-						new Waypoint(Conversions.ftToDrive(0), Conversions.ftToDrive(0), Pathfinder.d2r(0)),
-						new Waypoint(Conversions.ftToDrive(1), Conversions.ftToDrive(0), Pathfinder.d2r(0))
-				};
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.NFile));
 				break;
 			case "F":
-				points = new Waypoint[] {
-					new Waypoint(Conversions.ftToDrive(0), Conversions.ftToDrive(0), Pathfinder.d2r(0)),
-					new Waypoint(Conversions.ftToDrive(10), Conversions.ftToDrive(0), Pathfinder.d2r(0))
-				};
+				//add wait
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.FFile));
+				break;
+			case "CF":
+				//add wait
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.CFFile));
 				break;
 			case "CL":
-				
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.CLFile));
+				//addSequential for Switch drop
 				break;
 			case "CLL":
-				
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.CLLFile));
+				//addSequential for Switch drop, cube pick up, scale drop
 				break;
 			case "CR":
-				
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.CRFile));
+				//addSequential for Switch drop
 				break;
 			case "CRR":
-				
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.CRRFile));
+				//addSequential for Switch drop, cube pick up, scale drop
 				break;
 			case "LLL":
-				
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.LLLFile));
+				//addSequential for Switch drop, cube pick up, scale drop
 				break;
 			case "LRR":
-				
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.LRRFile));
+				//addSequential for Switch drop, cube pick up, scale drop
 				break;
 			case "LLR":
-				
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.LLRFile));
+				//addSequential for Switch drop, cube pick up, scale drop
 				break;
 			case "LL":
-				
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.LLFile));
+				//addSequential for Switch drop
 				break;
 			case "RRR":
-				
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.RRRFile));
+				//addSequential for Switch drop, cube pick up, scale drop
 				break;
 			case "RLL":
-				
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.RLLFile));
+				//addSequential for Switch drop, cube pick up, scale drop
 				break;
 			case "RRL":
-				
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.RRLFile));
+				//addSequential for Switch drop, cube pick up, scale drop
 				break;
 			case "RR":
-				
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.RRFile));
+				//addSequential for Switch drop
 				break;
 		}
-		return points;
+		return autonSequence;
 	}
 	
 	public void writeToFile(Waypoint[] waypoints) {

@@ -40,7 +40,9 @@ public class AutonSelector {
 			System.out.println("Choose Forward path");
 		}else if(autonChooser.equals("Custom")) {
 			if(position.equals("C")) {
-				if(gameDataAuton.equals("LR")) {
+				if(autonChooser.equals("Forward")) {
+					path = "CF";
+				}else if(gameDataAuton.equals("LR")) {
 					path = "CL";
 					System.out.println("Choose CL");
 				}else if(gameDataAuton.equals("LL")) {
