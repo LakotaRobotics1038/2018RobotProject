@@ -1,5 +1,8 @@
 package org.usfirst.frc.team1038.subsystem;
 
+import org.usfirst.frc.team1038.robot.Prox;
+
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -11,69 +14,85 @@ public class Climb extends Subsystem {
 	private final int ARM_MOTOR_PORT = 2;
 	private final int ARM_ENCODER_PORT_A = 8;
 	private final int ARM_ENCODER_PORT_B = 9;
+	private final int ACQ_ARMS_DEADBAND = 10;
 	private Spark armMotor = new Spark(ARM_MOTOR_PORT);
 	private Encoder armEncoder = new Encoder(ARM_ENCODER_PORT_A, ARM_ENCODER_PORT_B);
-	private double encoderDistance = 0;
-	private final double FINAL_DISTANCE = 3;
-	private final double RAISE_SPEED = 0.4;
-	private boolean climbing = false;
-	private boolean lowering = false;
-	private double manualClimbingSpeed = 0;
+	private final int ARM_PROX_PORT = 12;
+	private Prox armProx = new Prox(ARM_PROX_PORT);
+	private static Climb climb;
 	
-	public Climb()
-	{
+	public static Climb getInstance() {
+		if (climb == null) {
+			System.out.println("Creating a new Climb");
+			climb = new Climb();
+		}
+		return climb;
+	}
+	
+	private Climb() {
 		
 	}
 	
 	//methods
-	public boolean autoArmRaise()
+//	public boolean autoArmRaise()
+//	{
+//		//pushes out telescoping arm
+////		encoderDistance = armEncoder.getDistance();
+//		armMotor.set(RAISE_SPEED);
+//		if(armEncoder.get() < FINAL_DISTANCE/*set to distance in inches from rest to bar*/)
+//		{
+//			climbing = true;
+//		}
+//		else
+//		{
+//		climbing = false;
+//		armMotor.set(0);
+//		}
+//		return climbing;
+//	}
+	
+	public void move (double joystickPower)
 	{
-		//pushes out telescoping arm
-//		encoderDistance = armEncoder.getDistance();
-		armMotor.set(RAISE_SPEED);
-		if(encoderDistance < FINAL_DISTANCE/*set to distance in inches from rest to bar*/)
+		if (armEncoder.get() <= 8 && (joystickPower > .1 || joystickPower < -.1))
 		{
-			climbing = true;
+			if (armEncoder.get() > 0)
+			{
+				if (AcquisitionScoring.getInstance().getUpDownEncoder() > ACQ_ARMS_DEADBAND)
+					AcquisitionScoring.getInstance().armsToZero();
+				if (AcquisitionScoring.getInstance().areArmsOpen())
+					AcquisitionScoring.getInstance().closeArms();
+			}
+			armMotor.set(joystickPower / 2);
 		}
 		else
-		{
-		climbing = false;
-		armMotor.set(0);
-		}
-		return climbing;
+			armMotor.set(0);
 	}
 	
-	public void  manualArmRaise(double joystickPower)
+	public void resetEncoder()
 	{
-		//move telescopic arm manually
-		encoderDistance = armEncoder.getDistance();
-		joystickPower = manualClimbingSpeed;
-		if(encoderDistance < FINAL_DISTANCE)
-		{
-		armMotor.set(manualClimbingSpeed);
-		}
-		else 
-		{
-			armMotor.set(0);
-		}
+		armEncoder.reset();
 	}
 	
-	public boolean armLower()
+	public boolean getProx()
 	{
-		// lowers telescoping arm
-		encoderDistance =  armEncoder.getDistance();
-		armMotor.set(RAISE_SPEED*-1);
-		if(encoderDistance < FINAL_DISTANCE/*set to distance in inches from rest to bar*/)
-		{
-			lowering = true;
-		}
-		else
-		{
-			lowering = false;
-			armMotor.set(0);
-		}
-		return lowering;
+		return armProx.get();
 	}
+	
+//	public boolean armLower()
+//	{
+//		// lowers telescoping arm
+//		armMotor.set(RAISE_SPEED*-1);
+//		if(armEncoder.get() < FINAL_DISTANCE) //TODO: Find value
+//		{
+//			lowering = true;
+//		}
+//		else
+//		{
+//			lowering = false;
+//			armMotor.set(0);
+//		}
+//		return lowering;
+//	}
 
 	@Override
 	protected void initDefaultCommand() {

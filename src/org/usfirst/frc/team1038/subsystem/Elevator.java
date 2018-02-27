@@ -1,56 +1,187 @@
 package org.usfirst.frc.team1038.subsystem;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import org.usfirst.frc.team1038.robot.Prox;
 
-public class Elevator extends Subsystem {
-	
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+public class Elevator extends PIDSubsystem {
+
 	//fields
+	private static Elevator elevator;
+	private final int TOLERANCE = 5;
+	private final static double P_UP = .0034;
+	private final static double I_UP = .0001;
+	private final static double D_UP = .000;
+	private final static double P_DOWN = .00036;
+	private final static double I_DOWN = .000;
+	private final static double D_DOWN = .000;
+	private final static int SCALE_HIGH = 615;
+	private final int SCALE_LOW = 480;
+	private final int MIDDLE = 300;
+	private final int SWITCH = 220;
+	private final int PORTAL = 0; // TODO find value
+	private final int FLOOR = 0;
 	private final int ELEVATOR_CHANNEL_A = 4;
 	private final int ELEVATOR_CHANNEL_B = 5;
-	private final int ELEVATOR_PROX_HIGH_PORT = 6;
-	private final int ELEVATOR_PROX_LOW_PORT = 7;
+	private final int ELEVATOR_PROX_HIGH_PORT = 10;
+	private final int ELEVATOR_PROX_LOW_PORT = 11;
 	private final int ELEVATOR_MOTOR_PORT = 5;
-	//private final int ENCODER_COUNTS_PER_REVOLUTION; //find out val
-	//private final double WHEEL_DIAMETER; //need val
-	private double elevatorSpeed = 0;
-	private Spark elevatorSpark = new Spark(ELEVATOR_MOTOR_PORT);
-	//private Encoder1038 scoringElevatorPosition = new Encoder1038(ELEVATOR_CHANNEL_A, ELEVATOR_CHANNEL_B, false, ENCODER_COUNTS_PER_REVOLUTION, WHEEL_DIAMETER);
-	private DigitalInput proxHigh = new DigitalInput(ELEVATOR_PROX_HIGH_PORT);
-	private DigitalInput proxLow = new DigitalInput(ELEVATOR_PROX_LOW_PORT);
+	private Spark elevatorMotor = new Spark(ELEVATOR_MOTOR_PORT);
+	private Encoder elevatorEncoder = new Encoder(ELEVATOR_CHANNEL_A, ELEVATOR_CHANNEL_B, false);
+	private Prox highProx = new Prox(ELEVATOR_PROX_HIGH_PORT);
+	private Prox lowProx = new Prox(ELEVATOR_PROX_LOW_PORT);
+	private PIDController elevatorPID = getPIDController();
 	
-	//methods
+	public static Elevator getInstance() {
+		if (elevator == null) {
+			System.out.println("Creating a new Elevator");
+			elevator = new Elevator();
+		}
+		return elevator;
+	}
+	
+	private Elevator() {
+		super(P_UP, I_UP, D_UP);
+		elevatorPID.setAbsoluteTolerance(TOLERANCE);
+		//elevatorPID.setOutputRange(-.2, 0 + ramp);
+		elevatorPID.setOutputRange(-.1, .75);
+		super.setInputRange(0, 615);
+		elevatorPID.setContinuous(false);
+		SmartDashboard.putData("Elevator PID Controller", elevatorPID);
+		elevatorMotor.setInverted(true);
+	}
+	
+	//methods	
+	public boolean getLowProx() {
+		return lowProx.get();
+	}
+	
+	public boolean getHighProx() {
+		return highProx.get();
+	}
+	
+	public int getEncoderCount() {
+		return elevatorEncoder.get();
+	}
+	public double getMotorOutput() {
+		return elevatorMotor.get();
+	}
+	
+	public void elevatorPeriodic() {
+		if (elevatorPID.isEnabled())
+		{
+			double PIDValue = elevatorPID.get();
+			//System.out.println(elevatorPID.getP() + " " + elevatorPID.getI() + " " + elevatorPID.getD());
+			usePIDOutput(PIDValue);
+		}
+	}
+	
+	private boolean goingDown(int newSetpoint)
+	{
+		if (getSetpoint() > newSetpoint)
+		{
+			System.out.println("Going Down");
+			return true;
+		}
+		else
+		{
+			System.out.println("Going Up");
+			return false;
+		}
+	}
+	
+	public void moveToScaleHigh() {
+		enable();
+		if (goingDown(SCALE_HIGH))
+			elevatorPID.setPID(P_DOWN, I_DOWN, D_DOWN);
+		else
+			elevatorPID.setPID(P_UP, I_UP, D_UP);
+		setSetpoint(SCALE_HIGH);
+	}
+	
+
+	public void moveToScaleLow() {
+		enable();
+		if (goingDown(SCALE_LOW))
+			elevatorPID.setPID(P_DOWN, I_DOWN, D_DOWN);
+		else
+			elevatorPID.setPID(P_UP, I_UP, D_UP);
+		setSetpoint(SCALE_LOW);
+	}
+	
+	public void moveToSwitch() {
+		enable();
+		if (goingDown(SWITCH))
+			elevatorPID.setPID(P_DOWN, I_DOWN, D_DOWN);
+		else
+			elevatorPID.setPID(P_UP, I_UP, D_UP);
+		setSetpoint(SWITCH);
+	}
+	
+	public void moveToPortal() {
+		enable();
+		if (goingDown(PORTAL))
+			elevatorPID.setPID(P_DOWN, I_DOWN, D_DOWN);
+		else
+			elevatorPID.setPID(P_UP, I_UP, D_UP);
+		setSetpoint(PORTAL);
+	}
+	
+	public void moveToFloor() {
+		enable();
+		if (goingDown(FLOOR))
+			elevatorPID.setPID(P_DOWN, I_DOWN, D_DOWN);
+		else
+			elevatorPID.setPID(P_UP, I_UP, D_UP);
+		setSetpoint(FLOOR);
+	}
+	
+	public void move(double joystickValue) {
+		if(getSetpoint() <= SCALE_HIGH && joystickValue > .09)
+		{
+			enable();
+			setSetpoint(getSetpoint() + 2);
+		}
+		else if(getSetpoint() > 0 && joystickValue < -.09)
+		{
+			enable();
+			setSetpoint(getSetpoint() - 2);
+		}
+	}
+	
+	public void resetEncoder() {
+		elevatorEncoder.reset();
+	}
+
+	@Override
+	protected double returnPIDInput() {
+		return elevatorEncoder.get();
+	}
+
+	@Override
+	protected void usePIDOutput(double output) {
+		if ((output < 0 && !lowProx.get()) || (output > 0 && !highProx.get()))
+		{
+			elevatorMotor.set(output);
+			//elevatorPID.setOutputRange(-.2, output + ramp);
+		}
+	}
+	
 	@Override
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub
 	}
 	
-	public void moveToScale() {
-		
-	}
-	
-	public void moveToSwitch() {
-		
-	}
-	
-	public void moveToPortal() {
-		
-	}
-	
-	public void moveToFloor() {
-		
-	}
-	
-	public void moveUp() {
-		
-	}
-	
-	public void moveDown() {
-		
-	}
-	
-	public void encoderZero() {
-		
+	@Override
+	public void disable()
+	{
+		super.disable();
+		elevatorMotor.set(0);
 	}
 }
