@@ -5,7 +5,9 @@ import org.usfirst.frc.team1038.subsystem.DriveTrain;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Vision extends Subsystem {
 	//fields
@@ -20,8 +22,7 @@ public class Vision extends Subsystem {
 	//Constructor
 	public Vision() {
 		piTable.setNetworkIdentity("RoboRIO");
-		piTable.startClient("raspberrypi.local", 1735);
-		
+		piTable.startClient("raspberrypi.local", 1735);	
 	}
 	
 	//methods

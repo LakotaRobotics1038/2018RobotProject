@@ -29,7 +29,7 @@ public class DriveTrain extends Subsystem {
 	private boolean PTOisEngaged = false;
 	private DifferentialDrive differentialDrive;
 	private static DriveTrain driveTrain;
-	
+
 	public static DriveTrain getInstance() {
 		if (driveTrain == null) {
 			System.out.println("Creating a new DriveTrain");

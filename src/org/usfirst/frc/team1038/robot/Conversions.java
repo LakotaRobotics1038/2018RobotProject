@@ -16,4 +16,11 @@ public class Conversions {
     {
     		return 3.28084 * meters;
     }
+    
+    /**
+     * Convert feet to auton units.
+     */
+    public static double ftToDrive(double feet) {
+    	return (3.0 / 4.0) * feet;
+    }
 }

@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1038.auton;
 
+import java.io.File;
+
 import org.usfirst.frc.team1038.robot.Conversions;
 import org.usfirst.frc.team1038.robot.I2CGyro;
 import org.usfirst.frc.team1038.robot.Robot;
@@ -12,7 +14,7 @@ import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
 
-public class PathfinderTest extends Command {
+public class Pathfinder1038 extends Command {
 	
 	private final double WHEEL_DIAMETER = 6;
 	private final double TIME_STEP = .05;
@@ -28,8 +30,26 @@ public class PathfinderTest extends Command {
 	private final static double I = 0.015;
 	private final static double D = 0.005;
 	double angleDifference;
+	public File choosenFile;
+	public File File1038 = new File("1038File.traj");
+	public static File NFile = new File("NFile.traj");
+	public static File FFile = new File("FFile.traj");
+	public static File CFFile = new File("CFFile.traj");
+	public static File CLFile = new File("CLFile.traj");
+	public static File CLLFile = new File("CLLFile.traj");
+	public static File CRFile = new File("CRFile.traj");
+	public static File CRRFile = new File("CRRFile.traj");
+	public static File LLRFile = new File("LLRFile.traj");
+	public static File LLLFile = new File("LLLFile.traj");
+	public static File LLFile = new File("LLFile.traj");
+	public static File LRRFile = new File("LRRFile.traj");
+	public static File RRFile = new File("RRFile.traj");
+	public static File RLLFile = new File("RLLFile.traj");
+	public static File RRLFile = new File("RLLFile.traj");
+	public static File RRRFile = new File("RRRFile.traj");
     
-	public PathfinderTest() {
+	public Pathfinder1038(File cFile) {
+		choosenFile = cFile;
 		requires(Robot.robotDrive);
 	}
     @Override
@@ -47,21 +67,11 @@ public class PathfinderTest extends Command {
     		// Max Acceleration:    2.0 m/s/s
     		// Max Jerk:            60.0 m/s/s/s
         Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_LOW, TIME_STEP, MAX_VELOCITY, MAX_ACC, MAX_JERK);
-        Waypoint[] points = new Waypoint[] {
-        		
-        		/*
-        		 * TODO Use Pathfinder.ftToDrive() to tell it distance
-        		 */
-        		
-        		new Waypoint(Conversions.ftToDrive(0), Conversions.ftToDrive(0), Pathfinder.d2r(0)),    //Waypoint @ x= 0, y= 0, exit angle= 0 degrees
-        		new Waypoint(Conversions.ftToDrive(5), Conversions.ftToDrive(0), Pathfinder.d2r(70))/*,
-        		new Waypoint(Conversions.ftToDrive(8), Conversions.ftToDrive(-6), Pathfinder.d2r(45)),
-        		new Waypoint(Conversions.ftToDrive(10), Conversions.ftToDrive(-5), Pathfinder.d2r(90)),
-        		new Waypoint(Conversions.ftToDrive(10), Conversions.ftToDrive(5), Pathfinder.d2r(90))*/
-        		
-        };
+        
+        //Write to file 
+        Trajectory trajectory = Pathfinder.readFromFile(choosenFile);
 
-        Trajectory trajectory = Pathfinder.generate(points, config);
+        //Trajectory trajectory = Pathfinder.generate(points, config);
         
     		gyro.resetGyro();
     		drive.resetEncoders();
