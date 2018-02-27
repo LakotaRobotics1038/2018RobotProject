@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 
 public class AutonSelector {
 	//fields
-	private String gameDataAuton = DriverStation.getInstance().getGameSpecificMessage().substring(0, 2);
 	private String autonChooser;
 	private String position;
 	private static AutonSelector autonSelector;
@@ -27,9 +26,10 @@ public class AutonSelector {
 	
 	//methods
 	public String chooseAuton() {
+		
 		position = Dashboard.getInstance().getPosition(); 
 		autonChooser = Dashboard.getInstance().getAutonChooser(); 
-
+		String gameDataAuton = DriverStation.getInstance().getGameSpecificMessage().substring(0, 2);
 		System.out.println(position);
 		System.out.println(autonChooser);
 		System.out.println(gameDataAuton);

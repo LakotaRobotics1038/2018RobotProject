@@ -21,7 +21,7 @@ public class Pathfinder1038 extends Command {
 	private final double MAX_VELOCITY = .85;
 	private final double MAX_ACC = 1.0;
 	private final double MAX_JERK = 60.0;
-	private final double WHEELBASE_WIDTH = 38.25; //inches
+	private final double WHEELBASE_WIDTH = 20.5 /* Prototype Bot 38.25*/; //inches
 	private EncoderFollower left;
 	private EncoderFollower right;
 	private DriveTrain drive = DriveTrain.getInstance();
@@ -66,7 +66,7 @@ public class Pathfinder1038 extends Command {
     		// Max Velocity:        1.7 m/s
     		// Max Acceleration:    2.0 m/s/s
     		// Max Jerk:            60.0 m/s/s/s
-        Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_LOW, TIME_STEP, MAX_VELOCITY, MAX_ACC, MAX_JERK);
+        //Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_LOW, TIME_STEP, MAX_VELOCITY, MAX_ACC, MAX_JERK);
         
         //Write to file 
         Trajectory trajectory = Pathfinder.readFromFile(choosenFile);

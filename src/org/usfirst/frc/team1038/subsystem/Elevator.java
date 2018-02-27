@@ -53,7 +53,7 @@ public class Elevator extends PIDSubsystem {
 		elevatorPID.setOutputRange(-.1, .75);
 		super.setInputRange(0, 615);
 		elevatorPID.setContinuous(false);
-		SmartDashboard.putData("Elevator PID Controller", elevatorPID);
+		//SmartDashboard.putData("Elevator PID Controller", elevatorPID);
 		elevatorMotor.setInverted(true);
 	}
 	

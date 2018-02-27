@@ -69,7 +69,7 @@ public class Robot extends IterativeRobot {
 	Joystick1038 operatorJoystick = new Joystick1038(1);
 	
 	//Auton
-	Scheduler schedule;
+	Scheduler schedule = Scheduler.getInstance();;
 	private static final String kCustomAuto = "Custom";
 	private static final String kLeftPosition = "L";
 	private static final String kCenterPosition = "C";
@@ -108,7 +108,6 @@ public class Robot extends IterativeRobot {
 	public void robotPeriodic() {
 		dashboard.update(lowPressureSensor.getPressure(), highPressureSensor.getPressure());
 
-		//autonSelector.chooseAuton();
 		elevator.elevatorPeriodic();
 		acqSco.AcquisitionPeriodic();
 		
@@ -135,11 +134,10 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		//autonSelector.chooseAuton();
+		autonSelector.chooseAuton();
 		autonPath = waypointPath.autonChoice();
 		gyroSensor.resetGyro();
 		autoSelected = autoChooser.getSelected();
-		schedule = Scheduler.getInstance();
 		//TurnCommand turn = new TurnCommand(45);
 		//turn.start();
 		//schedule.add(visionCommand);
@@ -156,7 +154,6 @@ public class Robot extends IterativeRobot {
 		//System.out.println(I2CGyro.getInstance().getAngle());
 		//System.out.println(vision.getAngle());
 		//visionCommand.execute();
-		//autonSelector.chooseAuton();
 		schedule.run();
 //		if(!(pathTest.isFinished())) {
 //			pathTest.excecute();

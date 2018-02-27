@@ -56,8 +56,8 @@ public class AcquisitionScoring extends PIDSubsystem {
     		acqUpDownController.setOutputRange(-ACQ_UP_DOWN_SPEED, ACQ_UP_DOWN_SPEED);
     		acqUpDownController.setAbsoluteTolerance(TOLERANCE);
     		acqUpDownController.setContinuous(false);
-    		SmartDashboard.putData("Acq PID Controller", acqUpDownController);
-    		SmartDashboard.putData("AcqUpDown", acqArmsUpDown);
+    		//SmartDashboard.putData("Acq PID Controller", acqUpDownController);
+    		//SmartDashboard.putData("AcqUpDown", acqArmsUpDown);
     }
     
     public double getAcqSpeed()
@@ -150,6 +150,11 @@ public class AcquisitionScoring extends PIDSubsystem {
     public int getUpDownEncoder()
     {
     		return acqArmsUpDownEncoder.get();
+    }
+    
+    public void resetUpDownEncoder()
+    {
+    		acqArmsUpDownEncoder.reset();
     }
     
     public boolean areArmsOpen()
