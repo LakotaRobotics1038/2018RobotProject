@@ -36,13 +36,17 @@ public class AutonSelector {
 		System.out.println("Starting choose");
 		String path = "N";
 		if(autonChooser.equals("Forward")) {
-			path = "F";
+			if(position.equals("C")) {
+				path = "CF";
+			}else if(position.equals("L")) {
+				path = "LF";
+			}else if(position.equals("R")) {
+				path = "RF";
+			}
 			System.out.println("Choose Forward path");
 		}else if(autonChooser.equals("Custom")) {
 			if(position.equals("C")) {
-				if(autonChooser.equals("Forward")) {
-					path = "CF";
-				}else if(gameDataAuton.equals("LR")) {
+				if(gameDataAuton.equals("LR")) {
 					path = "CL";
 					System.out.println("Choose CL");
 				}else if(gameDataAuton.equals("LL")) {
@@ -54,21 +58,21 @@ public class AutonSelector {
 				}
 			}else if(position.equals("L")) {
 				if(gameDataAuton.equals("LR")) {
-					path = "LLR";
+					path = "LLSwitch";
 				}else if(gameDataAuton.equals("LL")) {
 					path = "LLL";
 				}else if(gameDataAuton.equals("RL")) {
-					path = "LL";
+					path = "LLScale";
 				}else if(gameDataAuton.equals("RR")) {
-					path = "LRR";
+					path = "LF";
 				}
 			}else if(position.equals("R")) {
 				if(gameDataAuton.equals("LR")) {
-					path = "RR";
+					path = "RRScale";
 				}else if(gameDataAuton.equals("LL")) {
-					path = "RLL";
+					path = "RF";
 				}else if(gameDataAuton.equals("RL")) {
-					path = "RRL";
+					path = "RRSwitch";
 				}else if(gameDataAuton.equals("RR")) {
 					path = "RRR";
 				}

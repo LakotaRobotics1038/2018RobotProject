@@ -1,7 +1,13 @@
 package org.usfirst.frc.team1038.auton;
 
+import org.usfirst.frc.team1038.auton.commands.AcquireCommand;
+import org.usfirst.frc.team1038.auton.commands.AcquisitionAngleCommand;
+import org.usfirst.frc.team1038.auton.commands.ElevatorCommand;
 import org.usfirst.frc.team1038.auton.commands.Pathfinder1038;
+import org.usfirst.frc.team1038.auton.commands.TurnCommand;
 import org.usfirst.frc.team1038.robot.Conversions;
+import org.usfirst.frc.team1038.subsystem.AcquisitionScoring;
+import org.usfirst.frc.team1038.subsystem.Elevator;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import jaci.pathfinder.Pathfinder;
@@ -31,71 +37,185 @@ public class AutonWaypointPath{
 		
 	}
 	
-//	public CommandGroup autonChoice() {
-//		autonPath = autonSelector.chooseAuton();
-//		switch (autonPath) {
-//			case "N":
-//				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.NFile));
-//				break;
-//			case "F":
-//				//add wait
-//				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.FFile));
-//				break;
-//			case "CF":
-//				//add wait
-//				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.CFFile));
-//				break;
-//			case "CL":
-//				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.CLFile));
-//				//addSequential for Switch drop
-//				break;
-//			case "CLL":
-//				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.CLLFile));
-//				//addSequential for Switch drop, cube pick up, scale drop
-//				break;
-//			case "CR":
-//				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.CRFile));
-//				//addSequential for Switch drop
-//				break;
-//			case "CRR":
-//				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.CRRFile));
-//				//addSequential for Switch drop, cube pick up, scale drop
-//				break;
-//			case "LLL":
-//				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.LLLFile));
-//				//addSequential for Switch drop, cube pick up, scale drop
-//				break;
+	public CommandGroup autonChoice() {
+		autonPath = autonSelector.chooseAuton();
+		switch (autonPath) {
+			case "N":
+				autonSequence.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.NFile));
+				break;
+			case "LF":
+				//add wait
+				autonSequence.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.LToLSwitchFile));
+				break;
+			case "RF":
+				//add wait
+				autonSequence.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.RToRSwitchFile));
+				break;
+			case "CF":
+				//add wait
+				autonSequence.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.CToLSwitchFile));
+				break;
+			case "CL":
+				autonSequence.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.CToLSwitchFile));
+				autonSequence.addSequential(new TurnCommand(90));
+				autonSequence.addSequential(new ElevatorCommand(Elevator.SWITCH));
+				autonSequence.addSequential(new AcquireCommand(false, 3));
+				autonSequence.addSequential(new ElevatorCommand(Elevator.FLOOR));
+				break;
+			case "CLL":
+				autonSequence.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.CToLSwitchFile));
+				autonSequence.addSequential(new TurnCommand(90));
+				autonSequence.addSequential(new ElevatorCommand(Elevator.SWITCH));
+				autonSequence.addSequential(new AcquireCommand(false, 3));
+				autonSequence.addSequential(new ElevatorCommand(Elevator.FLOOR));
+				autonSequence.addSequential(new TurnCommand(270));
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.LSwitchToLCubeFile));
+				autonSequence.addSequential(new TurnCommand(90));
+				autonSequence.addParallel(new AcquireCommand(true, 1.5));
+				//add go forward
+				//go back
+				autonSequence.addSequential(new TurnCommand(270));
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.LCubeToLScaleFile));
+				autonSequence.addSequential(new TurnCommand(90));
+				autonSequence.addSequential(new ElevatorCommand(Elevator.SCALE_HIGH));
+				autonSequence.addSequential(new AcquireCommand(false, 3));
+				autonSequence.addSequential(new ElevatorCommand(Elevator.FLOOR));
+				break;
+			case "CR":
+				autonSequence.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.CToRSwitchFile));
+				autonSequence.addSequential(new TurnCommand(270));
+				autonSequence.addSequential(new ElevatorCommand(Elevator.SWITCH));
+				autonSequence.addSequential(new AcquireCommand(false, 3));
+				autonSequence.addSequential(new ElevatorCommand(Elevator.FLOOR));
+				break;
+			case "CRR":
+				autonSequence.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.CToRSwitchFile));
+				autonSequence.addSequential(new TurnCommand(270));
+				autonSequence.addSequential(new ElevatorCommand(Elevator.SWITCH));
+				autonSequence.addSequential(new AcquireCommand(false, 3));
+				autonSequence.addSequential(new ElevatorCommand(Elevator.FLOOR));
+				autonSequence.addSequential(new TurnCommand(90));
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.RSwitchToRCubeFile));
+				autonSequence.addSequential(new TurnCommand(270));
+				autonSequence.addParallel(new AcquireCommand(true, 1.5));
+				//add go forward
+				//go back
+				autonSequence.addSequential(new TurnCommand(90));
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.RCubeToRScaleFile));
+				autonSequence.addSequential(new TurnCommand(270));
+				autonSequence.addSequential(new ElevatorCommand(Elevator.SCALE_HIGH));
+				autonSequence.addSequential(new AcquireCommand(false, 3));
+				autonSequence.addSequential(new ElevatorCommand(Elevator.FLOOR));
+				break;
+			case "LLL":
+				autonSequence.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.LToLSwitchFile));
+				autonSequence.addSequential(new TurnCommand(90));
+				autonSequence.addSequential(new ElevatorCommand(Elevator.SWITCH));
+				autonSequence.addSequential(new AcquireCommand(false, 3));
+				autonSequence.addSequential(new ElevatorCommand(Elevator.FLOOR));
+				autonSequence.addSequential(new TurnCommand(270));
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.LSwitchToLCubeFile));
+				autonSequence.addSequential(new TurnCommand(90));
+				autonSequence.addParallel(new AcquireCommand(true, 1.5));
+				//add go forward
+				//go back
+				autonSequence.addSequential(new TurnCommand(270));
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.LCubeToLScaleFile));
+				autonSequence.addSequential(new TurnCommand(90));
+				autonSequence.addSequential(new ElevatorCommand(Elevator.SCALE_HIGH));
+				autonSequence.addSequential(new AcquireCommand(false, 3));
+				autonSequence.addSequential(new ElevatorCommand(Elevator.FLOOR));
+				break;
 //			case "LRR":
-//				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.LRRFile));
+//				autonSequence.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
+//				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.LToLSwitchFile));
+//				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.LSwitchToRCubeFile));
+//				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.RCubeToRScaleFile));
 //				//addSequential for Switch drop, cube pick up, scale drop
 //				break;
-//			case "LLR":
-//				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.LLRFile));
-//				//addSequential for Switch drop, cube pick up, scale drop
-//				break;
-//			case "LL":
-//				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.LLFile));
-//				//addSequential for Switch drop
-//				break;
-//			case "RRR":
-//				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.RRRFile));
-//				//addSequential for Switch drop, cube pick up, scale drop
-//				break;
+			case "LLScale":
+				autonSequence.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.LToLSwitchFile));
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.LSwitchToLScaleFile));
+				autonSequence.addSequential(new TurnCommand(90));
+				autonSequence.addSequential(new ElevatorCommand(Elevator.SCALE_HIGH));
+				autonSequence.addSequential(new AcquireCommand(false, 3));
+				autonSequence.addSequential(new ElevatorCommand(Elevator.FLOOR));
+				//addSequential for Switch drop, cube pick up, scale drop
+				break;
+			case "LLSwitch":
+				autonSequence.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.LToLSwitchFile));
+				autonSequence.addSequential(new TurnCommand(90));
+				autonSequence.addSequential(new ElevatorCommand(Elevator.SWITCH));
+				autonSequence.addSequential(new AcquireCommand(false, 3));
+				autonSequence.addSequential(new ElevatorCommand(Elevator.FLOOR));
+				autonSequence.addSequential(new TurnCommand(270));
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.LSwitchToLCubeFile));
+				autonSequence.addSequential(new TurnCommand(90));
+				autonSequence.addParallel(new AcquireCommand(true, 1.5));
+				//add go forward
+				break;
+			case "RRR":
+				autonSequence.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.RToRSwitchFile));
+				autonSequence.addSequential(new TurnCommand(270));
+				autonSequence.addSequential(new ElevatorCommand(Elevator.SWITCH));
+				autonSequence.addSequential(new AcquireCommand(false, 3));
+				autonSequence.addSequential(new ElevatorCommand(Elevator.FLOOR));
+				autonSequence.addSequential(new TurnCommand(90));
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.RSwitchToRCubeFile));
+				autonSequence.addSequential(new TurnCommand(270));
+				autonSequence.addParallel(new AcquireCommand(true, 1.5));
+				//add go forward
+				//go back
+				autonSequence.addSequential(new TurnCommand(90));
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.RCubeToRScaleFile));
+				autonSequence.addSequential(new TurnCommand(270));
+				autonSequence.addSequential(new ElevatorCommand(Elevator.SCALE_HIGH));
+				autonSequence.addSequential(new AcquireCommand(false, 3));
+				autonSequence.addSequential(new ElevatorCommand(Elevator.FLOOR));
+				break;
 //			case "RLL":
-//				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.RLLFile));
+//				autonSequence.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
+//				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.RToRSwitchFile));
+//				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.RSwitchToLCubeFile));
+//				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.LCubeToLScaleFile));
 //				//addSequential for Switch drop, cube pick up, scale drop
 //				break;
-//			case "RRL":
-//				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.RRLFile));
-//				//addSequential for Switch drop, cube pick up, scale drop
-//				break;
-//			case "RR":
-//				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.RRFile));
-//				//addSequential for Switch drop
-//				break;
-//		}
-//		return autonSequence;
-//	}
+			case "RRSwitch":
+				autonSequence.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.RToRSwitchFile));
+				autonSequence.addSequential(new TurnCommand(270));
+				autonSequence.addSequential(new ElevatorCommand(Elevator.SWITCH));
+				autonSequence.addSequential(new AcquireCommand(false, 3));
+				autonSequence.addSequential(new ElevatorCommand(Elevator.FLOOR));
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.RSwitchToRCubeFile));
+				autonSequence.addSequential(new TurnCommand(270));
+				autonSequence.addParallel(new AcquireCommand(true, 1.5));
+				//add go forward
+				break;
+			case "RRScale":
+				autonSequence.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.RToRSwitchFile));
+				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.RSwitchToRScaleFile));
+				autonSequence.addSequential(new TurnCommand(270));
+				autonSequence.addSequential(new ElevatorCommand(Elevator.SCALE_HIGH));
+				autonSequence.addSequential(new AcquireCommand(false, 3));
+				autonSequence.addSequential(new ElevatorCommand(Elevator.FLOOR));
+				break;
+		}
+		return autonSequence;
+	}
 	
 	public void writeToFile(Waypoint[] waypoints, String segment) {
 		Trajectory trajectory = Pathfinder.generate(waypoints, config);
@@ -123,7 +243,7 @@ public class AutonWaypointPath{
 				Pathfinder.writeToFile(Pathfinder1038.RSwitchToRCubeFile, trajectory);
 				break;
 			case "LSwitchtoRCube":
-				Pathfinder.writeToFile(Pathfinder1038.LSwitchtoRCubeFile, trajectory);
+				Pathfinder.writeToFile(Pathfinder1038.LSwitchToRCubeFile, trajectory);
 				break;
 			case "RSwitchToLCube":
 				Pathfinder.writeToFile(Pathfinder1038.RSwitchToLCubeFile, trajectory);
@@ -140,15 +260,21 @@ public class AutonWaypointPath{
 			case "RCubeToLScale":
 				Pathfinder.writeToFile(Pathfinder1038.RCubeToLScaleFile, trajectory);
 				break;
+			case "RSwitchToRScale":
+				Pathfinder.writeToFile(Pathfinder1038.RSwitchToRScaleFile, trajectory);
+				break;
+			case "LSwitchToLScale":
+				Pathfinder.writeToFile(Pathfinder1038.LSwitchToLScaleFile, trajectory);
+				break;
 		}
 	}
 	
-	public Waypoint[] getWaypointPath(String anchor) {
+	public Waypoint[] getWaypointPath(String segment) {
 		Waypoint[] waypoints = new Waypoint[]{
 				new Waypoint(Conversions.ftToDrive(0), Conversions.ftToDrive(0), Pathfinder.d2r(0)),    
         		new Waypoint(Conversions.ftToDrive(1), Conversions.ftToDrive(0), Pathfinder.d2r(0))
 		};
-		switch (anchor) {
+		switch (segment) {
 			case "None":
 				waypoints = new Waypoint[]{
 						new Waypoint(Conversions.ftToDrive(0), Conversions.ftToDrive(0), Pathfinder.d2r(0)),    
@@ -241,6 +367,20 @@ public class AutonWaypointPath{
 		        		new Waypoint(Conversions.ftToDrive(21), Conversions.ftToDrive(0), Pathfinder.d2r(-45)),
 		        		new Waypoint(Conversions.ftToDrive(24), Conversions.ftToDrive(-11), Pathfinder.d2r(0)),
 		        		new Waypoint(Conversions.ftToDrive(27), Conversions.ftToDrive(-11), Pathfinder.d2r(0))
+				};
+				break;
+			case "LSwitchToLScale":
+				waypoints = new Waypoint[]{
+		        		new Waypoint(Conversions.ftToDrive(14), Conversions.ftToDrive(-10), Pathfinder.d2r(0)),
+		        		new Waypoint(Conversions.ftToDrive(24), Conversions.ftToDrive(-11), Pathfinder.d2r(0)),
+		        		new Waypoint(Conversions.ftToDrive(27), Conversions.ftToDrive(-11), Pathfinder.d2r(0))
+				};
+				break;
+			case "RSwitchToRScale":
+				waypoints = new Waypoint[]{
+		        		new Waypoint(Conversions.ftToDrive(14), Conversions.ftToDrive(10), Pathfinder.d2r(0)),
+		        		new Waypoint(Conversions.ftToDrive(24), Conversions.ftToDrive(11), Pathfinder.d2r(0)),
+		        		new Waypoint(Conversions.ftToDrive(27), Conversions.ftToDrive(11), Pathfinder.d2r(0))
 				};
 				break;
 		}
