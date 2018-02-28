@@ -39,12 +39,14 @@ public class Pathfinder1038 extends Command {
 	public static File CToRSwitchFile = new File("CToRSwitchFile.traj");
 	public static File LSwitchToLCubeFile = new File("LSwitchToLCubeFile.traj");
 	public static File RSwitchToRCubeFile = new File("RSwitchToRCubeFile.traj");
-	public static File LSwitchtoRCubeFile = new File("LSwitchtoRCubeFile.traj");
+	public static File LSwitchToRCubeFile = new File("LSwitchtoRCubeFile.traj");
 	public static File RSwitchToLCubeFile = new File("RSwitchToLCubeFile.traj");
 	public static File LCubeToLScaleFile = new File("LCubeToLScaleFile.traj");
 	public static File LCubeToRScaleFile = new File("LCubeToRScaleFile.traj");
 	public static File RCubeToRScaleFile = new File("RCubeToRScaleFile.traj");
 	public static File RCubeToLScaleFile = new File("RCubeToLScaleFile.traj");
+	public static File RSwitchToRScaleFile = new File("RCubeToLScaleFile.traj");
+	public static File LSwitchToLScaleFile = new File("RCubeToLScaleFile.traj");
     
 	public Pathfinder1038(File cFile) {
 		choosenFile = cFile;
