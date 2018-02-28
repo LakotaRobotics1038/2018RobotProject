@@ -8,6 +8,7 @@
 package org.usfirst.frc.team1038.robot;
 
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DriverStation;
 
 import org.usfirst.frc.team1038.auton.AutonSelector;
 import org.usfirst.frc.team1038.auton.AutonWaypointPath;
@@ -29,6 +30,8 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.hal.ControlWord;
+import edu.wpi.first.wpilibj.hal.HAL;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -44,6 +47,10 @@ public class Robot extends IterativeRobot {
 	private final int LOW_PRESSURE_SENSOR_PORT = 1;
 	private PressureSensor lowPressureSensor = new PressureSensor(LOW_PRESSURE_SENSOR_PORT);
 	private PressureSensor highPressureSensor = new PressureSensor(HIGH_PRESSURE_SENSOR_PORT);
+	
+	// Control word variables
+	private ControlWord m_controlWordCache = new ControlWord();
+;
 	
 	//Subsystems
 		//Climb
@@ -78,7 +85,6 @@ public class Robot extends IterativeRobot {
 	private static final String kCenterPosition = "C";
 	private static final String kRightPosition = "R";
 	private static final String kForwardAuto = "Forward";
-	private String autoSelected;
 	public static SendableChooser<String> autoChooser = new SendableChooser<>();
 	public static SendableChooser<String> startPosition = new SendableChooser<>();
 	private I2CGyro gyroSensor = I2CGyro.getInstance();
@@ -140,13 +146,8 @@ public class Robot extends IterativeRobot {
 		autonSelector.chooseAuton();
 		//autonPath = waypointPath.autonChoice();
 		gyroSensor.resetGyro();
-		autoSelected = autoChooser.getSelected();
-		//TurnCommand turn = new TurnCommand(45);
-		//turn.start();
-		//schedule.add(visionCommand);
 		//pathTest.initialize();
 		//schedule.add(autonPath);
-		schedule.add(new AcquisitonOpenCloseCommand(true));
 	}
 
 	/**
@@ -154,10 +155,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		//schedule.run();
-		//System.out.println(I2CGyro.getInstance().getAngle());
-		//System.out.println(vision.getAngle());
-		//visionCommand.execute();
 		schedule.run();
 //		if(!(pathTest.isFinished())) {
 //			pathTest.excecute();
@@ -189,8 +186,7 @@ public class Robot extends IterativeRobot {
 		if(!driverJoystick.getRightButton() && !robotDrive.isHighGear()) {
 			driveDivider = .8;
 		}
-		else if (elevator.getEncoderCount() > 20)
-		{
+		else if (elevator.getEncoderCount() > 20) {
 			driveDivider = .3;
 		}
 		else	 {
@@ -223,37 +219,29 @@ public class Robot extends IterativeRobot {
 			}	
 		}
 	
-		if(driverJoystick.getRightTrigger() && elevator.getEncoderCount() < 20)
-		{
+		if(driverJoystick.getRightTrigger() && elevator.getEncoderCount() < 20) {
 			robotDrive.highGear();
 		}
-		else if (robotDrive.isHighGear())
-		{
+		else if (robotDrive.isHighGear()) {
 			robotDrive.lowGear();
 		}
 		
-		if(driverJoystick.getLeftButton())
-		{
+		if(driverJoystick.getLeftButton()) {
 			robotDrive.PTOon();
-		} else if(driverJoystick.getLeftTrigger())
-		{
+		} else if(driverJoystick.getLeftTrigger()) {
 			robotDrive.PTOoff();
 		}
 		
-		if (driverJoystick.getAButton() && driverLastPressed != DriverLastPressed.aButton)
-		{
+		if (driverJoystick.getAButton() && driverLastPressed != DriverLastPressed.aButton) {
 			elevator.moveToFloor();
 			driverLastPressed = DriverLastPressed.aButton;
-		} else if (driverJoystick.getXButton() && driverLastPressed != DriverLastPressed.xButton)
-		{
+		} else if (driverJoystick.getXButton() && driverLastPressed != DriverLastPressed.xButton) {
 			elevator.moveToSwitch();
 			driverLastPressed = DriverLastPressed.xButton;
-		} else if (driverJoystick.getYButton() && driverLastPressed != DriverLastPressed.yButton)
-		{
+		} else if (driverJoystick.getYButton() && driverLastPressed != DriverLastPressed.yButton) {
 			elevator.moveToScaleHigh();
 			driverLastPressed = DriverLastPressed.yButton;
-		} else if (driverJoystick.getBButton() && driverLastPressed != DriverLastPressed.bButton)
-		{
+		} else if (driverJoystick.getBButton() && driverLastPressed != DriverLastPressed.bButton) {
 			elevator.moveToScaleLow();
 			driverLastPressed = DriverLastPressed.bButton;
 		}
@@ -275,13 +263,9 @@ public class Robot extends IterativeRobot {
 			povDownLastPressed = false;
 		}
 		
-		if (operatorJoystick.getLeftButton())
-		{
+		if (operatorJoystick.getLeftButton()) {
 			acqSco.openArms();
-		}
-		
-		if (operatorJoystick.getLeftTrigger()) 
-		{
+		} else if (operatorJoystick.getLeftTrigger())  {
 			acqSco.closeArms();
 		}
 		
@@ -293,14 +277,11 @@ public class Robot extends IterativeRobot {
 			acqSco.stop();
 		}
 		
-		if (operatorJoystick.getAButton())
-		{
+		if (operatorJoystick.getAButton()) {
 			acqSco.armsToZero();
-		} else if (operatorJoystick.getBButton())
-		{
+		} else if (operatorJoystick.getBButton()) {
 			acqSco.armsTo45();
-		} else if (operatorJoystick.getYButton())
-		{
+		} else if (operatorJoystick.getYButton()) {
 			acqSco.armsTo90();
 		}
 	}
@@ -310,6 +291,8 @@ public class Robot extends IterativeRobot {
 		acqSco.disable();
 		elevator.disable();
 		System.out.println("Robot Disabled");
+		HAL.getControlWord(m_controlWordCache);
+		m_controlWordCache.getEStop();
 	}
 	
 	@Override
