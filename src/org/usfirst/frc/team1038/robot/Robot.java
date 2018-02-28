@@ -12,12 +12,12 @@ import edu.wpi.first.wpilibj.DriverStation;
 
 import org.usfirst.frc.team1038.auton.AutonSelector;
 import org.usfirst.frc.team1038.auton.AutonWaypointPath;
-import org.usfirst.frc.team1038.auton.Pathfinder1038;
 import org.usfirst.frc.team1038.auton.PathfinderTest;
 import org.usfirst.frc.team1038.auton.Vision;
 import org.usfirst.frc.team1038.auton.commands.AcquireCommand;
 import org.usfirst.frc.team1038.auton.commands.AcquisitonOpenCloseCommand;
 import org.usfirst.frc.team1038.auton.commands.ElevatorCommand;
+import org.usfirst.frc.team1038.auton.commands.Pathfinder1038;
 import org.usfirst.frc.team1038.auton.commands.TurnCommand;
 import org.usfirst.frc.team1038.auton.commands.TurnCommandVision;
 import org.usfirst.frc.team1038.auton.commands.TurnCommandVisionTest;
