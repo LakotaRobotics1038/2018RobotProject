@@ -5,7 +5,9 @@ import org.usfirst.frc.team1038.subsystem.DriveTrain;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Vision extends Subsystem {
 	//fields
@@ -14,32 +16,35 @@ public class Vision extends Subsystem {
 	public static DriveTrain robotDrive = DriveTrain.getInstance();
 	NetworkTableInstance piTable = NetworkTableInstance.create();
 	NetworkTable smartDash = piTable.getTable("SmartDashboard");
-	//targetSmartDash.setNetworkIdentity(); 
-	//targetSmartDash.getTable("SmartDashBoard");   //May need slashes to denote hierarchy
-	NetworkTableEntry netFPS = smartDash.getEntry(/*"/SmartDashboard/FPS"*/"FPS");   //May need slashes to denote hierarchy
-	NetworkTableEntry netAngle = smartDash.getEntry(/*"/SmartDashboard/Angle"*/"Angle");   //May need slashes to denote hierarchy
+	NetworkTableEntry netFPS = smartDash.getEntry("FPS");   //May need slashes to denote hierarchy
+	NetworkTableEntry netAngle = smartDash.getEntry("Angle");   //May need slashes to denote hierarchy
 	
 	//Constructor
 	public Vision() {
 		piTable.setNetworkIdentity("RoboRIO");
-		piTable.startClient("10.10.38.167", 1735);
-		
+		piTable.startClient("raspberrypi.local", 1735);	
 	}
 	
 	//methods
 	public double getFPS() {
-		return netFPS.getDouble(-1.0);
+		return netFPS.getDouble(0);
 	}
 	
 	public int getAngle() {
 		return (int)Math.round(netAngle.getDouble(-1));
 	}
 	
-//	public void adjustDirection() {
-//		if(XVal > 0.5) {
-//			robotDrive.drive(moveVal, rotateVal);
-//		}
-//	}
+	public void turnToAngle() {
+		while(this.getAngle() < -1 || this.getAngle() > 1) {
+			if(this.getAngle() > 1) {
+				robotDrive.dualArcadeDrive(0, -0.5);
+				System.out.println("turning left");
+			}else if(this.getAngle() < -1) {
+				robotDrive.dualArcadeDrive(0, 0.5);
+				System.out.println("turning right");
+			}
+		}
+	}
 
 	@Override
 	protected void initDefaultCommand() {
