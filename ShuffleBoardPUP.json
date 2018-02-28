@@ -1,5 +1,5 @@
 {
-  "dividerPosition": 0.17443324937027707,
+  "dividerPosition": 0.17446270543615677,
   "tabPane": [
     {
       "title": "SmartDashboard",
@@ -13,7 +13,7 @@
           "8,0": {
             "size": [
               1,
-              3
+              4
             ],
             "content": {
               "_type": "PID Command",
@@ -27,7 +27,7 @@
             ],
             "content": {
               "_type": "Encoder",
-              "_title": "Left Gyro"
+              "_title": "Left Encoder"
             }
           },
           "2,1": {
@@ -37,7 +37,7 @@
             ],
             "content": {
               "_type": "Encoder",
-              "_title": "Right Gyro"
+              "_title": "Right Encoder"
             }
           },
           "2,3": {
@@ -142,6 +142,19 @@
               "searchBoxVisible": true
             }
           },
+          "0,0": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Gyro",
+              "_title": "Gyro",
+              "majorTickSpace": 45.0,
+              "startAngle": 180.0,
+              "tickMarkRingVisible": true
+            }
+          },
           "6,0": {
             "size": [
               2,
@@ -150,19 +163,6 @@
             "content": {
               "_type": "Camera Stream",
               "_title": ""
-            }
-          },
-          "0,0": {
-            "size": [
-              2,
-              2
-            ],
-            "content": {
-              "_type": "Gyro",
-              "_title": "",
-              "majorTickSpace": 45.0,
-              "startAngle": 180.0,
-              "tickMarkRingVisible": true
             }
           }
         }
