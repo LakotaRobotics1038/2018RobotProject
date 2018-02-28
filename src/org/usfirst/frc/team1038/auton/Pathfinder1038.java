@@ -33,20 +33,18 @@ public class Pathfinder1038 extends Command {
 	public File choosenFile;
 	public File File1038 = new File("1038File.traj");
 	public static File NFile = new File("NFile.traj");
-	public static File FFile = new File("FFile.traj");
-	public static File CFFile = new File("CFFile.traj");
-	public static File CLFile = new File("CLFile.traj");
-	public static File CLLFile = new File("CLLFile.traj");
-	public static File CRFile = new File("CRFile.traj");
-	public static File CRRFile = new File("CRRFile.traj");
-	public static File LLRFile = new File("LLRFile.traj");
-	public static File LLLFile = new File("LLLFile.traj");
-	public static File LLFile = new File("LLFile.traj");
-	public static File LRRFile = new File("LRRFile.traj");
-	public static File RRFile = new File("RRFile.traj");
-	public static File RLLFile = new File("RLLFile.traj");
-	public static File RRLFile = new File("RLLFile.traj");
-	public static File RRRFile = new File("RRRFile.traj");
+	public static File LToLSwitchFile = new File("LToLSwitchFile.traj");
+	public static File RToRSwitchFile = new File("RToRSwitchFile.traj");
+	public static File CToLSwitchFile = new File("CToLSwitchFile.traj");
+	public static File CToRSwitchFile = new File("CToRSwitchFile.traj");
+	public static File LSwitchToLCubeFile = new File("LSwitchToLCubeFile.traj");
+	public static File RSwitchToRCubeFile = new File("RSwitchToRCubeFile.traj");
+	public static File LSwitchtoRCubeFile = new File("LSwitchtoRCubeFile.traj");
+	public static File RSwitchToLCubeFile = new File("RSwitchToLCubeFile.traj");
+	public static File LCubeToLScaleFile = new File("LCubeToLScaleFile.traj");
+	public static File LCubeToRScaleFile = new File("LCubeToRScaleFile.traj");
+	public static File RCubeToRScaleFile = new File("RCubeToRScaleFile.traj");
+	public static File RCubeToLScaleFile = new File("RCubeToLScaleFile.traj");
     
 	public Pathfinder1038(File cFile) {
 		choosenFile = cFile;
