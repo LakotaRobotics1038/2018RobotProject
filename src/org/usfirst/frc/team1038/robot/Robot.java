@@ -26,6 +26,10 @@ import org.usfirst.frc.team1038.subsystem.Climb;
 import org.usfirst.frc.team1038.subsystem.DriveTrain;
 import org.usfirst.frc.team1038.subsystem.Elevator;
 
+import edu.wpi.cscore.HttpCamera;
+import edu.wpi.cscore.VideoException;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -74,6 +78,9 @@ public class Robot extends IterativeRobot {
 	private enum DriverLastPressed { none, xButton, aButton, bButton, yButton };
 	private DriverLastPressed driverLastPressed = DriverLastPressed.none;
 	
+		//RaspberryPi
+	private HttpCamera piCam;
+	
 	//Teleop
 	Joystick1038 driverJoystick = new Joystick1038(0);
 	Joystick1038 operatorJoystick = new Joystick1038(1);
@@ -109,7 +116,9 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Start Position", startPosition);
 		SmartDashboard.putData("Auton choices", autoChooser);
 		I2CGyro.getInstance();
-		CameraServer.getInstance().addServer("raspberrypi.local:1180/?action=stream");
+		NetworkTableInstance piCamTable = NetworkTableInstance.getDefault();
+		String[] serverAddress = { "mjpeg:http://raspberrypi.local:1180/?action=stream" };
+		piCamTable.getEntry("/CameraPublisher/PiCamera/streams").setStringArray(serverAddress);
 	}
 	
 	

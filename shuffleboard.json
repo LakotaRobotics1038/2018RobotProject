@@ -43,9 +43,9 @@
               "_title": "Gyro"
             }
           },
-          "5,1": {
+          "4,2": {
             "size": [
-              2,
+              1,
               1
             ],
             "content": {
@@ -162,6 +162,17 @@
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/Acq Arms SP",
               "_title": "Acq Arms SP"
+            }
+          },
+          "5,0": {
+            "size": [
+              3,
+              3
+            ],
+            "content": {
+              "_type": "Camera Stream",
+              "_source0": "camera_server://PiCamera",
+              "_title": "PiCamera"
             }
           }
         }
