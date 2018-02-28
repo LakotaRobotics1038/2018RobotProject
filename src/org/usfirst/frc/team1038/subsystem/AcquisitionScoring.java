@@ -26,7 +26,8 @@ public class AcquisitionScoring extends PIDSubsystem {
 	private final static double I = 0.001;
 	private final static double D = 0.0001;
 	private final int TOLERANCE = 5;
-	private final static int UP_DOWN_MAX = 490;
+	public final static int UP_DOWN_MAX = 490;
+	public final static int UP_DOWN_HALF = UP_DOWN_MAX / 2;
 	private double acqMotorSpeed = 0.8;
 	private boolean armsOpen;
 	private Spark leftAcqMotor = new Spark(LEFT_ACQ_MOTOR_PORT);
@@ -103,7 +104,7 @@ public class AcquisitionScoring extends PIDSubsystem {
     public void armsTo45() 
     {
     		enable();
-    		setSetpoint(UP_DOWN_MAX / 2);
+    		setSetpoint(UP_DOWN_HALF);
     }
     
     public void AcquisitionPeriodic()

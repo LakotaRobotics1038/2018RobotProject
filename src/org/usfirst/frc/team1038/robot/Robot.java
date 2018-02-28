@@ -13,10 +13,13 @@ import org.usfirst.frc.team1038.auton.AutonSelector;
 import org.usfirst.frc.team1038.auton.AutonWaypointPath;
 import org.usfirst.frc.team1038.auton.Pathfinder1038;
 import org.usfirst.frc.team1038.auton.PathfinderTest;
-import org.usfirst.frc.team1038.auton.TurnCommand;
-import org.usfirst.frc.team1038.auton.TurnCommandVision;
-import org.usfirst.frc.team1038.auton.TurnCommandVisionTest;
 import org.usfirst.frc.team1038.auton.Vision;
+import org.usfirst.frc.team1038.auton.commands.AcquireCommand;
+import org.usfirst.frc.team1038.auton.commands.AcquisitonOpenCloseCommand;
+import org.usfirst.frc.team1038.auton.commands.ElevatorCommand;
+import org.usfirst.frc.team1038.auton.commands.TurnCommand;
+import org.usfirst.frc.team1038.auton.commands.TurnCommandVision;
+import org.usfirst.frc.team1038.auton.commands.TurnCommandVisionTest;
 import org.usfirst.frc.team1038.subsystem.AcquisitionScoring;
 import org.usfirst.frc.team1038.subsystem.Climb;
 import org.usfirst.frc.team1038.subsystem.DriveTrain;
@@ -60,7 +63,7 @@ public class Robot extends IterativeRobot {
 	private boolean povDownLastPressed = false;
 	
 		//Elevator
-	private Elevator elevator = Elevator.getInstance();
+	public static Elevator elevator = Elevator.getInstance();
 	private enum DriverLastPressed { none, xButton, aButton, bButton, yButton };
 	private DriverLastPressed driverLastPressed = DriverLastPressed.none;
 	
@@ -135,14 +138,15 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		autonSelector.chooseAuton();
-		autonPath = waypointPath.autonChoice();
+		//autonPath = waypointPath.autonChoice();
 		gyroSensor.resetGyro();
 		autoSelected = autoChooser.getSelected();
 		//TurnCommand turn = new TurnCommand(45);
 		//turn.start();
 		//schedule.add(visionCommand);
 		//pathTest.initialize();
-		schedule.add(autonPath);
+		//schedule.add(autonPath);
+		schedule.add(new AcquisitonOpenCloseCommand(true));
 	}
 
 	/**
@@ -183,7 +187,7 @@ public class Robot extends IterativeRobot {
 		double driveDivider;
 		
 		if(!driverJoystick.getRightButton() && !robotDrive.isHighGear()) {
-			driveDivider = .75;
+			driveDivider = .8;
 		}
 		else if (elevator.getEncoderCount() > 20)
 		{
@@ -273,12 +277,12 @@ public class Robot extends IterativeRobot {
 		
 		if (operatorJoystick.getLeftButton())
 		{
-			//acqSco.openArms();
+			acqSco.openArms();
 		}
 		
 		if (operatorJoystick.getLeftTrigger()) 
 		{
-			//acqSco.closeArms();
+			acqSco.closeArms();
 		}
 		
 		if (operatorJoystick.getRightButton()) {

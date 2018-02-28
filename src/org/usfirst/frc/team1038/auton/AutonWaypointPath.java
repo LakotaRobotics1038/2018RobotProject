@@ -99,46 +99,46 @@ public class AutonWaypointPath{
 		autonPath = autonSelector.chooseAuton();
 		switch (autonPath) {
 			case "N":
-				Pathfinder.writeToCSV(Pathfinder1038.NFile, trajectory);
+				Pathfinder.writeToFile(Pathfinder1038.NFile, trajectory);
 				break;
 			case "F":
-				Pathfinder.writeToCSV(Pathfinder1038.FFile, trajectory);
+				Pathfinder.writeToFile(Pathfinder1038.FFile, trajectory);
 				break;
 			case "CL":
-				Pathfinder.writeToCSV(Pathfinder1038.CLFile, trajectory);
+				Pathfinder.writeToFile(Pathfinder1038.CLFile, trajectory);
 				break;
 			case "CLL":
-				Pathfinder.writeToCSV(Pathfinder1038.CLLFile, trajectory);
+				Pathfinder.writeToFile(Pathfinder1038.CLLFile, trajectory);
 				break;
 			case "CR":
-				Pathfinder.writeToCSV(Pathfinder1038.CRFile, trajectory);
+				Pathfinder.writeToFile(Pathfinder1038.CRFile, trajectory);
 				break;
 			case "CRR":
-				Pathfinder.writeToCSV(Pathfinder1038.CRRFile, trajectory);
+				Pathfinder.writeToFile(Pathfinder1038.CRRFile, trajectory);
 				break;
 			case "LLL":
-				Pathfinder.writeToCSV(Pathfinder1038.LLLFile, trajectory);
+				Pathfinder.writeToFile(Pathfinder1038.LLLFile, trajectory);
 				break;
 			case "LRR":
-				Pathfinder.writeToCSV(Pathfinder1038.LRRFile, trajectory);
+				Pathfinder.writeToFile(Pathfinder1038.LRRFile, trajectory);
 				break;
 			case "LLR":
-				Pathfinder.writeToCSV(Pathfinder1038.LLRFile, trajectory);
+				Pathfinder.writeToFile(Pathfinder1038.LLRFile, trajectory);
 				break;
 			case "LL":
-				Pathfinder.writeToCSV(Pathfinder1038.LLFile, trajectory);
+				Pathfinder.writeToFile(Pathfinder1038.LLFile, trajectory);
 				break;
 			case "RRR":
-				Pathfinder.writeToCSV(Pathfinder1038.RRRFile, trajectory);
+				Pathfinder.writeToFile(Pathfinder1038.RRRFile, trajectory);
 				break;
 			case "RLL":
-				Pathfinder.writeToCSV(Pathfinder1038.RLLFile, trajectory);
+				Pathfinder.writeToFile(Pathfinder1038.RLLFile, trajectory);
 				break;
 			case "RRL":
-				Pathfinder.writeToCSV(Pathfinder1038.RRLFile, trajectory);
+				Pathfinder.writeToFile(Pathfinder1038.RRLFile, trajectory);
 				break;
 			case "RR":
-				Pathfinder.writeToCSV(Pathfinder1038.RRFile, trajectory);
+				Pathfinder.writeToFile(Pathfinder1038.RRFile, trajectory);
 				break;
 		}
 	}

@@ -15,18 +15,18 @@ public class Elevator extends PIDSubsystem {
 	//fields
 	private static Elevator elevator;
 	private final int TOLERANCE = 5;
-	private final static double P_UP = .0034;
-	private final static double I_UP = .0001;
-	private final static double D_UP = .000;
-	private final static double P_DOWN = .00036;
-	private final static double I_DOWN = .000;
-	private final static double D_DOWN = .000;
-	private final static int SCALE_HIGH = 615;
-	private final int SCALE_LOW = 480;
-	private final int MIDDLE = 300;
-	private final int SWITCH = 220;
+	public final static double P_UP = .0034;
+	public final static double I_UP = .0001;
+	public final static double D_UP = .000;
+	public final static double P_DOWN = .00036;
+	public final static double I_DOWN = .000;
+	public final static double D_DOWN = .000;
+	public final static int SCALE_HIGH = 615;
+	public final int SCALE_LOW = 480;
+	public final int MIDDLE = 300;
+	public final int SWITCH = 220;
 	private final int PORTAL = 0; // TODO find value
-	private final int FLOOR = 0;
+	public final int FLOOR = 0;
 	private final int ELEVATOR_CHANNEL_A = 4;
 	private final int ELEVATOR_CHANNEL_B = 5;
 	private final int ELEVATOR_PROX_HIGH_PORT = 10;
@@ -36,7 +36,7 @@ public class Elevator extends PIDSubsystem {
 	private Encoder elevatorEncoder = new Encoder(ELEVATOR_CHANNEL_A, ELEVATOR_CHANNEL_B, false);
 	private Prox highProx = new Prox(ELEVATOR_PROX_HIGH_PORT);
 	private Prox lowProx = new Prox(ELEVATOR_PROX_LOW_PORT);
-	private PIDController elevatorPID = getPIDController();
+	public PIDController elevatorPID = getPIDController();
 	
 	public static Elevator getInstance() {
 		if (elevator == null) {
@@ -82,7 +82,7 @@ public class Elevator extends PIDSubsystem {
 		}
 	}
 	
-	private boolean goingDown(int newSetpoint)
+	public boolean goingDown(int newSetpoint)
 	{
 		if (getSetpoint() > newSetpoint)
 		{

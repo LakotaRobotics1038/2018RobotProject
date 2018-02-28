@@ -1,6 +1,5 @@
 package org.usfirst.frc.team1038.robot;
 
-import org.usfirst.frc.team1038.auton.commands.ResetArmEncoderCommand;
 import org.usfirst.frc.team1038.subsystem.AcquisitionScoring;
 import org.usfirst.frc.team1038.subsystem.DriveTrain;
 import org.usfirst.frc.team1038.subsystem.Elevator;
@@ -44,6 +43,7 @@ public class Dashboard {
 			AcquisitionScoring.getInstance().resetUpDownEncoder();
 			SmartDashboard.putBoolean("Reset Arm Encoder", false);
 		}
+		
 		SmartDashboard.putNumber("Arm Encoder", AcquisitionScoring.getInstance().getUpDownEncoder());
 		position = Robot.startPosition.getSelected();
 		autonChooser = Robot.autoChooser.getSelected();

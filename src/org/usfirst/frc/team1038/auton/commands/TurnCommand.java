@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1038.auton;
+package org.usfirst.frc.team1038.auton.commands;
 
 import org.usfirst.frc.team1038.robot.I2CGyro;
 import org.usfirst.frc.team1038.robot.Robot;
