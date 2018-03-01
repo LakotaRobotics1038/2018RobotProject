@@ -8,14 +8,10 @@
 package org.usfirst.frc.team1038.robot;
 
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.DriverStation;
-
 import org.usfirst.frc.team1038.auton.AutonSelector;
 import org.usfirst.frc.team1038.auton.AutonWaypointPath;
-import org.usfirst.frc.team1038.auton.PathfinderTest;
 import org.usfirst.frc.team1038.auton.commands.PathGenerator;
 import org.usfirst.frc.team1038.auton.commands.TeleopStartCommand;
-import org.usfirst.frc.team1038.robot.SwagLights.NameNumberStates;
 import org.usfirst.frc.team1038.robot.SwagLights.WheelWellStates;
 import org.usfirst.frc.team1038.subsystem.AcquisitionScoring;
 import org.usfirst.frc.team1038.subsystem.Climb;
@@ -110,7 +106,7 @@ public class Robot extends IterativeRobot {
 		startPosition.addObject("Right", kRightPosition);
 		SmartDashboard.putData("Start Position", startPosition);
 		SmartDashboard.putData("Auton choices", autoChooser);
-		PathGenerator.generate(); //DO NOT UNCOMMENT THIS LINE UNLESS YOU ARE TRYING TO CALCULATE PATHS
+		//PathGenerator.generate(); //DO NOT UNCOMMENT THIS LINE UNLESS YOU ARE TRYING TO CALCULATE PATHS
 		//Camera to Dashboard
 		NetworkTableInstance piCamTable = NetworkTableInstance.getDefault();
 		String[] serverAddress = { "mjpeg:http://raspberrypi.local:1180/?action=stream" };

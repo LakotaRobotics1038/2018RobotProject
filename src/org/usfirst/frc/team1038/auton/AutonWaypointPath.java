@@ -296,15 +296,15 @@ public class AutonWaypointPath{
 			case "CToLSwitch":
 				waypoints = new Waypoint[] {
 						new Waypoint(Conversions.f2m(0), Conversions.f2m(0), Pathfinder.d2r(0)),    
-		        		new Waypoint(Conversions.f2m(8), Conversions.f2m(9.2), Pathfinder.d2r(45)),
-		        		new Waypoint(Conversions.f2m(19), Conversions.f2m(9.2), Pathfinder.d2r(0))
+		        		new Waypoint(Conversions.f2m(5), Conversions.f2m(9.2), Pathfinder.d2r(45)),
+		        		new Waypoint(Conversions.f2m(14), Conversions.f2m(8), Pathfinder.d2r(0))
 				};
 				break;
 			case "CToRSwitch":
 				waypoints = new Waypoint[] {
-						new Waypoint(Conversions.ftToDrive(0), Conversions.ftToDrive(6.4), Pathfinder.d2r(0)),    
-		        		new Waypoint(Conversions.ftToDrive(8), Conversions.ftToDrive(8), Pathfinder.d2r(0)),
-		        		new Waypoint(Conversions.ftToDrive(14), Conversions.ftToDrive(8), Pathfinder.d2r(0))
+						new Waypoint(Conversions.f2m(0), Conversions.f2m(0), Pathfinder.d2r(0)),    
+		        		new Waypoint(Conversions.f2m(5), Conversions.f2m(-9.2), Pathfinder.d2r(-45)),
+		        		new Waypoint(Conversions.f2m(14), Conversions.f2m(-8), Pathfinder.d2r(0))
 				};
 				break;
 			case "LSwitchToLCube":

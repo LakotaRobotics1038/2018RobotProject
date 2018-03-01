@@ -1,5 +1,5 @@
 {
-  "dividerPosition": 0.003961965134706815,
+  "dividerPosition": 0.0037926675094816687,
   "tabPane": [
     {
       "title": "SmartDashboard",
@@ -166,8 +166,8 @@
           },
           "5,0": {
             "size": [
-              3,
-              3
+              4,
+              4
             ],
             "content": {
               "_type": "Camera Stream",

@@ -1,7 +1,5 @@
 package org.usfirst.frc.team1038.robot;
 
-import org.usfirst.frc.team1038.robot.SwagLights.NameNumberStates;
-import org.usfirst.frc.team1038.robot.SwagLights.WheelWellStates;
 import org.usfirst.frc.team1038.subsystem.AcquisitionScoring;
 import org.usfirst.frc.team1038.subsystem.DriveTrain;
 import org.usfirst.frc.team1038.subsystem.Elevator;
