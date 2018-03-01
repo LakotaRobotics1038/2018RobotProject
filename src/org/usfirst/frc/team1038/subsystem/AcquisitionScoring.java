@@ -81,7 +81,7 @@ public class AcquisitionScoring extends PIDSubsystem {
     
     public void aquire() 
     {
-    		acqMotors.set(acqMotorSpeed);
+    		acqMotors.set(1);
     }
     
     public void dispose() 
@@ -110,6 +110,11 @@ public class AcquisitionScoring extends PIDSubsystem {
     {
     		enable();
     		setSetpoint(UP_DOWN_HALF);
+    }
+    
+    public void armsUpDownSetMotor(double power)
+    {
+    		acqArmsUpDown.set(power);
     }
     
     public void AcquisitionPeriodic()

@@ -148,13 +148,16 @@ public class Elevator extends PIDSubsystem {
 	}
 	
 	public void move(double joystickValue) {
+		
 		if(getSetpoint() <= SCALE_HIGH && joystickValue > .09)
 		{
+			elevatorPID.setPID(P_UP, I_UP, D_UP);
 			enable();
 			setSetpoint(getSetpoint() + 2);
 		}
 		else if(getSetpoint() > 0 && joystickValue < -.09)
 		{
+			elevatorPID.setPID(P_UP, I_UP, D_UP);
 			enable();
 			setSetpoint(getSetpoint() - 2);
 		}

@@ -106,7 +106,7 @@ public class Robot extends IterativeRobot {
 		startPosition.addObject("Right", kRightPosition);
 		SmartDashboard.putData("Start Position", startPosition);
 		SmartDashboard.putData("Auton choices", autoChooser);
-		//PathGenerator.generate(); //DO NOT UNCOMMENT THIS LINE UNLESS YOU ARE TRYING TO CALCULATE PATHS
+		PathGenerator.generate(); //DO NOT UNCOMMENT THIS LINE UNLESS YOU ARE TRYING TO CALCULATE PATHS
 		//Camera to Dashboard
 		NetworkTableInstance piCamTable = NetworkTableInstance.getDefault();
 		String[] serverAddress = { "mjpeg:http://raspberrypi.local:1180/?action=stream" };

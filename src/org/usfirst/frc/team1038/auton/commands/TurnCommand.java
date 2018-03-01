@@ -60,9 +60,9 @@ public class TurnCommand extends PIDCommand {
 	
 	@Override
 	public void end() {
-//		turnPID.disable();
-//		turnPID.reset();
-//		turnPID.free();
+		turnPID.disable();
+		turnPID.reset();
+		turnPID.free();
 		double gyroReading = gyroSensor.getAngle();
 		drive.drive(END_DRIVE_SPEED, END_DRIVE_ROTATION);
 		System.out.println("Finished at " + gyroReading);

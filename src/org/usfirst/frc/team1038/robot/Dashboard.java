@@ -40,6 +40,7 @@ public class Dashboard {
 		
 		if (SmartDashboard.getBoolean("Reset Arm Encoder", false))
 		{
+			AcquisitionScoring.getInstance().armsUpDownSetMotor(1);
 			AcquisitionScoring.getInstance().resetUpDownEncoder();
 			SmartDashboard.putBoolean("Reset Arm Encoder", false);
 		}

@@ -41,18 +41,18 @@ public class AutonWaypointPath{
 		autonPath = autonSelector.chooseAuton();
 		switch (autonPath) {
 			case "N":
-				autonSequence.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
 				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.NFile));
+				autonSequence.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
 				break;
 			case "LF":
 				//add wait
-				autonSequence.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
 				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.LToLSwitchFile));
+				autonSequence.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
 				break;
 			case "RF":
 				//add wait
-				autonSequence.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
 				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.RToRSwitchFile));
+				autonSequence.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
 				break;
 			case "CF":
 				//add wait
