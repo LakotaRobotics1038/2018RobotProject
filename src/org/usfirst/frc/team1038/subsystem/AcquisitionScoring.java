@@ -65,6 +65,11 @@ public class AcquisitionScoring extends PIDSubsystem {
     {
     		return acqMotorSpeed;
     }
+    
+    public double getAcqMotorPower()
+    {
+    		return acqMotors.get();
+    }
 	
     public void setAcqSpeed(boolean up)
     {

@@ -8,17 +8,20 @@
 package org.usfirst.frc.team1038.robot;
 
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DriverStation;
+
 import org.usfirst.frc.team1038.auton.AutonSelector;
 import org.usfirst.frc.team1038.auton.AutonWaypointPath;
 import org.usfirst.frc.team1038.auton.PathfinderTest;
 import org.usfirst.frc.team1038.auton.commands.PathGenerator;
 import org.usfirst.frc.team1038.auton.commands.TeleopStartCommand;
+import org.usfirst.frc.team1038.robot.SwagLights.NameNumberStates;
+import org.usfirst.frc.team1038.robot.SwagLights.WheelWellStates;
 import org.usfirst.frc.team1038.subsystem.AcquisitionScoring;
 import org.usfirst.frc.team1038.subsystem.Climb;
 import org.usfirst.frc.team1038.subsystem.DriveTrain;
 import org.usfirst.frc.team1038.subsystem.Elevator;
 
-import edu.wpi.cscore.HttpCamera;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -67,8 +70,10 @@ public class Robot extends IterativeRobot {
 	private enum DriverLastPressed { none, xButton, aButton, bButton, yButton };
 	private DriverLastPressed driverLastPressed = DriverLastPressed.none;
 	
-		//RaspberryPi
-	private HttpCamera piCam;
+		//SwagLights
+	private SwagLights swag = SwagLights.getInstance();
+	public static boolean eStopped = false;
+	public static boolean disabled = true;
 	
 	//Teleop
 	Joystick1038 driverJoystick = new Joystick1038(0);
@@ -88,7 +93,7 @@ public class Robot extends IterativeRobot {
 	private AutonWaypointPath waypointPath = AutonWaypointPath.getInstance();
 	private CommandGroup autonPath;
 	private Dashboard dashboard = Dashboard.getInstance();
-	private PathfinderTest pathTest = new PathfinderTest();
+	//private PathfinderTest pathTest = new PathfinderTest();
     
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -116,6 +121,13 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotPeriodic() {
 		dashboard.update(lowPressureSensor.getPressure(), highPressureSensor.getPressure());
+		swag.swagPeriodic();
+		
+		if (eStopped) {
+			swag.setWheelWell(WheelWellStates.EStop);
+		} else if (disabled) {
+			swag.setWheelWell(WheelWellStates.Disabled);
+		}
 
 		elevator.elevatorPeriodic();
 		acqSco.AcquisitionPeriodic();
@@ -143,6 +155,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		swag.enable();
+		
 		autonSelector.chooseAuton();
 		autonPath = waypointPath.autonChoice();
 		gyroSensor.resetGyro();
@@ -155,6 +169,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
+		swag.swagEnabledPeriodic();
+		
 		schedule.run();
 //		if(!(pathTest.isFinished())) {
 //			pathTest.excecute();
@@ -165,6 +181,8 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void teleopInit() {
+		swag.enable();
+		
 		gyroSensor.resetGyro();
 		robotDrive.resetEncoders();
 		new TeleopStartCommand();
@@ -176,6 +194,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		swag.swagEnabledPeriodic();
+		
 		driver();
 		operator();
 	}
@@ -293,7 +313,11 @@ public class Robot extends IterativeRobot {
 		elevator.disable();
 		System.out.println("Robot Disabled");
 		HAL.getControlWord(m_controlWordCache);
-		m_controlWordCache.getEStop();
+		if(m_controlWordCache.getEStop()) {
+			eStopped = true;
+		} else {
+			disabled = true;
+		}
 	}
 	
 	@Override

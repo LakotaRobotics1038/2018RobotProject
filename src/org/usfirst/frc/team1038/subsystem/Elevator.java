@@ -69,6 +69,11 @@ public class Elevator extends PIDSubsystem {
 	public int getEncoderCount() {
 		return elevatorEncoder.get();
 	}
+	
+	public double getElevatorSpeed() {
+		return elevatorEncoder.getRate();
+	}
+	
 	public double getMotorOutput() {
 		return elevatorMotor.get();
 	}
