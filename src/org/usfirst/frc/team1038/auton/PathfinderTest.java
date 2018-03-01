@@ -85,7 +85,7 @@ public class PathfinderTest extends Command {
     		System.out.println("Pathfinder Configured");
     	}
     	
-    public void excecute()
+    public void execute()
     {
     		// Do something with the new Trajectory...
     		double l = left.calculate(drive.getLeftDriveEncoderCount());

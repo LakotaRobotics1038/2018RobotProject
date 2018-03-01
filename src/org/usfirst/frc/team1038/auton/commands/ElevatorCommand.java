@@ -30,8 +30,14 @@ public class ElevatorCommand extends Command {
 		return elevator.onTarget();
 	}
 	
+	public void interrupted()
+	{
+		end();
+	}
+	
 	public void end()
 	{
-		
+		elevator.elevatorPID.setPID(Elevator.P_DOWN, Elevator.I_DOWN, Elevator.D_DOWN);
+		elevator.setSetpoint(0);
 	}
 }

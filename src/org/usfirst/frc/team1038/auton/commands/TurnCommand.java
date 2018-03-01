@@ -25,11 +25,11 @@ public class TurnCommand extends PIDCommand {
 	
 	//constructor
 	public TurnCommand(int setpoint) {
-		super(P, I, D, .2);
+		super(P, I, D);
 		setSetpoint(setpoint);
 		turnPID.setAbsoluteTolerance(TOLERANCE);
 		turnPID.setOutputRange(-.75, .75);
-		super.setInputRange(0, 359);
+		super.setInputRange(0, 360);
 		turnPID.setContinuous(true);
 		requires(Robot.robotDrive);
 	}
@@ -43,21 +43,26 @@ public class TurnCommand extends PIDCommand {
 	public void execute() {
 		turnPID.enable();
 		double PIDTurnAdjust = turnPID.get();
-		this.usePIDOutput(-PIDTurnAdjust);
+		this.usePIDOutput(PIDTurnAdjust);
 		if(PIDTurnAdjust > 0) {
 			System.out.println("Clockwise");
-		}else {
+		} else {
 			System.out.println("Counter-Clockwise");
 		}
 		
 		System.out.println("Current Angle: " + gyroSensor.getAngle() + ", PIDTurnAdjust: " + turnPID.get() + ", Setpoint: " + getSetpoint());
 	}
 	
+	public void interrupted()
+	{
+		end();
+	}
+	
 	@Override
 	public void end() {
-		turnPID.disable();
-		turnPID.reset();
-		turnPID.free();
+//		turnPID.disable();
+//		turnPID.reset();
+//		turnPID.free();
 		double gyroReading = gyroSensor.getAngle();
 		drive.drive(END_DRIVE_SPEED, END_DRIVE_ROTATION);
 		System.out.println("Finished at " + gyroReading);

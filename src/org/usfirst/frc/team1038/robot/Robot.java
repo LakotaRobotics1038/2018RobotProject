@@ -8,29 +8,18 @@
 package org.usfirst.frc.team1038.robot;
 
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.DriverStation;
-
 import org.usfirst.frc.team1038.auton.AutonSelector;
 import org.usfirst.frc.team1038.auton.AutonWaypointPath;
 import org.usfirst.frc.team1038.auton.PathfinderTest;
-import org.usfirst.frc.team1038.auton.Vision;
-import org.usfirst.frc.team1038.auton.commands.AcquireCommand;
-import org.usfirst.frc.team1038.auton.commands.AcquisitonOpenCloseCommand;
-import org.usfirst.frc.team1038.auton.commands.ElevatorCommand;
-import org.usfirst.frc.team1038.auton.commands.Pathfinder1038;
-import org.usfirst.frc.team1038.auton.commands.TurnCommand;
-import org.usfirst.frc.team1038.auton.commands.TurnCommandVision;
-import org.usfirst.frc.team1038.auton.commands.TurnCommandVisionTest;
+import org.usfirst.frc.team1038.auton.commands.PathGenerator;
+import org.usfirst.frc.team1038.auton.commands.TeleopStartCommand;
 import org.usfirst.frc.team1038.subsystem.AcquisitionScoring;
 import org.usfirst.frc.team1038.subsystem.Climb;
 import org.usfirst.frc.team1038.subsystem.DriveTrain;
 import org.usfirst.frc.team1038.subsystem.Elevator;
 
 import edu.wpi.cscore.HttpCamera;
-import edu.wpi.cscore.VideoException;
-import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -87,11 +76,11 @@ public class Robot extends IterativeRobot {
 	
 	//Auton
 	Scheduler schedule = Scheduler.getInstance();;
-	private static final String kCustomAuto = "Custom";
-	private static final String kLeftPosition = "L";
-	private static final String kCenterPosition = "C";
-	private static final String kRightPosition = "R";
-	private static final String kForwardAuto = "Forward";
+	public static final String kCustomAuto = "Custom";
+	public static final String kLeftPosition = "L";
+	public static final String kCenterPosition = "C";
+	public static final String kRightPosition = "R";
+	public static final String kForwardAuto = "Forward";
 	public static SendableChooser<String> autoChooser = new SendableChooser<>();
 	public static SendableChooser<String> startPosition = new SendableChooser<>();
 	private I2CGyro gyroSensor = I2CGyro.getInstance();
@@ -108,6 +97,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		//c.stop();
+		//Auton Choices to Dashboard
 		autoChooser.addDefault("Forward Auton", kForwardAuto);
 		autoChooser.addObject("My Auto", kCustomAuto);
 		startPosition.addDefault("Center", kCenterPosition);
@@ -115,7 +105,8 @@ public class Robot extends IterativeRobot {
 		startPosition.addObject("Right", kRightPosition);
 		SmartDashboard.putData("Start Position", startPosition);
 		SmartDashboard.putData("Auton choices", autoChooser);
-		I2CGyro.getInstance();
+		PathGenerator.generate(); //DO NOT UNCOMMENT THIS LINE UNLESS YOU ARE TRYING TO CALCULATE PATHS
+		//Camera to Dashboard
 		NetworkTableInstance piCamTable = NetworkTableInstance.getDefault();
 		String[] serverAddress = { "mjpeg:http://raspberrypi.local:1180/?action=stream" };
 		piCamTable.getEntry("/CameraPublisher/PiCamera/streams").setStringArray(serverAddress);
@@ -153,10 +144,10 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		autonSelector.chooseAuton();
-		//autonPath = waypointPath.autonChoice();
+		autonPath = waypointPath.autonChoice();
 		gyroSensor.resetGyro();
 		//pathTest.initialize();
-		//schedule.add(autonPath);
+		schedule.add(autonPath);
 	}
 
 	/**
@@ -176,6 +167,7 @@ public class Robot extends IterativeRobot {
 	public void teleopInit() {
 		gyroSensor.resetGyro();
 		robotDrive.resetEncoders();
+		new TeleopStartCommand();
 		//visionCommandTest = null;
 	}
 

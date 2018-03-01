@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1038.auton;
 
 import org.usfirst.frc.team1038.robot.Dashboard;
+import org.usfirst.frc.team1038.robot.Robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
 
@@ -35,17 +36,17 @@ public class AutonSelector {
 		System.out.println(gameDataAuton);
 		System.out.println("Starting choose");
 		String path = "N";
-		if(autonChooser.equals("Forward")) {
-			if(position.equals("C")) {
+		if(autonChooser.equals(Robot.kForwardAuto)) {
+			if(position.equals(Robot.kCenterPosition)) {
 				path = "CF";
-			}else if(position.equals("L")) {
+			}else if(position.equals(Robot.kLeftPosition)) {
 				path = "LF";
-			}else if(position.equals("R")) {
+			}else if(position.equals(Robot.kRightPosition)) {
 				path = "RF";
 			}
 			System.out.println("Choose Forward path");
-		}else if(autonChooser.equals("Custom")) {
-			if(position.equals("C")) {
+		}else if(autonChooser.equals(Robot.kCustomAuto)) {
+			if(position.equals(Robot.kCenterPosition)) {
 				if(gameDataAuton.equals("LR")) {
 					path = "CL";
 					System.out.println("Choose CL");
@@ -56,7 +57,7 @@ public class AutonSelector {
 				}else if(gameDataAuton.equals("RR")) {
 					path = "CRR";
 				}
-			}else if(position.equals("L")) {
+			}else if(position.equals(Robot.kLeftPosition)) {
 				if(gameDataAuton.equals("LR")) {
 					path = "LLSwitch";
 				}else if(gameDataAuton.equals("LL")) {
@@ -66,7 +67,7 @@ public class AutonSelector {
 				}else if(gameDataAuton.equals("RR")) {
 					path = "LF";
 				}
-			}else if(position.equals("R")) {
+			}else if(position.equals(Robot.kRightPosition)) {
 				if(gameDataAuton.equals("LR")) {
 					path = "RRScale";
 				}else if(gameDataAuton.equals("LL")) {

@@ -42,6 +42,11 @@ public class AcquireCommand extends Command {
 		return timer.get() > acqTime;
 	}
 	
+	public void interrupted()
+	{
+		end();
+	}
+	
 	public void end()
 	{
 		acqSco.stop();
