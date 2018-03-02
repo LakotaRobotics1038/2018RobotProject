@@ -116,7 +116,10 @@ public class SwagLights {
 	
 	public void swagPeriodic()
 	{
-		ard.writeString(wheelWell + "\n" + nameNumber + "\n" + tower + "\n");
+		String toWrite = wheelWell + "\r" + nameNumber + "\r" + tower + "\r";
+		//System.out.println(toWrite);
+		ard.writeString(toWrite);
+		//System.out.println(ard.readString());
 	}	
 	
 	public void swagEnabledPeriodic()

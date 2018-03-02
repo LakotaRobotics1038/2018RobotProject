@@ -10,7 +10,8 @@ package org.usfirst.frc.team1038.robot;
 import edu.wpi.first.wpilibj.Compressor;
 import org.usfirst.frc.team1038.auton.AutonSelector;
 import org.usfirst.frc.team1038.auton.AutonWaypointPath;
-import org.usfirst.frc.team1038.auton.commands.PathGenerator;
+import org.usfirst.frc.team1038.auton.PathGenerator;
+import org.usfirst.frc.team1038.auton.commands.ElevatorCommand;
 import org.usfirst.frc.team1038.auton.commands.TeleopStartCommand;
 import org.usfirst.frc.team1038.robot.SwagLights.WheelWellStates;
 import org.usfirst.frc.team1038.subsystem.AcquisitionScoring;
@@ -158,6 +159,7 @@ public class Robot extends IterativeRobot {
 		gyroSensor.resetGyro();
 		//pathTest.initialize();
 		schedule.add(autonPath);
+		//schedule.add(new ElevatorCommand(Elevator.SWITCH));
 	}
 
 	/**
@@ -178,6 +180,7 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void teleopInit() {
+		schedule.removeAll();
 		swag.enable();
 		
 		gyroSensor.resetGyro();
@@ -204,9 +207,9 @@ public class Robot extends IterativeRobot {
 		if(!driverJoystick.getRightButton() && !robotDrive.isHighGear()) {
 			driveDivider = .8;
 		}
-		else if (elevator.getEncoderCount() > 20) {
-			driveDivider = .3;
-		}
+//		else if (elevator.getEncoderCount() > 20) {
+//			driveDivider = .3;
+//		}
 		else	 {
 			driveDivider = 1;
 		}
@@ -308,6 +311,7 @@ public class Robot extends IterativeRobot {
 	public void disabledInit() {
 		acqSco.disable();
 		elevator.disable();
+		robotDrive.PTOoff();
 		System.out.println("Robot Disabled");
 		HAL.getControlWord(m_controlWordCache);
 		if(m_controlWordCache.getEStop()) {

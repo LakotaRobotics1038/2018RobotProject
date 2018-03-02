@@ -52,30 +52,36 @@ public class AutonSelector {
 					System.out.println("Choose CL");
 				}else if(gameDataAuton.equals("LL")) {
 					path = "CLL";
+					path = "CL";
 				}else if(gameDataAuton.equals("RL")) {
 					path = "CR";
 				}else if(gameDataAuton.equals("RR")) {
 					path = "CRR";
+					path = "CR";
 				}
 			}else if(position.equals(Robot.kLeftPosition)) {
 				if(gameDataAuton.equals("LR")) {
 					path = "LLSwitch";
 				}else if(gameDataAuton.equals("LL")) {
 					path = "LLL";
+					path = "LLSwitch";
 				}else if(gameDataAuton.equals("RL")) {
 					path = "LLScale";
+					path = "LF";
 				}else if(gameDataAuton.equals("RR")) {
 					path = "LF";
 				}
 			}else if(position.equals(Robot.kRightPosition)) {
 				if(gameDataAuton.equals("LR")) {
 					path = "RRScale";
+					path = "RF";
 				}else if(gameDataAuton.equals("LL")) {
 					path = "RF";
 				}else if(gameDataAuton.equals("RL")) {
 					path = "RRSwitch";
 				}else if(gameDataAuton.equals("RR")) {
 					path = "RRR";
+					path = "RRSwitch";
 				}
 			}
 		}

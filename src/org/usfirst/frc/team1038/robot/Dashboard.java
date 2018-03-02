@@ -4,6 +4,8 @@ import org.usfirst.frc.team1038.subsystem.AcquisitionScoring;
 import org.usfirst.frc.team1038.subsystem.DriveTrain;
 import org.usfirst.frc.team1038.subsystem.Elevator;
 
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.hal.PDPJNI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Dashboard {
@@ -11,6 +13,7 @@ public class Dashboard {
 	private String position;
 	private String autonChooser;
 	private static Dashboard dashboard;
+	//private PowerDistributionPanel pdp = new PowerDistributionPanel(0);
 	
 	public static Dashboard getInstance() {
 		if (dashboard == null) {
@@ -23,6 +26,7 @@ public class Dashboard {
 	private Dashboard()
 	{
 		SmartDashboard.putBoolean("Reset Arm Encoder", false);
+		SmartDashboard.putBoolean("Reset Elevator Encoder", false);
 	}
 	
 	public void update(double lowPressure, double highPressure)
@@ -40,9 +44,16 @@ public class Dashboard {
 		
 		if (SmartDashboard.getBoolean("Reset Arm Encoder", false))
 		{
-			AcquisitionScoring.getInstance().armsUpDownSetMotor(1);
+			AcquisitionScoring.getInstance().armsUpDownSetMotor(-1);
 			AcquisitionScoring.getInstance().resetUpDownEncoder();
-			SmartDashboard.putBoolean("Reset Arm Encoder", false);
+			//System.out.println(pdp.getCurrent(7));
+			//SmartDashboard.putBoolean("Reset Arm Encoder", false);
+		}
+		
+		if (SmartDashboard.getBoolean("Reset Elevator Encoder", false))
+		{
+			Elevator.getInstance().resetEncoder();
+			SmartDashboard.putBoolean("Reset Elevator Encoder", false);
 		}
 		
 		SmartDashboard.putNumber("Arm Encoder", AcquisitionScoring.getInstance().getUpDownEncoder());

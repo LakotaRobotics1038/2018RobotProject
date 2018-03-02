@@ -34,7 +34,7 @@ public class AcquireCommand extends Command {
 			timerRunning = true;
 			timer.start();
 		}
-		System.out.println(timer.get());
+		//System.out.println(timer.get());
 	}
 	
 	@Override

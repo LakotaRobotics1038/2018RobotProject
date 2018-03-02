@@ -56,15 +56,18 @@ public class TurnCommand extends PIDCommand {
 	public void interrupted()
 	{
 		end();
+		System.out.println("TurnCommand interrupted");
 	}
 	
 	@Override
 	public void end() {
-		//turnPID.reset();
+		turnPID.reset();
+		//turnPID.disable();
 		//turnPID.free();
 		double gyroReading = gyroSensor.getAngle();
 		drive.drive(END_DRIVE_SPEED, END_DRIVE_ROTATION);
 		System.out.println("Finished at " + gyroReading);
+		System.out.println("TurnCommand ended");
 	}
 	
 	@Override
