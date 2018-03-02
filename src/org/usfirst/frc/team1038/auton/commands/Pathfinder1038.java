@@ -25,7 +25,7 @@ public class Pathfinder1038 extends Command {
 	private EncoderFollower right;
 	private DriveTrain drive = DriveTrain.getInstance();
 	private I2CGyro gyro = I2CGyro.getInstance();
-	private final static double P = .1;
+	private final static double P = .05;
 	private final static double I = 0.000;
 	private final static double D = 0.005;
 	double angleDifference;

@@ -13,7 +13,7 @@ public class TurnCommand extends PIDCommand {
 	private final double END_DRIVE_SPEED = 0.0;
 	private final double END_DRIVE_ROTATION = 0.0;
 	private final int TOLERANCE = 1;
-	private final static double P = 0.015;
+	private final static double P = 0.007;
 	private final static double I = 0.015;
 	private final static double D = 0.005;
 //	private final static double P = 0.007;
@@ -60,9 +60,8 @@ public class TurnCommand extends PIDCommand {
 	
 	@Override
 	public void end() {
-		turnPID.disable();
-		turnPID.reset();
-		turnPID.free();
+		//turnPID.reset();
+		//turnPID.free();
 		double gyroReading = gyroSensor.getAngle();
 		drive.drive(END_DRIVE_SPEED, END_DRIVE_ROTATION);
 		System.out.println("Finished at " + gyroReading);

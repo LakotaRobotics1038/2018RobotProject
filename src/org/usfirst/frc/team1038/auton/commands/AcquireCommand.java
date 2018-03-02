@@ -28,6 +28,7 @@ public class AcquireCommand extends Command {
 		{
 			acqSco.dispose();
 		}
+		
 		if (!timerRunning)
 		{
 			timerRunning = true;

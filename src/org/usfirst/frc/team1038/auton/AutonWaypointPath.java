@@ -59,12 +59,12 @@ public class AutonWaypointPath{
 				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.CToLSwitchFile));
 				autonSequence.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
 				break;
-			case "CL":				
+			case "CL":
 				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.CToLSwitchFile));
 				autonSequence.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
 				autonSequence.addSequential(new TurnCommand(90));
 				autonSequence.addSequential(new ElevatorCommand(Elevator.SWITCH));
-				autonSequence.addSequential(new AcquireCommand(false, 3));
+				autonSequence.addSequential(new AcquireCommand(false, 1.5));
 				autonSequence.addSequential(new ElevatorCommand(Elevator.FLOOR));
 				break;
 			case "CLL":
@@ -88,11 +88,12 @@ public class AutonWaypointPath{
 				autonSequence.addSequential(new ElevatorCommand(Elevator.FLOOR));
 				break;
 			case "CR":
+				System.out.println("Selected CR");
 				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.CToRSwitchFile));
 				autonSequence.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
-				autonSequence.addSequential(new TurnCommand(270));
+				autonSequence.addSequential(new TurnCommand(181));
 				autonSequence.addSequential(new ElevatorCommand(Elevator.SWITCH));
-				autonSequence.addSequential(new AcquireCommand(false, 3));
+				autonSequence.addSequential(new AcquireCommand(false, 1.5));
 				autonSequence.addSequential(new ElevatorCommand(Elevator.FLOOR));
 				break;
 			case "CRR":
@@ -232,7 +233,7 @@ public class AutonWaypointPath{
 			case "CToLSwitch":
 				Pathfinder.writeToFile(Pathfinder1038.CToLSwitchFile, trajectory);
 				break;
-			case "CtoRSwitch":
+			case "CToRSwitch":
 				Pathfinder.writeToFile(Pathfinder1038.CToRSwitchFile, trajectory);
 				break;
 			case "LSwitchToLCube":
@@ -241,7 +242,7 @@ public class AutonWaypointPath{
 			case "RSwitchToRCube":
 				Pathfinder.writeToFile(Pathfinder1038.RSwitchToRCubeFile, trajectory);
 				break;
-			case "LSwitchtoRCube":
+			case "LSwitchToRCube":
 				Pathfinder.writeToFile(Pathfinder1038.LSwitchToRCubeFile, trajectory);
 				break;
 			case "RSwitchToLCube":
@@ -275,120 +276,120 @@ public class AutonWaypointPath{
 		switch (segment) {
 			case "None":
 				waypoints = new Waypoint[] {
-						new Waypoint(Conversions.ftToDrive(0), Conversions.ftToDrive(0), Pathfinder.d2r(0)),    
-		        		new Waypoint(Conversions.ftToDrive(1), Conversions.ftToDrive(0), Pathfinder.d2r(0))
+						new Waypoint(Conversions.f2m(0), Conversions.f2m(0), Pathfinder.d2r(0)),    
+		        		new Waypoint(Conversions.f2m(1), Conversions.f2m(0), Pathfinder.d2r(0))
 				};
 				break;
 			case "LToLSwitch":
 				waypoints = new Waypoint[] {
-						new Waypoint(Conversions.ftToDrive(0), Conversions.ftToDrive(-6.4), Pathfinder.d2r(0)),    
-		        		new Waypoint(Conversions.ftToDrive(8), Conversions.ftToDrive(-8), Pathfinder.d2r(0)),
-		        		new Waypoint(Conversions.ftToDrive(14), Conversions.ftToDrive(-8), Pathfinder.d2r(0))
+						new Waypoint(Conversions.f2m(0), Conversions.f2m(-6.4), Pathfinder.d2r(0)),    
+		        		new Waypoint(Conversions.f2m(8), Conversions.f2m(-8), Pathfinder.d2r(0)),
+		        		new Waypoint(Conversions.f2m(14), Conversions.f2m(-8), Pathfinder.d2r(0))
 				};
 				break;
 			case "RToRSwitch":
 				waypoints = new Waypoint[] {
-						new Waypoint(Conversions.ftToDrive(0), Conversions.ftToDrive(6.4), Pathfinder.d2r(0)),    
-		        		new Waypoint(Conversions.ftToDrive(8), Conversions.ftToDrive(8), Pathfinder.d2r(0)),
-		        		new Waypoint(Conversions.ftToDrive(14), Conversions.ftToDrive(8), Pathfinder.d2r(0))
+						new Waypoint(Conversions.f2m(0), Conversions.f2m(6.4), Pathfinder.d2r(0)),    
+		        		new Waypoint(Conversions.f2m(8), Conversions.f2m(8), Pathfinder.d2r(0)),
+		        		new Waypoint(Conversions.f2m(14), Conversions.f2m(8), Pathfinder.d2r(0))
 				};
 				break;
 			case "CToLSwitch":
 				waypoints = new Waypoint[] {
 						new Waypoint(Conversions.f2m(0), Conversions.f2m(0), Pathfinder.d2r(0)),    
-		        		new Waypoint(Conversions.f2m(5), Conversions.f2m(9.2), Pathfinder.d2r(45)),
+		        		new Waypoint(Conversions.f2m(5), Conversions.f2m(9.2), Pathfinder.d2r(-45)),
 		        		new Waypoint(Conversions.f2m(14), Conversions.f2m(8), Pathfinder.d2r(0))
 				};
 				break;
 			case "CToRSwitch":
 				waypoints = new Waypoint[] {
-						new Waypoint(Conversions.f2m(0), Conversions.f2m(0), Pathfinder.d2r(0)),    
-		        		new Waypoint(Conversions.f2m(5), Conversions.f2m(-9.2), Pathfinder.d2r(-45)),
+						new Waypoint(Conversions.f2m(0), Conversions.f2m(-1), Pathfinder.d2r(0)),    
+		        		new Waypoint(Conversions.f2m(5), Conversions.f2m(-9.2), Pathfinder.d2r(45)),
 		        		new Waypoint(Conversions.f2m(14), Conversions.f2m(-8), Pathfinder.d2r(0))
 				};
 				break;
 			case "LSwitchToLCube":
 				waypoints = new Waypoint[] {
-						new Waypoint(Conversions.ftToDrive(14), Conversions.ftToDrive(-8), Pathfinder.d2r(0)),    
-		        		new Waypoint(Conversions.ftToDrive(16.5), Conversions.ftToDrive(-7.5), Pathfinder.d2r(45)),
-		        		new Waypoint(Conversions.ftToDrive(19), Conversions.ftToDrive(-7), Pathfinder.d2r(90))
+						new Waypoint(Conversions.f2m(14), Conversions.f2m(-8), Pathfinder.d2r(0)),    
+		        		new Waypoint(Conversions.f2m(16.5), Conversions.f2m(-7.5), Pathfinder.d2r(45)),
+		        		new Waypoint(Conversions.f2m(19), Conversions.f2m(-7), Pathfinder.d2r(90))
 				};
 				break;
 			case "RSwitchToRCube":
 				waypoints = new Waypoint[] {
-						new Waypoint(Conversions.ftToDrive(14), Conversions.ftToDrive(8), Pathfinder.d2r(0)),    
-		        		new Waypoint(Conversions.ftToDrive(16.5), Conversions.ftToDrive(7.5), Pathfinder.d2r(-45)),
-		        		new Waypoint(Conversions.ftToDrive(19), Conversions.ftToDrive(7), Pathfinder.d2r(-90))
+						new Waypoint(Conversions.f2m(14), Conversions.f2m(8), Pathfinder.d2r(0)),    
+		        		new Waypoint(Conversions.f2m(16.5), Conversions.f2m(7.5), Pathfinder.d2r(-45)),
+		        		new Waypoint(Conversions.f2m(19), Conversions.f2m(7), Pathfinder.d2r(-90))
 				};
 				break;
 			case "LSwitchToRCube":
 				waypoints = new Waypoint[] {
-						new Waypoint(Conversions.ftToDrive(14), Conversions.ftToDrive(-8), Pathfinder.d2r(0)),    
-		        		new Waypoint(Conversions.ftToDrive(16.5), Conversions.ftToDrive(-7.5), Pathfinder.d2r(45)),
-		        		new Waypoint(Conversions.ftToDrive(19), Conversions.ftToDrive(-7), Pathfinder.d2r(90)),
-		        		new Waypoint(Conversions.ftToDrive(19), Conversions.ftToDrive(6), Pathfinder.d2r(90))
+						new Waypoint(Conversions.f2m(14), Conversions.f2m(-8), Pathfinder.d2r(0)),    
+		        		new Waypoint(Conversions.f2m(16.5), Conversions.f2m(-7.5), Pathfinder.d2r(45)),
+		        		new Waypoint(Conversions.f2m(19), Conversions.f2m(-7), Pathfinder.d2r(90)),
+		        		new Waypoint(Conversions.f2m(19), Conversions.f2m(6), Pathfinder.d2r(90))
 				};
 				break;
 			case "RSwitchToLCube":
 				waypoints = new Waypoint[] {
-						new Waypoint(Conversions.ftToDrive(14), Conversions.ftToDrive(8), Pathfinder.d2r(0)),    
-		        		new Waypoint(Conversions.ftToDrive(16.5), Conversions.ftToDrive(7.5), Pathfinder.d2r(-45)),
-		        		new Waypoint(Conversions.ftToDrive(19), Conversions.ftToDrive(7), Pathfinder.d2r(-90)),
-		        		new Waypoint(Conversions.ftToDrive(19), Conversions.ftToDrive(-6), Pathfinder.d2r(-90))
+						new Waypoint(Conversions.f2m(14), Conversions.f2m(8), Pathfinder.d2r(0)),    
+		        		new Waypoint(Conversions.f2m(16.5), Conversions.f2m(7.5), Pathfinder.d2r(-45)),
+		        		new Waypoint(Conversions.f2m(19), Conversions.f2m(7), Pathfinder.d2r(-90)),
+		        		new Waypoint(Conversions.f2m(19), Conversions.f2m(-6), Pathfinder.d2r(-90))
 				};
 				break;
 			case "LCubeToLScale":
 				waypoints = new Waypoint[] {
-		        		new Waypoint(Conversions.ftToDrive(19), Conversions.ftToDrive(-6), Pathfinder.d2r(-90)),
-		        		//new Waypoint(Conversions.ftToDrive(19.25), Conversions.ftToDrive(-9), Pathfinder.d2r(-90)),
-		        		new Waypoint(Conversions.ftToDrive(21), Conversions.ftToDrive(-9), Pathfinder.d2r(-45)),
-		        		new Waypoint(Conversions.ftToDrive(26.2), Conversions.ftToDrive(-9), Pathfinder.d2r(0))
+		        		new Waypoint(Conversions.f2m(19), Conversions.f2m(-6), Pathfinder.d2r(-90)),
+		        		//new Waypoint(Conversions.f2m(19.25), Conversions.f2m(-9), Pathfinder.d2r(-90)),
+		        		new Waypoint(Conversions.f2m(21), Conversions.f2m(-9), Pathfinder.d2r(-45)),
+		        		new Waypoint(Conversions.f2m(26.2), Conversions.f2m(-9), Pathfinder.d2r(0))
 				};
 				break;
 			case "LCubeToRScale":
 				waypoints = new Waypoint[] {
-		        		new Waypoint(Conversions.ftToDrive(19), Conversions.ftToDrive(-6), Pathfinder.d2r(90)),
-		        		//new Waypoint(Conversions.ftToDrive(19.25), Conversions.ftToDrive(0), Pathfinder.d2r(45)),
-		        		new Waypoint(Conversions.ftToDrive(19), Conversions.ftToDrive(9), Pathfinder.d2r(90)),
-		        		new Waypoint(Conversions.ftToDrive(21), Conversions.ftToDrive(10), Pathfinder.d2r(45)),
-		        		new Waypoint(Conversions.ftToDrive(26.2), Conversions.ftToDrive(9), Pathfinder.d2r(0))
+		        		new Waypoint(Conversions.f2m(19), Conversions.f2m(-6), Pathfinder.d2r(90)),
+		        		//new Waypoint(Conversions.f2m(19.25), Conversions.f2m(0), Pathfinder.d2r(45)),
+		        		new Waypoint(Conversions.f2m(19), Conversions.f2m(9), Pathfinder.d2r(90)),
+		        		new Waypoint(Conversions.f2m(21), Conversions.f2m(10), Pathfinder.d2r(45)),
+		        		new Waypoint(Conversions.f2m(26.2), Conversions.f2m(9), Pathfinder.d2r(0))
 				};
 				break;
 			case "RCubeToRScale":
 				waypoints = new Waypoint[] {
-		        		new Waypoint(Conversions.ftToDrive(19), Conversions.ftToDrive(6), Pathfinder.d2r(0)),
-		        		new Waypoint(Conversions.ftToDrive(19.25), Conversions.ftToDrive(9), Pathfinder.d2r(0)),
-		        		new Waypoint(Conversions.ftToDrive(21), Conversions.ftToDrive(9), Pathfinder.d2r(45)),
-		        		new Waypoint(Conversions.ftToDrive(26.2), Conversions.ftToDrive(9), Pathfinder.d2r(0))
+		        		new Waypoint(Conversions.f2m(19), Conversions.f2m(6), Pathfinder.d2r(0)),
+		        		new Waypoint(Conversions.f2m(19.25), Conversions.f2m(9), Pathfinder.d2r(0)),
+		        		new Waypoint(Conversions.f2m(21), Conversions.f2m(9), Pathfinder.d2r(45)),
+		        		new Waypoint(Conversions.f2m(26.2), Conversions.f2m(9), Pathfinder.d2r(0))
 				};
 				break;
 			case "RCubeToLScale":
 				waypoints = new Waypoint[] {
-		        		new Waypoint(Conversions.ftToDrive(19), Conversions.ftToDrive(6), Pathfinder.d2r(-90)),
-		        		//new Waypoint(Conversions.ftToDrive(19.25), Conversions.ftToDrive(0), Pathfinder.d2r(-45)),
-		        		new Waypoint(Conversions.ftToDrive(19), Conversions.ftToDrive(-9), Pathfinder.d2r(-90)),
-		        		new Waypoint(Conversions.ftToDrive(21), Conversions.ftToDrive(-10), Pathfinder.d2r(-45)),
-		        		new Waypoint(Conversions.ftToDrive(26.2), Conversions.ftToDrive(-9), Pathfinder.d2r(0))
+		        		new Waypoint(Conversions.f2m(19), Conversions.f2m(6), Pathfinder.d2r(-90)),
+		        		//new Waypoint(Conversions.f2m(19.25), Conversions.f2m(0), Pathfinder.d2r(-45)),
+		        		new Waypoint(Conversions.f2m(19), Conversions.f2m(-9), Pathfinder.d2r(-90)),
+		        		new Waypoint(Conversions.f2m(21), Conversions.f2m(-10), Pathfinder.d2r(-45)),
+		        		new Waypoint(Conversions.f2m(26.2), Conversions.f2m(-9), Pathfinder.d2r(0))
 				};
 				break;
 			case "LSwitchToLScale":
 				waypoints = new Waypoint[] {
-		        		new Waypoint(Conversions.ftToDrive(14), Conversions.ftToDrive(-8), Pathfinder.d2r(0)),
-		        		new Waypoint(Conversions.ftToDrive(19.25), Conversions.ftToDrive(-9), Pathfinder.d2r(0)),
-		        		new Waypoint(Conversions.ftToDrive(26.2), Conversions.ftToDrive(-9), Pathfinder.d2r(0))
+		        		new Waypoint(Conversions.f2m(14), Conversions.f2m(-8), Pathfinder.d2r(0)),
+		        		new Waypoint(Conversions.f2m(19.25), Conversions.f2m(-9), Pathfinder.d2r(0)),
+		        		new Waypoint(Conversions.f2m(26.2), Conversions.f2m(-9), Pathfinder.d2r(0))
 				};
 				break;
 			case "RSwitchToRScale":
 				waypoints = new Waypoint[] {
-		        		new Waypoint(Conversions.ftToDrive(14), Conversions.ftToDrive(8), Pathfinder.d2r(0)),
-		        		new Waypoint(Conversions.ftToDrive(19.25), Conversions.ftToDrive(9), Pathfinder.d2r(0)),
-		        		new Waypoint(Conversions.ftToDrive(26.2), Conversions.ftToDrive(9), Pathfinder.d2r(0))
+		        		new Waypoint(Conversions.f2m(14), Conversions.f2m(8), Pathfinder.d2r(0)),
+		        		new Waypoint(Conversions.f2m(19.25), Conversions.f2m(9), Pathfinder.d2r(0)),
+		        		new Waypoint(Conversions.f2m(26.2), Conversions.f2m(9), Pathfinder.d2r(0))
 				};
 				break;
 			default:
 				waypoints = new Waypoint[] {
-						new Waypoint(Conversions.ftToDrive(0), Conversions.ftToDrive(0), Pathfinder.d2r(0)),
-		        		new Waypoint(Conversions.ftToDrive(1), Conversions.ftToDrive(0), Pathfinder.d2r(0))};
+						new Waypoint(Conversions.f2m(0), Conversions.f2m(0), Pathfinder.d2r(0)),
+		        		new Waypoint(Conversions.f2m(1), Conversions.f2m(0), Pathfinder.d2r(0))};
 		}
 		return waypoints;
 	}
