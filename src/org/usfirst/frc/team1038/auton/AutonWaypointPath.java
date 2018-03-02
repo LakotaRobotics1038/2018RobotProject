@@ -156,13 +156,15 @@ public class AutonWaypointPath{
 			case "LLSwitch":
 				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.LToLSwitchFile));
 				autonSequence.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
-				autonSequence.addSequential(new TurnCommand(90));
-				autonSequence.addSequential(new ElevatorCommand(Elevator.SWITCH));
+//				autonSequence.addSequential(new TurnCommand(90));
+//				autonSequence.addSequential(new ElevatorCommand(Elevator.SWITCH));
+				autonSequence.addParallel(new ElevatorCommand(Elevator.SWITCH));
 				autonSequence.addSequential(new AcquireCommand(false, 3));
+				autonSequence.addSequential(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_MAX));
 				autonSequence.addSequential(new ElevatorCommand(Elevator.FLOOR));
-				autonSequence.addSequential(new TurnCommand(270));
-				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.LSwitchToLCubeFile));
-				autonSequence.addSequential(new TurnCommand(90));
+//				autonSequence.addSequential(new TurnCommand(270));
+//				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.LSwitchToLCubeFile));
+//				autonSequence.addSequential(new TurnCommand(90));
 				//add go forward
 				autonSequence.addParallel(new AcquireCommand(true, 1.5));
 				break;
@@ -196,12 +198,16 @@ public class AutonWaypointPath{
 			case "RRSwitch":
 				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.RToRSwitchFile));
 				autonSequence.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
-				autonSequence.addSequential(new TurnCommand(270));
-				autonSequence.addSequential(new ElevatorCommand(Elevator.SWITCH));
+				autonSequence.addParallel(new ElevatorCommand(Elevator.SWITCH));
 				autonSequence.addSequential(new AcquireCommand(false, 3));
+				autonSequence.addSequential(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_MAX));
 				autonSequence.addSequential(new ElevatorCommand(Elevator.FLOOR));
-				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.RSwitchToRCubeFile));
-				autonSequence.addSequential(new TurnCommand(270));
+//				autonSequence.addSequential(new TurnCommand(270));
+//				autonSequence.addSequential(new ElevatorCommand(Elevator.SWITCH));
+//				autonSequence.addSequential(new AcquireCommand(false, 3));
+//				autonSequence.addSequential(new ElevatorCommand(Elevator.FLOOR));
+//				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.RSwitchToRCubeFile));
+//				autonSequence.addSequential(new TurnCommand(270));
 				//add go forward
 				autonSequence.addParallel(new AcquireCommand(true, 1.5));
 				break;
@@ -282,16 +288,20 @@ public class AutonWaypointPath{
 				break;
 			case "LToLSwitch":
 				waypoints = new Waypoint[] {
-						new Waypoint(Conversions.f2m(0), Conversions.f2m(-6.4), Pathfinder.d2r(0)),    
-		        		new Waypoint(Conversions.f2m(8), Conversions.f2m(-8), Pathfinder.d2r(0)),
-		        		new Waypoint(Conversions.f2m(14), Conversions.f2m(-8), Pathfinder.d2r(0))
+//						new Waypoint(Conversions.f2m(0), Conversions.f2m(-6.4), Pathfinder.d2r(0)),    
+//		        		new Waypoint(Conversions.f2m(8), Conversions.f2m(-8), Pathfinder.d2r(0)),
+//		        		new Waypoint(Conversions.f2m(14), Conversions.f2m(-8), Pathfinder.d2r(0))
+						new Waypoint(Conversions.f2m(0), Conversions.f2m(0), Pathfinder.d2r(0)),
+						new Waypoint(Conversions.f2m(10), Conversions.f2m(0), Pathfinder.d2r(0))
 				};
 				break;
 			case "RToRSwitch":
 				waypoints = new Waypoint[] {
-						new Waypoint(Conversions.f2m(0), Conversions.f2m(6.4), Pathfinder.d2r(0)),    
-		        		new Waypoint(Conversions.f2m(8), Conversions.f2m(8), Pathfinder.d2r(0)),
-		        		new Waypoint(Conversions.f2m(14), Conversions.f2m(8), Pathfinder.d2r(0))
+//						new Waypoint(Conversions.f2m(0), Conversions.f2m(6.4), Pathfinder.d2r(0)),    
+//		        		new Waypoint(Conversions.f2m(8), Conversions.f2m(8), Pathfinder.d2r(0)),
+//		        		new Waypoint(Conversions.f2m(14), Conversions.f2m(8), Pathfinder.d2r(0))
+						new Waypoint(Conversions.f2m(0), Conversions.f2m(0), Pathfinder.d2r(0)),
+						new Waypoint(Conversions.f2m(10), Conversions.f2m(0), Pathfinder.d2r(0))
 				};
 				break;
 			case "CToLSwitch":
