@@ -181,6 +181,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		schedule.removeAll();
+		SmartDashboard.putBoolean("Reset Arm Encoder", true);
 		swag.enable();
 		
 		gyroSensor.resetGyro();

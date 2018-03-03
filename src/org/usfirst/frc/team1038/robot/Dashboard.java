@@ -5,6 +5,7 @@ import org.usfirst.frc.team1038.subsystem.DriveTrain;
 import org.usfirst.frc.team1038.subsystem.Elevator;
 
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.hal.PDPJNI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -13,7 +14,9 @@ public class Dashboard {
 	private String position;
 	private String autonChooser;
 	private static Dashboard dashboard;
-	//private PowerDistributionPanel pdp = new PowerDistributionPanel(0);
+	private Timer timer = new Timer();
+	private boolean timerRunning = false;
+	//private PowerDistributionPanel pdp = new PowerDistributionPanel(1);
 	
 	public static Dashboard getInstance() {
 		if (dashboard == null) {
@@ -46,8 +49,20 @@ public class Dashboard {
 		{
 			AcquisitionScoring.getInstance().armsUpDownSetMotor(-1);
 			AcquisitionScoring.getInstance().resetUpDownEncoder();
+			if (!timerRunning)
+			{
+				timer.start();
+				timerRunning = true;
+			}
+			if (timer.get() > 1)
+			{
+				SmartDashboard.putBoolean("Reset Arm Encoder", false);
+				AcquisitionScoring.getInstance().armsUpDownSetMotor(-0);
+				timer.stop();
+				timerRunning = false;
+				timer.reset();
+			}
 			//System.out.println(pdp.getCurrent(7));
-			//SmartDashboard.putBoolean("Reset Arm Encoder", false);
 		}
 		
 		if (SmartDashboard.getBoolean("Reset Elevator Encoder", false))

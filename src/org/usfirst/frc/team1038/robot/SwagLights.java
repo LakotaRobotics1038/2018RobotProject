@@ -6,6 +6,7 @@ import org.usfirst.frc.team1038.subsystem.Elevator;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.Timer;
 
 public class SwagLights {
 	public enum WheelWellStates { Disabled, EStop, Red, Blue };
@@ -37,6 +38,7 @@ public class SwagLights {
 	private DriveTrain robotDrive = DriveTrain.getInstance();
 	private Elevator elevator = Elevator.getInstance();
 	private AcquisitionScoring acqSco = AcquisitionScoring.getInstance();
+	private Timer timer = new Timer();
 	
 	private SerialPort ard = new SerialPort(9600, SerialPort.Port.kMXP);
 	private static SwagLights swag;
@@ -51,7 +53,7 @@ public class SwagLights {
 	
 	private SwagLights()
 	{
-		
+		timer.start();
 	}
 	
 	public void setWheelWell(WheelWellStates state)
@@ -116,10 +118,14 @@ public class SwagLights {
 	
 	public void swagPeriodic()
 	{
+		if (timer.get() > 1)
+		{
 		String toWrite = wheelWell + "\r" + nameNumber + "\r" + tower + "\r";
 		//System.out.println(toWrite);
 		ard.writeString(toWrite);
 		//System.out.println(ard.readString());
+		timer.reset();
+		}
 	}	
 	
 	public void swagEnabledPeriodic()

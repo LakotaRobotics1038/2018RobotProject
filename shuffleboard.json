@@ -49,7 +49,7 @@
               1
             ],
             "content": {
-              "_type": "Toggle Switch",
+              "_type": "Toggle Button",
               "_source0": "network_table:///SmartDashboard/Reset Arm Encoder",
               "_title": "Reset Arm Encoder"
             }
