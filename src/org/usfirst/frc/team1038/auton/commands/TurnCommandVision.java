@@ -36,7 +36,7 @@ public class TurnCommandVision extends PIDCommand {
 	
 	//methods
 	protected void initialize() {
-		gyroSensor.resetGyro();
+		gyroSensor.reset();
 	}
 	
 	public void execute() {

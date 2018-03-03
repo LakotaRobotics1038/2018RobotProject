@@ -62,7 +62,7 @@ public class AutonWaypointPath{
 			case "CL":
 				autonSequence.addSequential(new Pathfinder1038(Pathfinder1038.CToLSwitchFile));
 				autonSequence.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
-				//autonSequence.addSequential(new TurnCommand(90));
+				autonSequence.addSequential(new TurnCommand(90));
 				autonSequence.addSequential(new ElevatorCommand(Elevator.SWITCH));
 				autonSequence.addSequential(new AcquireCommand(false, 1.5));
 				autonSequence.addSequential(new ElevatorCommand(Elevator.FLOOR));
@@ -307,8 +307,8 @@ public class AutonWaypointPath{
 			case "CToLSwitch":
 				waypoints = new Waypoint[] {
 						new Waypoint(Conversions.f2m(0), Conversions.f2m(0), Pathfinder.d2r(0)),    
-		        		new Waypoint(Conversions.f2m(4), Conversions.f2m(9), Pathfinder.d2r(45)),
-		        		new Waypoint(Conversions.f2m(14), Conversions.f2m(9), Pathfinder.d2r(-45))
+		        		new Waypoint(Conversions.f2m(2.5), Conversions.f2m(6), Pathfinder.d2r(45)),
+		        		new Waypoint(Conversions.f2m(12), Conversions.f2m(6), Pathfinder.d2r(0))
 				};
 				break;
 			case "CToRSwitch":

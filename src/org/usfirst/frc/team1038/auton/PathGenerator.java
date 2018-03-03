@@ -3,9 +3,9 @@ package org.usfirst.frc.team1038.auton;
 public class PathGenerator {
 	public static void generate()
 	{
-		String[] autons = { "None", "LToLSwitch", "RToRSwitch","CToLSwitch", "CToRSwitch" , "LSwitchToLCube", "RSwitchToRCube",
+		String[] autons = { /*"None", "LToLSwitch", "RToRSwitch",*/"CToLSwitch", "CToRSwitch" , /*"LSwitchToLCube", "RSwitchToRCube",
 				"LSwitchtoRCube", "RSwitchToLCube",  "LCubeToLScale", "LCubeToRScale", "RCubeToRScale", "RCubeToLScale",
-				"RSwitchToRScale", "LSwitchToLScale"};
+				"RSwitchToRScale", "LSwitchToLScale"*/};
 		
 		AutonWaypointPath pathWriter = AutonWaypointPath.getInstance();
 		for (String auton : autons)

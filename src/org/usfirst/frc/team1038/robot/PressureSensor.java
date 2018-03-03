@@ -23,8 +23,7 @@ public class PressureSensor {
 	
 	public double getPressure()
 	{
-		
-		return 250 * (analogInput.getVoltage() / RIO_VOLTAGE) - 20;
+		return Math.round(250 * (analogInput.getVoltage() / RIO_VOLTAGE) - 20);
 	}
 	
 	public double getVoltage()

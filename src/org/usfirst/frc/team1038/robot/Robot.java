@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Compressor;
 import org.usfirst.frc.team1038.auton.AutonSelector;
 import org.usfirst.frc.team1038.auton.AutonWaypointPath;
 import org.usfirst.frc.team1038.auton.PathGenerator;
+import org.usfirst.frc.team1038.auton.commands.DriveStraight;
 import org.usfirst.frc.team1038.auton.commands.ElevatorCommand;
 import org.usfirst.frc.team1038.auton.commands.TeleopStartCommand;
 import org.usfirst.frc.team1038.robot.SwagLights.WheelWellStates;
@@ -156,10 +157,11 @@ public class Robot extends IterativeRobot {
 		
 		autonSelector.chooseAuton();
 		autonPath = waypointPath.autonChoice();
-		gyroSensor.resetGyro();
+		gyroSensor.reset();
 		//pathTest.initialize();
 		schedule.add(autonPath);
 		//schedule.add(new ElevatorCommand(Elevator.SWITCH));
+		//schedule.add(new DriveStraight(60));
 	}
 
 	/**
@@ -184,7 +186,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putBoolean("Reset Arm Encoder", true);
 		swag.enable();
 		
-		gyroSensor.resetGyro();
+		gyroSensor.reset();
 		robotDrive.resetEncoders();
 		new TeleopStartCommand();
 		//visionCommandTest = null;

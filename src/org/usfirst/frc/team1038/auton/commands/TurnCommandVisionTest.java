@@ -35,7 +35,7 @@ public class TurnCommandVisionTest extends PIDCommand {
 	
 	//methods
 	public void initialize() {
-		gyroSensor.resetGyro();
+		gyroSensor.reset();
 		
 		if (camera.getAngle() > 0)
 			setSetpoint(camera.getAngle());

@@ -1,8 +1,9 @@
 package org.usfirst.frc.team1038.robot;
 
+import edu.wpi.first.wpilibj.GyroBase;
 import edu.wpi.first.wpilibj.I2C;
 
-public class I2CGyro {
+public class I2CGyro extends GyroBase{
 	//VARIABLES
 	private final int SENSOR_ID_CODE = 0x02;
 	private final int COMMAND = 0x03;
@@ -38,7 +39,8 @@ public class I2CGyro {
 		return gyroSensor;
 	}
 	
-	//Reads and translates input from the Gyro into a value from 0-359	
+	//Reads and translates input from the Gyro into a value from 0-359
+	@Override
 	public double getAngle() {
 		byte[] dataBuffer = new byte[6];
 		
@@ -66,15 +68,23 @@ public class I2CGyro {
 	  }
 	
 	//Sets current gyro value to 0
-	public void resetGyro()
+	@Override
+	public void reset()
 	{
 		I2CBus.write(COMMAND, RESET_Z_AXIS_INTEGRATOR);
 		I2CBus.write(SENSOR_ID_CODE, NORMAL_MEASUREMENT_MODE);
 	}
 	
-	public void recalibrateGyro()
+	@Override
+	public void calibrate()
 	{
 		I2CBus.write(COMMAND, GYRO_RECALIBRATE);
 		I2CBus.write(SENSOR_ID_CODE, NORMAL_MEASUREMENT_MODE);
+	}
+
+	@Override
+	public double getRate() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

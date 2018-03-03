@@ -63,7 +63,7 @@ public class PathfinderTest extends Command {
 
         Trajectory trajectory = Pathfinder.generate(points, config);
         
-    		gyro.resetGyro();
+    		gyro.reset();
     		drive.resetEncoders();
     		TankModifier modifier = new TankModifier(trajectory).modify(Conversions.f2m(WHEELBASE_WIDTH / 12.0));
     		left = new EncoderFollower(modifier.getLeftTrajectory());

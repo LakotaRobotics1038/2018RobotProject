@@ -26,7 +26,7 @@ public class SwagLights {
 	//Tower
 	private final String CAN_CUN_NO = "s"; //Camera doesn't see cube, does not have cube, & isn't acquiring
 	private final String CAY_CUN_NO = "f"; //Camera sees cube, doesn't have cube, & isn't  acquiring
-	private final String ACQUIRING = "a";
+	private final String ACQUIRING = "p";
 	private final String DISPOSING = "a";
 	private final String ELEVATOR_UP = "u";
 	private final String ELEVATOR_DOWN = "d";
@@ -118,14 +118,14 @@ public class SwagLights {
 	
 	public void swagPeriodic()
 	{
-		if (timer.get() > 1)
-		{
+//		if (timer.get() > 1)
+//		{
 		String toWrite = wheelWell + "\r" + nameNumber + "\r" + tower + "\r";
-		//System.out.println(toWrite);
+		//System.out.println(toWrite + "\n");
 		ard.writeString(toWrite);
 		//System.out.println(ard.readString());
-		timer.reset();
-		}
+//		timer.reset();
+//		}
 	}	
 	
 	public void swagEnabledPeriodic()
@@ -136,13 +136,13 @@ public class SwagLights {
 			setNameNumer(NameNumberStates.LowGear);
 		}
 		
-		if (elevator.getElevatorSpeed() > 1) {
+		/*if (elevator.getElevatorSpeed() > 1) {
 			setTower(TowerStates.ElevatorUp);
 		} else if (elevator.getElevatorSpeed() < 1) {
-			setTower(TowerStates.ElevatorDown);
-		} else if (acqSco.getAcqMotorPower() > .2) {
+			setTower(TowerStates.ElevatorDown);*/
+		/*} else */if (acqSco.getAcqMotorPower() > .2) {
 			setTower(TowerStates.Acquiring);
-		} else if (acqSco.getAcqMotorPower() < .2) {
+		} else if (acqSco.getAcqMotorPower() < -.2) {
 			setTower(TowerStates.Disposing);
 		} else {
 			setTower(TowerStates.Default);
