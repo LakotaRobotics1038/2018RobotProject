@@ -30,7 +30,7 @@ public class AutonSelector {
 		
 		position = Dashboard.getInstance().getPosition(); 
 		autonChooser = Dashboard.getInstance().getAutonChooser(); 
-		String gameDataAuton = DriverStation.getInstance().getGameSpecificMessage().substring(0, 2);
+		String gameDataAuton = DriverStation.getInstance().getGameSpecificMessage().substring(1, 2);
 		System.out.println(position);
 		System.out.println(autonChooser);
 		System.out.println(gameDataAuton);
@@ -47,41 +47,23 @@ public class AutonSelector {
 			System.out.println("Choose Forward path");
 		}else if(autonChooser.equals(Robot.kCustomAuto)) {
 			if(position.equals(Robot.kCenterPosition)) {
-				if(gameDataAuton.equals("LR")) {
-					path = "CL";
-					System.out.println("Choose CL");
-				}else if(gameDataAuton.equals("LL")) {
-					path = "CLL";
-					path = "CL";
-				}else if(gameDataAuton.equals("RL")) {
-					path = "CR";
-				}else if(gameDataAuton.equals("RR")) {
-					path = "CRR";
-					path = "CR";
+				if(gameDataAuton.equals("R")) {
+					path = "CRScale";
+					System.out.println("Choose CRScale");
+				}else if(gameDataAuton.equals("L")) {
+					path = "CLScale";
 				}
 			}else if(position.equals(Robot.kLeftPosition)) {
-				if(gameDataAuton.equals("LR")) {
-					path = "LLSwitch";
-				}else if(gameDataAuton.equals("LL")) {
-					path = "LLL";
-					path = "LLSwitch";
-				}else if(gameDataAuton.equals("RL")) {
+				if(gameDataAuton.equals("R")) {
+					path = "LRScale";
+				}else if(gameDataAuton.equals("L")) {
 					path = "LLScale";
-					path = "LF";
-				}else if(gameDataAuton.equals("RR")) {
-					path = "LF";
 				}
 			}else if(position.equals(Robot.kRightPosition)) {
-				if(gameDataAuton.equals("LR")) {
+				if(gameDataAuton.equals("R")) {
 					path = "RRScale";
-					path = "RF";
-				}else if(gameDataAuton.equals("LL")) {
-					path = "RF";
-				}else if(gameDataAuton.equals("RL")) {
-					path = "RRSwitch";
-				}else if(gameDataAuton.equals("RR")) {
-					path = "RRR";
-					path = "RRSwitch";
+				}else if(gameDataAuton.equals("L")) {
+					path = "RLScale";
 				}
 			}
 		}

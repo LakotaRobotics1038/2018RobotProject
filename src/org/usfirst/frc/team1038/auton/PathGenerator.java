@@ -11,9 +11,9 @@ public class PathGenerator {
 		for (String auton : autons)
 		{
 //		String auton = "CToRSwitch";
-			System.out.println("Writing Auton: " + auton);
-			pathWriter.writeToFile(pathWriter.getWaypointPath(auton), auton);
-			System.out.println("Wrote Auton: " + auton);
+//			System.out.println("Writing Auton: " + auton);
+//			pathWriter.writeToFile(pathWriter.getWaypointPath(auton), auton);
+//			System.out.println("Wrote Auton: " + auton);
 		}
 		System.out.println("Paths generated");
 	}

@@ -9,9 +9,7 @@ import org.usfirst.frc.team1038.subsystem.DriveTrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 import jaci.pathfinder.Pathfinder;
-import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.followers.EncoderFollower;
-import jaci.pathfinder.modifiers.TankModifier;
 
 public class Pathfinder1038 extends Command {
 	
@@ -29,26 +27,13 @@ public class Pathfinder1038 extends Command {
 	private final static double I = 0.000;
 	private final static double D = 0.005;
 	double angleDifference;
-	public File choosenFile;
+	public File choosenLFile;
+	public File choosenRFile;
 	public File File1038 = new File("/home/lvuser/Paths/1038File.traj");
-	public static File NFile = new File("/home/lvuser/Paths/NFile.traj");
-	public static File LToLSwitchFile = new File("/home/lvuser/Paths/LToLSwitchFile.traj");
-	public static File RToRSwitchFile = new File("/home/lvuser/Paths/RToRSwitchFile.traj");
-	public static File CToLSwitchFile = new File("/home/lvuser/Paths/CToLSwitchFile.traj");
-	public static File CToRSwitchFile = new File("/home/lvuser/Paths/CToRSwitchFile.traj");
-	public static File LSwitchToLCubeFile = new File("/home/lvuser/Paths/LSwitchToLCubeFile.traj");
-	public static File RSwitchToRCubeFile = new File("/home/lvuser/Paths/RSwitchToRCubeFile.traj");
-	public static File LSwitchToRCubeFile = new File("/home/lvuser/Paths/LSwitchtoRCubeFile.traj");
-	public static File RSwitchToLCubeFile = new File("/home/lvuser/Paths/RSwitchToLCubeFile.traj");
-	public static File LCubeToLScaleFile = new File("/home/lvuser/Paths/LCubeToLScaleFile.traj");
-	public static File LCubeToRScaleFile = new File("/home/lvuser/Paths/LCubeToRScaleFile.traj");
-	public static File RCubeToRScaleFile = new File("/home/lvuser/Paths/RCubeToRScaleFile.traj");
-	public static File RCubeToLScaleFile = new File("/home/lvuser/Paths/RCubeToLScaleFile.traj");
-	public static File RSwitchToRScaleFile = new File("/home/lvuser/Paths/RSwitchToRScaleFile.traj");
-	public static File LSwitchToLScaleFile = new File("/home/lvuser/Paths/LSwitchToLScaleFile.traj");
     
-	public Pathfinder1038(File cFile) {
-		choosenFile = cFile;
+	public Pathfinder1038(File LFile, File RFile) {
+		choosenLFile = LFile;
+		choosenRFile = RFile;
 		requires(Robot.robotDrive);
 	}
     @Override
@@ -68,15 +53,14 @@ public class Pathfinder1038 extends Command {
         //Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_LOW, TIME_STEP, MAX_VELOCITY, MAX_ACC, MAX_JERK);
         
         //Read from file 
-        Trajectory trajectory = Pathfinder.readFromFile(choosenFile);
-
-        //Trajectory trajectory = Pathfinder.generate(points, config);
+        //Trajectory trajectory = Pathfinder.readFromFile(choosenFile);
+    	//Trajectory trajectory = Pathfinder.generate(points, config);
         
     		gyro.reset();
     		drive.resetEncoders();
-    		TankModifier modifier = new TankModifier(trajectory).modify(Conversions.f2m(WHEELBASE_WIDTH / 12.0));
-    		left = new EncoderFollower(modifier.getLeftTrajectory());
-    		right = new EncoderFollower(modifier.getRightTrajectory());
+    		//TankModifier modifier = new TankModifier(trajectory).modify(Conversions.f2m(WHEELBASE_WIDTH / 12.0));
+    		left = new EncoderFollower(Pathfinder.readFromFile(choosenLFile)); /*modifier.getLeftTrajectory()*/
+    		right = new EncoderFollower(Pathfinder.readFromFile(choosenRFile)); /*modifier.getRightTrajectory()*/
     		// Encoder Position is the current, cumulative position of your encoder. If you're using an SRX, this will be the
     		// 'getEncPosition' function.
     		// 1000 is the amount of encoder ticks per full revolution
@@ -94,63 +78,8 @@ public class Pathfinder1038 extends Command {
     		System.out.println("Pathfinder Configured");
     	}
     	
-    public void execute()
-    {
-//    		// Do something with the new Trajectory...
-//    		double l = left.calculate(drive.getLeftDriveEncoderCount());
-//    		double r = right.calculate(drive.getRightDriveEncoderCount());
-//
-//    		double gyro_heading = gyro.getAngle();    // Assuming the gyro is giving a value in degrees
-//    		double desired_heading = Pathfinder.r2d(left.getHeading());  // Should also be in degrees
-//
-//    		angleDifference = Pathfinder.boundHalfDegrees(desired_heading - gyro_heading);
-//    		System.out.println("Desired: " + desired_heading + " Current:" + gyro_heading + " Angle Difference: " + angleDifference);
-//    		double turn = 0;
-//    		if(left.isFinished() && right.isFinished()) {
-//	    		turn = 0.05 * angleDifference; // 0.8 * (-1/80) = -0.01
-//	    		System.out.println("Default turn: " + turn);
-//	    		
-//	    		if(angleDifference < 2 && angleDifference > -2) {
-//	    			turn = 0;
-//	    		}else if(angleDifference < 20 && angleDifference > 2) {
-//	    			turn = 0.5;
-//	    		}else if(angleDifference > -20 && angleDifference < -2) {
-//	    			turn = 0.5;
-//	    		}
-//	    		
-//	    		if(turn > 0.8) {
-//	    			turn = 0.8;
-//	    		}else if(turn < -0.8) {
-//	    			turn = -0.8;
-//	    		}
-//    		}
-//    		
-//    		if(l > 0.8) {
-//    			l = 0.8;
-//    		}else if(l < -0.8) {
-//    			l = -0.8;
-//    		}
-//    		
-//    		if(r > 0.8) {
-//    			r = 0.8;
-//    		}else if(r < -0.8) {
-//    			r = -0.8;
-//    		}
-//    		
-//    		double leftTurn = (l + turn);
-//    		if(leftTurn > 0.9) {
-//    			leftTurn = 0.9;
-//    		}else if(leftTurn < -0.9) {
-//    			leftTurn = -0.9;
-//    		}
-//    		double rightTurn = (r - turn);
-//    		if(rightTurn > 0.9) {
-//    			rightTurn = 0.9;
-//    		}else if(rightTurn < -0.9) {
-//    			rightTurn = -0.9;
-//    		}
-//    		
-//    		drive.tankDrive(leftTurn, rightTurn);
+    public void execute(){
+
     	double l = left.calculate(drive.getLeftDriveEncoderCount());
     	double r = right.calculate(drive.getRightDriveEncoderCount());
 
@@ -161,7 +90,7 @@ public class Pathfinder1038 extends Command {
     	double turn = 0.4 * (-1.0/80.0) * angleDifference;
 
     	drive.tankDrive(l + turn, r - turn);
-    		System.out.printf("Path Output Calculated: %f,%f,%f,%f"/*,%f,%f*/+"\n", l, r, turn, /*leftTurn, rightTurn,*/ angleDifference);
+    		System.out.printf("Path Output Calculated: %f,%f,%f,%f\n", l, r, turn, angleDifference);
     }
     
 	@Override
