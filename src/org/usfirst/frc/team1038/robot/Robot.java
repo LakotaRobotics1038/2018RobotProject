@@ -51,7 +51,7 @@ public class Robot extends IterativeRobot {
 	private Climb robotClimb = Climb.getInstance();
 	
 		//Pneumatics
-	private Compressor c = new Compressor();
+	//private Compressor c = new Compressor();
 	
 		//Drive
 	public static DriveTrain robotDrive = DriveTrain.getInstance();
