@@ -14,22 +14,21 @@ import jaci.pathfinder.followers.EncoderFollower;
 public class Pathfinder1038 extends Command {
 	
 	private final double WHEEL_DIAMETER = 6;
-	private final double TIME_STEP = .05;
-	private final double MAX_VELOCITY = .85;
-	private final double MAX_ACC = 1.0;
-	private final double MAX_JERK = 60.0;
-	private final double WHEELBASE_WIDTH = 20.5 /* Prototype Bot 38.25*/; //inches
+	//private final double TIME_STEP = .05;
+	private final double MAX_VELOCITY = .07;
+	private final double MAX_ACC = .25;
+	//private final double MAX_JERK = 60.0;
+	//private final double WHEELBASE_WIDTH = 20.5 /* Prototype Bot 38.25*/; //inches
 	private EncoderFollower left;
 	private EncoderFollower right;
 	private DriveTrain drive = DriveTrain.getInstance();
 	private I2CGyro gyro = I2CGyro.getInstance();
-	private final static double P = .05;
+	private final static double P = 0.000001;
 	private final static double I = 0.000;
-	private final static double D = 0.005;
+	private final static double D = 0.000;
 	double angleDifference;
 	public File choosenLFile;
 	public File choosenRFile;
-	public File File1038 = new File("/home/lvuser/Paths/1038File.traj");
     
 	public Pathfinder1038(File LFile, File RFile) {
 		choosenLFile = LFile;
@@ -59,14 +58,14 @@ public class Pathfinder1038 extends Command {
     		gyro.reset();
     		drive.resetEncoders();
     		//TankModifier modifier = new TankModifier(trajectory).modify(Conversions.f2m(WHEELBASE_WIDTH / 12.0));
-    		left = new EncoderFollower(Pathfinder.readFromFile(choosenLFile)); /*modifier.getLeftTrajectory()*/
-    		right = new EncoderFollower(Pathfinder.readFromFile(choosenRFile)); /*modifier.getRightTrajectory()*/
+    		left = new EncoderFollower(Pathfinder.readFromCSV(choosenLFile)); /*modifier.getLeftTrajectory()*/
+    		right = new EncoderFollower(Pathfinder.readFromCSV(choosenRFile)); /*modifier.getRightTrajectory()*/
     		// Encoder Position is the current, cumulative position of your encoder. If you're using an SRX, this will be the
     		// 'getEncPosition' function.
     		// 1000 is the amount of encoder ticks per full revolution
     		// Wheel Diameter is the diameter of your wheels (or pulley for a track system) in meters
-    		left.configureEncoder(drive.getLeftDriveEncoderCount(), 220, Conversions.f2m(WHEEL_DIAMETER / 12.0));
-    		right.configureEncoder(drive.getRightDriveEncoderCount(), 220, Conversions.f2m(WHEEL_DIAMETER / 12.0));
+    		left.configureEncoder(drive.getLeftDriveEncoderCount(), 220, WHEEL_DIAMETER / 12.0);
+    		right.configureEncoder(drive.getRightDriveEncoderCount(), 220, WHEEL_DIAMETER / 12.0);
     		// The first argument is the proportional gain. Usually this will be quite high
     		// The second argument is the integral gain. This is unused for motion profiling
     		// The third argument is the derivative gain. Tweak this if you are unhappy with the tracking of the trajectory
@@ -78,7 +77,7 @@ public class Pathfinder1038 extends Command {
     		System.out.println("Pathfinder Configured");
     	}
     	
-    public void execute(){
+    public void execute() {
 
     	double l = left.calculate(drive.getLeftDriveEncoderCount());
     	double r = right.calculate(drive.getRightDriveEncoderCount());

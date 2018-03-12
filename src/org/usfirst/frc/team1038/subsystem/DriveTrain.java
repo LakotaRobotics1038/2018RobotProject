@@ -22,10 +22,10 @@ public class DriveTrain extends Subsystem {
 	//private final static int RIGHT_DRIVE_PORT = 1;
 	//private static Spark leftDrive = new Spark(LEFT_DRIVE_PORT);
 	//private static Spark rightDrive = new Spark(RIGHT_DRIVE_PORT);
-	private final static int LEFT_DRIVE_PORT_1 = 12;
-	private final static int LEFT_DRIVE_PORT_2 = 13;
-	private final static int RIGHT_DRIVE_PORT_1 = 10;
-	private final static int RIGHT_DRIVE_PORT_2 = 11;
+	private final static int LEFT_DRIVE_PORT_1 = 10;
+	private final static int LEFT_DRIVE_PORT_2 = 11;
+	private final static int RIGHT_DRIVE_PORT_1 = 12;
+	private final static int RIGHT_DRIVE_PORT_2 = 13;
 	private TalonSRX1038 leftDrive1 = new TalonSRX1038(LEFT_DRIVE_PORT_1);
 	private TalonSRX1038 leftDrive2 = new TalonSRX1038(LEFT_DRIVE_PORT_2);
 	private TalonSRX1038 rightDrive1 = new TalonSRX1038(RIGHT_DRIVE_PORT_1);
