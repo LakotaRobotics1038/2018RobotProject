@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1038.auton.commands;
+package org.usfirst.frc.team1038.depricated;
 
 import java.io.File;
 
@@ -9,21 +9,21 @@ import org.usfirst.frc.team1038.subsystem.DriveTrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 import jaci.pathfinder.Pathfinder;
+import jaci.pathfinder.followers.DistanceFollower;
 import jaci.pathfinder.followers.EncoderFollower;
 
 public class Pathfinder1038 extends Command {
 	
-	private final double WHEEL_DIAMETER = 6;
 	//private final double TIME_STEP = .05;
 	private final double MAX_VELOCITY = .07;
 	private final double MAX_ACC = .25;
 	//private final double MAX_JERK = 60.0;
 	//private final double WHEELBASE_WIDTH = 20.5 /* Prototype Bot 38.25*/; //inches
-	private EncoderFollower left;
-	private EncoderFollower right;
+	private DistanceFollower left; //EncoderFollower
+	private DistanceFollower right;
 	private DriveTrain drive = DriveTrain.getInstance();
 	private I2CGyro gyro = I2CGyro.getInstance();
-	private final static double P = 0.000001;
+	private final static double P = 0.0001;
 	private final static double I = 0.000;
 	private final static double D = 0.000;
 	double angleDifference;
@@ -58,14 +58,14 @@ public class Pathfinder1038 extends Command {
     		gyro.reset();
     		drive.resetEncoders();
     		//TankModifier modifier = new TankModifier(trajectory).modify(Conversions.f2m(WHEELBASE_WIDTH / 12.0));
-    		left = new EncoderFollower(Pathfinder.readFromCSV(choosenLFile)); /*modifier.getLeftTrajectory()*/
-    		right = new EncoderFollower(Pathfinder.readFromCSV(choosenRFile)); /*modifier.getRightTrajectory()*/
+    		left = new DistanceFollower(Pathfinder.readFromCSV(choosenLFile)); /*modifier.getLeftTrajectory()*/
+    		right = new DistanceFollower(Pathfinder.readFromCSV(choosenRFile)); /*modifier.getRightTrajectory()*/
     		// Encoder Position is the current, cumulative position of your encoder. If you're using an SRX, this will be the
     		// 'getEncPosition' function.
     		// 1000 is the amount of encoder ticks per full revolution
     		// Wheel Diameter is the diameter of your wheels (or pulley for a track system) in meters
-    		left.configureEncoder(drive.getLeftDriveEncoderCount(), 220, WHEEL_DIAMETER / 12.0);
-    		right.configureEncoder(drive.getRightDriveEncoderCount(), 220, WHEEL_DIAMETER / 12.0);
+    		//left.configureEncoder(drive.getLeftDriveEncoderCount(), drive.ENCODER_COUNTS_PER_REV, drive.WHEEL_DIAMETER / 12.0);
+    		//right.configureEncoder(drive.getRightDriveEncoderCount(), drive.ENCODER_COUNTS_PER_REV, drive.WHEEL_DIAMETER / 12.0);
     		// The first argument is the proportional gain. Usually this will be quite high
     		// The second argument is the integral gain. This is unused for motion profiling
     		// The third argument is the derivative gain. Tweak this if you are unhappy with the tracking of the trajectory
@@ -79,8 +79,10 @@ public class Pathfinder1038 extends Command {
     	
     public void execute() {
 
-    	double l = left.calculate(drive.getLeftDriveEncoderCount());
-    	double r = right.calculate(drive.getRightDriveEncoderCount());
+    	//double l = left.calculate(drive.getLeftDriveEncoderCount());
+    	//double r = right.calculate(drive.getRightDriveEncoderCount());
+    	double l = left.calculate(drive.getLeftDriveEncoderDistance() * 2000);
+    	double r = right.calculate(drive.getRightDriveEncoderDistance() * 2000);
 
     	double gyro_heading = gyro.getAngle();   // Assuming the gyro is giving a value in degrees
     	double desired_heading = Pathfinder.r2d(left.getHeading());  // Should also be in degrees
@@ -88,7 +90,7 @@ public class Pathfinder1038 extends Command {
     	double angleDifference = Pathfinder.boundHalfDegrees(desired_heading - gyro_heading);
     	double turn = 0.4 * (-1.0/80.0) * angleDifference;
 
-    	drive.tankDrive(l + turn, r - turn);
+    	drive.tankDrive(l - turn, r + turn);
     		System.out.printf("Path Output Calculated: %f,%f,%f,%f\n", l, r, turn, angleDifference);
     }
     

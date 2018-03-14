@@ -16,8 +16,8 @@ public class DriveTrain extends Subsystem {
 	private final int RIGHT_ENCODER_CHANNEL_A = 2;
 	private final int LEFT_ENCODER_CHANNEL_B = 1;
 	private final int RIGHT_ENCODER_CHANNEL_B = 3;
-	private final int ENCODER_COUNTS_PER_REV = 210;
-	private final double WHEEL_DIAMETER = 6;
+	public final int ENCODER_COUNTS_PER_REV = 210;
+	public final double WHEEL_DIAMETER = 6;
 	//private final static int LEFT_DRIVE_PORT = 0;
 	//private final static int RIGHT_DRIVE_PORT = 1;
 	//private static Spark leftDrive = new Spark(LEFT_DRIVE_PORT);
@@ -30,8 +30,8 @@ public class DriveTrain extends Subsystem {
 	private TalonSRX1038 leftDrive2 = new TalonSRX1038(LEFT_DRIVE_PORT_2);
 	private TalonSRX1038 rightDrive1 = new TalonSRX1038(RIGHT_DRIVE_PORT_1);
 	private TalonSRX1038 rightDrive2 = new TalonSRX1038(RIGHT_DRIVE_PORT_2);
-	private SpeedControllerGroup leftDrive = new SpeedControllerGroup(leftDrive1, leftDrive2);
-	private SpeedControllerGroup rightDrive = new SpeedControllerGroup(rightDrive1, rightDrive2);
+//	private SpeedControllerGroup leftDrive = new SpeedControllerGroup(leftDrive1, leftDrive2);
+//	private SpeedControllerGroup rightDrive = new SpeedControllerGroup(rightDrive1, rightDrive2);
 	//private DoubleSolenoid shifter = new DoubleSolenoid(0, 1);
 	//private DoubleSolenoid PTO = new DoubleSolenoid(2, 3);
 	private Encoder1038 leftDriveEncoder = new Encoder1038(LEFT_ENCODER_CHANNEL_A, LEFT_ENCODER_CHANNEL_B, false, ENCODER_COUNTS_PER_REV, WHEEL_DIAMETER);
@@ -53,7 +53,9 @@ public class DriveTrain extends Subsystem {
 	private DriveTrain() {
 		//leftDrive.setInverted(false);
 		//rightDrive.setInverted(false);
-		differentialDrive = new DifferentialDrive(leftDrive, rightDrive);
+		leftDrive2.follow(leftDrive1);
+		rightDrive2.follow(rightDrive1);
+		differentialDrive = new DifferentialDrive(leftDrive1, rightDrive1);
 	}
 	
 	//Getters

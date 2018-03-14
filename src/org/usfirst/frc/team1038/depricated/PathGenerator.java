@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1038.auton;
+package org.usfirst.frc.team1038.depricated;
 
 public class PathGenerator {
 	public static void generate()

@@ -1,11 +1,11 @@
-package org.usfirst.frc.team1038.auton;
+package org.usfirst.frc.team1038.depricated;
 
 import java.io.File;
 
+import org.usfirst.frc.team1038.auton.AutonSelector;
 import org.usfirst.frc.team1038.auton.commands.AcquireCommand;
 import org.usfirst.frc.team1038.auton.commands.AcquisitionAngleCommand;
 import org.usfirst.frc.team1038.auton.commands.ElevatorCommand;
-import org.usfirst.frc.team1038.auton.commands.Pathfinder1038;
 import org.usfirst.frc.team1038.auton.commands.TurnCommand;
 import org.usfirst.frc.team1038.subsystem.AcquisitionScoring;
 import org.usfirst.frc.team1038.subsystem.Elevator;

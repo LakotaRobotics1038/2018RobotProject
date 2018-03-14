@@ -9,11 +9,10 @@ package org.usfirst.frc.team1038.robot;
 
 import edu.wpi.first.wpilibj.Compressor;
 import org.usfirst.frc.team1038.auton.AutonSelector;
-import org.usfirst.frc.team1038.auton.AutonWaypointPath;
-import org.usfirst.frc.team1038.auton.PathGenerator;
 import org.usfirst.frc.team1038.auton.commands.DriveStraight;
 import org.usfirst.frc.team1038.auton.commands.ElevatorCommand;
 import org.usfirst.frc.team1038.auton.commands.TeleopStartCommand;
+import org.usfirst.frc.team1038.depricated.AutonWaypointPath;
 import org.usfirst.frc.team1038.robot.SwagLights.WheelWellStates;
 import org.usfirst.frc.team1038.subsystem.AcquisitionScoring;
 import org.usfirst.frc.team1038.subsystem.Climb;
@@ -88,10 +87,9 @@ public class Robot extends IterativeRobot {
 	public static SendableChooser<String> startPosition = new SendableChooser<>();
 	private I2CGyro gyroSensor = I2CGyro.getInstance();
 	private AutonSelector autonSelector = AutonSelector.getInstance();
-	private AutonWaypointPath waypointPath = AutonWaypointPath.getInstance();
+	//private AutonWaypointPath waypointPath = AutonWaypointPath.getInstance();
 	private CommandGroup autonPath;
 	private Dashboard dashboard = Dashboard.getInstance();
-	//private PathfinderTest pathTest = new PathfinderTest();
     
 	/**
 	 * This function is run when the robot is first started up and should be
