@@ -168,6 +168,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		swag.swagEnabledPeriodic();
+		
 		if(schedule != null) {
 			schedule.run();
 		}

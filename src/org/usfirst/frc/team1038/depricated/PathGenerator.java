@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1038.depricated;
 
+@Deprecated
 public class PathGenerator {
 	public static void generate()
 	{

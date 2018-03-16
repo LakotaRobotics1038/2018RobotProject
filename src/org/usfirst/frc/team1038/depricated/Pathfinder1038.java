@@ -12,6 +12,7 @@ import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.followers.DistanceFollower;
 import jaci.pathfinder.followers.EncoderFollower;
 
+@Deprecated
 public class Pathfinder1038 extends Command {
 	
 	//private final double TIME_STEP = .05;

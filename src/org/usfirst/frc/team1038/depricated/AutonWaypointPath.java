@@ -15,6 +15,7 @@ import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
 
+@Deprecated
 public class AutonWaypointPath{
 	public static File NRight = new File("/home/lvuser/Paths/NForward_right_detailed.csv");
 	public static File NLeft = new File("/home/lvuser/Paths/NForward_left_detailed.csv");
