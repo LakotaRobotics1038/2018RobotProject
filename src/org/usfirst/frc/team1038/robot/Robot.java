@@ -9,6 +9,7 @@ package org.usfirst.frc.team1038.robot;
 
 import edu.wpi.first.wpilibj.Compressor;
 import org.usfirst.frc.team1038.auton.AutonSelector;
+import org.usfirst.frc.team1038.auton.PathfinderTest;
 import org.usfirst.frc.team1038.auton.commands.DriveStraight;
 import org.usfirst.frc.team1038.auton.commands.ElevatorCommand;
 import org.usfirst.frc.team1038.auton.commands.TeleopStartCommand;
@@ -90,6 +91,7 @@ public class Robot extends IterativeRobot {
 	//private AutonWaypointPath waypointPath = AutonWaypointPath.getInstance();
 	private CommandGroup autonPath;
 	private Dashboard dashboard = Dashboard.getInstance();
+	private PathfinderTest pathTest = new PathfinderTest();
     
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -154,10 +156,11 @@ public class Robot extends IterativeRobot {
 		swag.enable();
 		
 		autonSelector.chooseAuton();
-		autonPath = waypointPath.autonChoice();
+		//autonPath = waypointPath.autonChoice();
 		gyroSensor.reset();
 		//pathTest.initialize();
-		schedule.add(autonPath);
+		//schedule.add(autonPath);
+		schedule.add(pathTest);
 		//schedule.add(new ElevatorCommand(Elevator.SWITCH));
 		//schedule.add(new DriveStraight(60));
 	}

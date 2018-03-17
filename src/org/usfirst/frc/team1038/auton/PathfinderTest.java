@@ -16,17 +16,20 @@ public class PathfinderTest extends Command {
 	
 	private final double WHEEL_DIAMETER = 6;
 	private final double TIME_STEP = .05;
-	private final double MAX_VELOCITY = .85;
-	private final double MAX_ACC = 1.0;
+	private final double MAX_VELOCITY = 10.0;
+	private final double MAX_ACC = 2.0;
 	private final double MAX_JERK = 60.0;
 	private final double WHEELBASE_WIDTH = 38.25; //inches
 	private EncoderFollower left;
 	private EncoderFollower right;
 	private DriveTrain drive = DriveTrain.getInstance();
 	private I2CGyro gyro = I2CGyro.getInstance();
-	private final static double P = 0.015;
-	private final static double I = 0.015;
-	private final static double D = 0.005;
+//	private final static double P = 0.015;
+//	private final static double I = 0.015;
+//	private final static double D = 0.005;
+	private final static double P = 3.000;
+	private final static double I = 0.000;
+	private final static double D = 0.000;
 	double angleDifference;
     
 	public PathfinderTest() {
@@ -53,8 +56,8 @@ public class PathfinderTest extends Command {
         		 * TODO Use Pathfinder.ftToDrive() to tell it distance
         		 */
         		
-        		new Waypoint(Conversions.ftToDrive(0), Conversions.ftToDrive(0), Pathfinder.d2r(0)),    //Waypoint @ x= 0, y= 0, exit angle= 0 degrees
-        		new Waypoint(Conversions.ftToDrive(5), Conversions.ftToDrive(0), Pathfinder.d2r(70))/*,
+        		new Waypoint(Conversions.f2m(0), Conversions.f2m(0), Pathfinder.d2r(0)),    //Waypoint @ x= 0, y= 0, exit angle= 0 degrees
+        		new Waypoint(Conversions.f2m(2), Conversions.f2m(0), Pathfinder.d2r(0))/*,
         		new Waypoint(Conversions.ftToDrive(8), Conversions.ftToDrive(-6), Pathfinder.d2r(45)),
         		new Waypoint(Conversions.ftToDrive(10), Conversions.ftToDrive(-5), Pathfinder.d2r(90)),
         		new Waypoint(Conversions.ftToDrive(10), Conversions.ftToDrive(5), Pathfinder.d2r(90))*/
@@ -87,62 +90,73 @@ public class PathfinderTest extends Command {
     	
     public void execute()
     {
-    		// Do something with the new Trajectory...
-    		double l = left.calculate(drive.getLeftDriveEncoderCount());
-    		double r = right.calculate(drive.getRightDriveEncoderCount());
+    	double l = left.calculate(drive.getLeftDriveEncoderCount());
+    	double r = right.calculate(drive.getRightDriveEncoderCount());
 
-    		double gyro_heading = gyro.getAngle();    // Assuming the gyro is giving a value in degrees
-    		double desired_heading = Pathfinder.r2d(left.getHeading());  // Should also be in degrees
+    	double gyro_heading = gyro.getAngle();   // Assuming the gyro is giving a value in degrees
+    	double desired_heading = Pathfinder.r2d(left.getHeading());  // Should also be in degrees
 
-    		angleDifference = Pathfinder.boundHalfDegrees(desired_heading - gyro_heading);
-    		System.out.println("Desired: " + desired_heading + " Current:" + gyro_heading + " Angle Difference: " + angleDifference);
-    		double turn = 0;
-    		if(left.isFinished() && right.isFinished()) {
-	    		turn = 0.05 * angleDifference; // 0.8 * (-1/80) = -0.01
-	    		System.out.println("Default turn: " + turn);
-	    		
-	    		if(angleDifference < 2 && angleDifference > -2) {
-	    			turn = 0;
-	    		}else if(angleDifference < 20 && angleDifference > 2) {
-	    			turn = 0.5;
-	    		}else if(angleDifference > -20 && angleDifference < -2) {
-	    			turn = 0.5;
-	    		}
-	    		
-	    		if(turn > 0.7) {
-	    			turn = 0.7;
-	    		}else if(turn < -0.7) {
-	    			turn = -0.7;
-	    		}
-    		}
-    		
-    		if(l > 0.7) {
-    			l = 0.7;
-    		}else if(l < -0.7) {
-    			l = -0.7;
-    		}
-    		
-    		if(r > 0.7) {
-    			r = 0.7;
-    		}else if(r < -0.7) {
-    			r = -0.7;
-    		}
-    		
-    		double leftTurn = (l + turn);
-    		if(leftTurn > 0.75) {
-    			leftTurn = 0.75;
-    		}else if(leftTurn < -0.75) {
-    			leftTurn = -0.75;
-    		}
-    		double rightTurn = (r - turn);
-    		if(rightTurn > 0.75) {
-    			rightTurn = 0.75;
-    		}else if(rightTurn < -0.75) {
-    			rightTurn = -0.75;
-    		}
-    		
-    		drive.tankDrive(leftTurn, rightTurn);
-    		System.out.printf("Path Output Calculated: %f,%f,%f,%f,%f,%f\n", l, r, turn, leftTurn, rightTurn, angleDifference);
+    	double angleDifference = Pathfinder.boundHalfDegrees(desired_heading - gyro_heading);
+    	double turn = 0.4 * (-1.0/80.0) * angleDifference;
+
+    	drive.tankDrive(l - turn, r + turn);
+    	System.out.printf("Path Output Calculated: %f,%f,%f,%f\n", l, r, turn, angleDifference);
+//    		// Do something with the new Trajectory...
+//    		double l = left.calculate(drive.getLeftDriveEncoderCount());
+//    		double r = right.calculate(drive.getRightDriveEncoderCount());
+//
+//    		double gyro_heading = gyro.getAngle();    // Assuming the gyro is giving a value in degrees
+//    		double desired_heading = Pathfinder.r2d(left.getHeading());  // Should also be in degrees
+//
+//    		angleDifference = Pathfinder.boundHalfDegrees(desired_heading - gyro_heading);
+//    		System.out.println("Desired: " + desired_heading + " Current:" + gyro_heading + " Angle Difference: " + angleDifference);
+//    		double turn = 0;
+//    		if(left.isFinished() && right.isFinished()) {
+//	    		turn = 0.05 * angleDifference; // 0.8 * (-1/80) = -0.01
+//	    		System.out.println("Default turn: " + turn);
+//	    		
+//	    		if(angleDifference < 2 && angleDifference > -2) {
+//	    			turn = 0;
+//	    		}else if(angleDifference < 20 && angleDifference > 2) {
+//	    			turn = 0.5;
+//	    		}else if(angleDifference > -20 && angleDifference < -2) {
+//	    			turn = 0.5;
+//	    		}
+//	    		
+//	    		if(turn > 0.7) {
+//	    			turn = 0.7;
+//	    		}else if(turn < -0.7) {
+//	    			turn = -0.7;
+//	    		}
+//    		}
+//    		
+//    		if(l > 0.7) {
+//    			l = 0.7;
+//    		}else if(l < -0.7) {
+//    			l = -0.7;
+//    		}
+//    		
+//    		if(r > 0.7) {
+//    			r = 0.7;
+//    		}else if(r < -0.7) {
+//    			r = -0.7;
+//    		}
+//    		
+//    		double leftTurn = (l + turn);
+//    		if(leftTurn > 0.75) {
+//    			leftTurn = 0.75;
+//    		}else if(leftTurn < -0.75) {
+//    			leftTurn = -0.75;
+//    		}
+//    		double rightTurn = (r - turn);
+//    		if(rightTurn > 0.75) {
+//    			rightTurn = 0.75;
+//    		}else if(rightTurn < -0.75) {
+//    			rightTurn = -0.75;
+//    		}
+//    		
+//    		drive.tankDrive(leftTurn, rightTurn);
+//    		System.out.printf("Path Output Calculated: %f,%f,%f,%f,%f,%f\n", l, r, turn, leftTurn, rightTurn, angleDifference);
     }
     
 	@Override

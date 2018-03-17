@@ -3,10 +3,6 @@ package org.usfirst.frc.team1038.subsystem;
 import org.usfirst.frc.team1038.robot.Encoder1038;
 import org.usfirst.frc.team1038.robot.TalonSRX1038;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
