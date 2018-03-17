@@ -9,11 +9,8 @@ package org.usfirst.frc.team1038.robot;
 
 import edu.wpi.first.wpilibj.Compressor;
 import org.usfirst.frc.team1038.auton.AutonSelector;
-import org.usfirst.frc.team1038.auton.commands.DriveStraight;
-import org.usfirst.frc.team1038.auton.commands.ElevatorCommand;
+import org.usfirst.frc.team1038.auton.commands.DriveStraightCommand;
 import org.usfirst.frc.team1038.auton.commands.TeleopStartCommand;
-import org.usfirst.frc.team1038.depricated.AutonWaypointPath;
-import org.usfirst.frc.team1038.depricated.PathfinderTest;
 import org.usfirst.frc.team1038.robot.SwagLights.WheelWellStates;
 import org.usfirst.frc.team1038.subsystem.AcquisitionScoring;
 import org.usfirst.frc.team1038.subsystem.Climb;
@@ -44,7 +41,6 @@ public class Robot extends IterativeRobot {
 	
 	// Control word variables
 	private ControlWord m_controlWordCache = new ControlWord();
-;
 	
 	//Subsystems
 		//Climb
@@ -91,6 +87,7 @@ public class Robot extends IterativeRobot {
 	//private AutonWaypointPath waypointPath = AutonWaypointPath.getInstance();
 	private CommandGroup autonPath;
 	private Dashboard dashboard = Dashboard.getInstance();
+	private DriveStraightCommand drive = new DriveStraightCommand(48);
     
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -105,8 +102,8 @@ public class Robot extends IterativeRobot {
 		startPosition.addDefault("Center", kCenterPosition);
 		startPosition.addObject("Left", kLeftPosition);
 		startPosition.addObject("Right", kRightPosition);
-		SmartDashboard.putData("Start Position", startPosition);
-		SmartDashboard.putData("Auton choices", autoChooser);
+		SmartDashboard.putData("Drivers/Start Position", startPosition);
+		SmartDashboard.putData("Drivers/Auton choices", autoChooser);
 		//PathGenerator.generate(); //DO NOT UNCOMMENT THIS LINE UNLESS YOU ARE TRYING TO CALCULATE PATHS
 		//Camera to Dashboard
 		NetworkTableInstance piCamTable = NetworkTableInstance.getDefault();
@@ -159,8 +156,7 @@ public class Robot extends IterativeRobot {
 		gyroSensor.reset();
 		//pathTest.initialize();
 		//schedule.add(autonPath);
-		//schedule.add(new ElevatorCommand(Elevator.SWITCH));
-		//schedule.add(new DriveStraight(60));
+		schedule.add(drive);
 	}
 
 	/**

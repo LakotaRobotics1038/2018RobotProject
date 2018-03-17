@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1038.auton;
+package org.usfirst.frc.team1038.depricated;
 
 //import org.usfirst.frc.team1038.subsystem.DriveTrain;
 
@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.Notifier;
 
+@Deprecated
 public class RunTalonPath {
 	
 //	class PeriodicRunnable implements java.lang.Runnable{

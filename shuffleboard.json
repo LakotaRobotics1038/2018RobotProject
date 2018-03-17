@@ -2,124 +2,15 @@
   "dividerPosition": 0.003961965134706815,
   "tabPane": [
     {
-      "title": "SmartDashboard",
+      "title": "Drivers",
       "autoPopulate": true,
-      "autoPopulatePrefix": "SmartDashboard/",
+      "autoPopulatePrefix": "SmartDashboard/Drivers/",
       "widgetPane": {
         "gridSize": 128.0,
+        "showGrid": true,
         "hgap": 16.0,
         "vgap": 16.0,
         "tiles": {
-          "2,2": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Elevator Encoder",
-              "_title": "Elevator Encoder"
-            }
-          },
-          "0,2": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "ComboBox Chooser",
-              "_source0": "network_table:///SmartDashboard/Start Position",
-              "_title": "Start Position"
-            }
-          },
-          "3,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Toggle Button",
-              "_source0": "network_table:///SmartDashboard/Reset Arm Encoder",
-              "_title": "Reset Arm Encoder"
-            }
-          },
-          "0,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "ComboBox Chooser",
-              "_source0": "network_table:///SmartDashboard/Auton choices",
-              "_title": "Auton choices"
-            }
-          },
-          "3,1": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Right Encoder",
-              "_title": "Right Encoder"
-            }
-          },
-          "2,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Arm Encoder",
-              "_title": "Arm Encoder"
-            }
-          },
-          "2,1": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Left Encoder",
-              "_title": "Left Encoder"
-            }
-          },
-          "1,2": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Acq Motor Speed",
-              "_title": "Acq Motor Speed"
-            }
-          },
-          "2,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/High Pressure",
-              "_title": "High Pressure"
-            }
-          },
-          "3,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Low Pressure",
-              "_title": "Low Pressure"
-            }
-          },
           "4,0": {
             "size": [
               4,
@@ -138,8 +29,41 @@
             ],
             "content": {
               "_type": "Toggle Button",
-              "_source0": "network_table:///SmartDashboard/Reset Elevator Encoder",
+              "_source0": "network_table:///SmartDashboard/Drivers/Reset Elevator Encoder",
               "_title": "Reset Elevator Encoder"
+            }
+          },
+          "3,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Toggle Button",
+              "_source0": "network_table:///SmartDashboard/Drivers/Reset Arm Encoder",
+              "_title": "Reset Arm Encoder"
+            }
+          },
+          "2,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Drivers/Left Encoder",
+              "_title": "Left Encoder"
+            }
+          },
+          "3,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Drivers/Right Encoder",
+              "_title": "Right Encoder"
             }
           },
           "0,0": {
@@ -149,11 +73,88 @@
             ],
             "content": {
               "_type": "Gyro",
-              "_source0": "network_table:///SmartDashboard/Gyro",
+              "_source0": "network_table:///SmartDashboard/Drivers/Gyro",
               "_title": "Gyro",
               "majorTickSpace": 45.0,
               "startAngle": 180.0,
               "tickMarkRingVisible": true
+            }
+          },
+          "2,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Drivers/High Pressure",
+              "_title": "High Pressure"
+            }
+          },
+          "3,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Drivers/Low Pressure",
+              "_title": "Low Pressure"
+            }
+          },
+          "2,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Drivers/Elevator Encoder",
+              "_title": "Elevator Encoder"
+            }
+          },
+          "2,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Drivers/Arm Encoder",
+              "_title": "Arm Encoder"
+            }
+          },
+          "1,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Drivers/Acq Motor Speed",
+              "_title": "Acq Motor Speed"
+            }
+          },
+          "0,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/Drivers/Start Position",
+              "_title": "Start Position"
+            }
+          },
+          "0,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/Drivers/Auton choices",
+              "_title": "Auton choices"
             }
           }
         }
@@ -165,6 +166,7 @@
       "autoPopulatePrefix": "LiveWindow/",
       "widgetPane": {
         "gridSize": 128.0,
+        "showGrid": true,
         "hgap": 16.0,
         "vgap": 16.0,
         "tiles": {
@@ -330,7 +332,7 @@
           },
           "4,0": {
             "size": [
-              2,
+              1,
               4
             ],
             "content": {
@@ -345,15 +347,79 @@
               ]
             }
           },
-          "6,0": {
+          "5,0": {
             "size": [
-              2,
+              1,
               4
             ],
             "content": {
               "_type": "List Layout",
               "_title": "DriveTrain",
               "_children": []
+            }
+          },
+          "6,0": {
+            "size": [
+              2,
+              4
+            ],
+            "content": {
+              "_type": "Subsystem Layout",
+              "_source0": "network_table:///LiveWindow/Elevator",
+              "_title": "Elevator",
+              "_children": [
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Elevator/PIDController",
+                  "_title": "PIDController"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Controls",
+      "autoPopulate": true,
+      "autoPopulatePrefix": "SmartDashboard/Controls/",
+      "widgetPane": {
+        "gridSize": 128.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "tiles": {
+          "0,0": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "PID Controller",
+              "_source0": "network_table:///SmartDashboard/Controls/Drive Straight Angle",
+              "_title": "Drive Straight Angle"
+            }
+          },
+          "2,0": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "PID Controller",
+              "_source0": "network_table:///SmartDashboard/Controls/Drive Straight",
+              "_title": "Drive Straight"
+            }
+          },
+          "4,0": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "PID Controller",
+              "_source0": "network_table:///SmartDashboard/Controls/Turn PID",
+              "_title": "Turn PID"
             }
           }
         }

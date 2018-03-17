@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1038.auton;
+package org.usfirst.frc.team1038.depricated;
 
 //import org.usfirst.frc.team1038.subsystem.DriveTrain;
 
@@ -7,6 +7,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+@Deprecated
 public class MotionMagicProfiler {
 //	private DriveTrain driveTrain= DriveTrain.getInstance();
 //	private TalonSRX leftDriveMaster = driveTrain.leftDrive1;
