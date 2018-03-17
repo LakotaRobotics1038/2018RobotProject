@@ -9,11 +9,11 @@ package org.usfirst.frc.team1038.robot;
 
 import edu.wpi.first.wpilibj.Compressor;
 import org.usfirst.frc.team1038.auton.AutonSelector;
-import org.usfirst.frc.team1038.auton.PathfinderTest;
 import org.usfirst.frc.team1038.auton.commands.DriveStraight;
 import org.usfirst.frc.team1038.auton.commands.ElevatorCommand;
 import org.usfirst.frc.team1038.auton.commands.TeleopStartCommand;
 import org.usfirst.frc.team1038.depricated.AutonWaypointPath;
+import org.usfirst.frc.team1038.depricated.PathfinderTest;
 import org.usfirst.frc.team1038.robot.SwagLights.WheelWellStates;
 import org.usfirst.frc.team1038.subsystem.AcquisitionScoring;
 import org.usfirst.frc.team1038.subsystem.Climb;
@@ -91,7 +91,6 @@ public class Robot extends IterativeRobot {
 	//private AutonWaypointPath waypointPath = AutonWaypointPath.getInstance();
 	private CommandGroup autonPath;
 	private Dashboard dashboard = Dashboard.getInstance();
-	private PathfinderTest pathTest = new PathfinderTest();
     
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -154,13 +153,12 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		swag.enable();
-		
+		robotDrive.setBrakeMode();
 		autonSelector.chooseAuton();
 		//autonPath = waypointPath.autonChoice();
 		gyroSensor.reset();
 		//pathTest.initialize();
 		//schedule.add(autonPath);
-		schedule.add(pathTest);
 		//schedule.add(new ElevatorCommand(Elevator.SWITCH));
 		//schedule.add(new DriveStraight(60));
 	}
@@ -171,10 +169,10 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		swag.swagEnabledPeriodic();
-		
 		if(schedule != null) {
 			schedule.run();
 		}
+		
 //		if(!(pathTest.isFinished())) {
 //			pathTest.excecute();
 //		}else {
@@ -187,7 +185,7 @@ public class Robot extends IterativeRobot {
 		schedule.removeAll();
 		SmartDashboard.putBoolean("Reset Arm Encoder", true);
 		swag.enable();
-		
+		robotDrive.setCoastMode();
 		gyroSensor.reset();
 		robotDrive.resetEncoders();
 		new TeleopStartCommand();
@@ -200,7 +198,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		swag.swagEnabledPeriodic();
-		
 		driver();
 		operator();
 	}

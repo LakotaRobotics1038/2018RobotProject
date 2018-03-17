@@ -3,6 +3,8 @@ package org.usfirst.frc.team1038.subsystem;
 import org.usfirst.frc.team1038.robot.Encoder1038;
 import org.usfirst.frc.team1038.robot.TalonSRX1038;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
@@ -12,7 +14,7 @@ public class DriveTrain extends Subsystem {
 	private final int RIGHT_ENCODER_CHANNEL_A = 2;
 	private final int LEFT_ENCODER_CHANNEL_B = 1;
 	private final int RIGHT_ENCODER_CHANNEL_B = 3;
-	public final int ENCODER_COUNTS_PER_REV = 210;
+	public final int ENCODER_COUNTS_PER_REV = 910;
 	public final double WHEEL_DIAMETER = 6;
 	private static final int TIMEOUT_MS = 50;
 	private double distPerPulse;
@@ -65,7 +67,7 @@ public class DriveTrain extends Subsystem {
 	
 	public int getRightDriveEncoderCount() {
 //		return rightDriveEncoder.getCount();
-		return rightDrive1.getSensorCollection().getQuadraturePosition();
+		return rightDrive1.getSensorCollection().getQuadraturePosition() * -1;
 	}
 	 
 	public double getLeftDriveEncoderDistance() {
@@ -75,7 +77,7 @@ public class DriveTrain extends Subsystem {
 	
 	public double getRightDriveEncoderDistance() {
 //		return rightDriveEncoder.getDistance();
-		return rightDrive1.getSensorCollection().getQuadraturePosition() * distPerPulse;
+		return rightDrive1.getSensorCollection().getQuadraturePosition() * -distPerPulse;
 	}
 		
 	//Methods
@@ -84,6 +86,22 @@ public class DriveTrain extends Subsystem {
 //		rightDriveEncoder.resetEncoder();
 		leftDrive1.getSensorCollection().setQuadraturePosition(0, TIMEOUT_MS);
 		rightDrive1.getSensorCollection().setQuadraturePosition(0, TIMEOUT_MS);
+	}
+	
+	public void setBrakeMode()
+	{
+		leftDrive1.setNeutralMode(NeutralMode.Brake);
+		leftDrive2.setNeutralMode(NeutralMode.Brake);
+		rightDrive1.setNeutralMode(NeutralMode.Brake);
+		rightDrive2.setNeutralMode(NeutralMode.Brake);
+	}
+	
+	public void setCoastMode()
+	{
+		leftDrive1.setNeutralMode(NeutralMode.Coast);
+		leftDrive2.setNeutralMode(NeutralMode.Coast);
+		rightDrive1.setNeutralMode(NeutralMode.Coast);
+		rightDrive2.setNeutralMode(NeutralMode.Coast);
 	}
 	
 	/**
