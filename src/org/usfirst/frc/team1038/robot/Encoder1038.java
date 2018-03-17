@@ -42,7 +42,7 @@ public class Encoder1038 {
 		return encoder.getDistance();
 	}
 	
-	private double findDistancePerPulse(double countsPerRevolution, double wheelDiameter)
+	public static double findDistancePerPulse(double countsPerRevolution, double wheelDiameter)
 	{		
 		return (1 / countsPerRevolution ) * (wheelDiameter * Math.PI);
 	}

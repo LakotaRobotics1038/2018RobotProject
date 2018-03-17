@@ -18,6 +18,8 @@ public class DriveTrain extends Subsystem {
 	private final int RIGHT_ENCODER_CHANNEL_B = 3;
 	public final int ENCODER_COUNTS_PER_REV = 210;
 	public final double WHEEL_DIAMETER = 6;
+	private static final int TIMEOUT_MS = 50;
+	private double distPerPulse;
 	//private final static int LEFT_DRIVE_PORT = 0;
 	//private final static int RIGHT_DRIVE_PORT = 1;
 	//private static Spark leftDrive = new Spark(LEFT_DRIVE_PORT);
@@ -34,8 +36,8 @@ public class DriveTrain extends Subsystem {
 //	private SpeedControllerGroup rightDrive = new SpeedControllerGroup(rightDrive1, rightDrive2);
 	//private DoubleSolenoid shifter = new DoubleSolenoid(0, 1);
 	//private DoubleSolenoid PTO = new DoubleSolenoid(2, 3);
-	private Encoder1038 leftDriveEncoder = new Encoder1038(LEFT_ENCODER_CHANNEL_A, LEFT_ENCODER_CHANNEL_B, false, ENCODER_COUNTS_PER_REV, WHEEL_DIAMETER);
-	private Encoder1038 rightDriveEncoder = new Encoder1038(RIGHT_ENCODER_CHANNEL_A, RIGHT_ENCODER_CHANNEL_B, false, ENCODER_COUNTS_PER_REV, WHEEL_DIAMETER);
+//	private Encoder1038 leftDriveEncoder = new Encoder1038(LEFT_ENCODER_CHANNEL_A, LEFT_ENCODER_CHANNEL_B, false, ENCODER_COUNTS_PER_REV, WHEEL_DIAMETER);
+//	private Encoder1038 rightDriveEncoder = new Encoder1038(RIGHT_ENCODER_CHANNEL_A, RIGHT_ENCODER_CHANNEL_B, false, ENCODER_COUNTS_PER_REV, WHEEL_DIAMETER);
 	private boolean isHighGear = false;
 	private boolean PTOisEngaged = false;
 	private DifferentialDrive differentialDrive;
@@ -53,6 +55,7 @@ public class DriveTrain extends Subsystem {
 	private DriveTrain() {
 		//leftDrive.setInverted(false);
 		//rightDrive.setInverted(false);
+		distPerPulse = Encoder1038.findDistancePerPulse(ENCODER_COUNTS_PER_REV, WHEEL_DIAMETER);
 		leftDrive2.follow(leftDrive1);
 		rightDrive2.follow(rightDrive1);
 		differentialDrive = new DifferentialDrive(leftDrive1, rightDrive1);
@@ -60,25 +63,31 @@ public class DriveTrain extends Subsystem {
 	
 	//Getters
 	public int getLeftDriveEncoderCount() {
-		return leftDriveEncoder.getCount();
+		//return leftDriveEncoder.getCount();
+		return leftDrive1.getSensorCollection().getQuadraturePosition();
 	}
 	
 	public int getRightDriveEncoderCount() {
-		return rightDriveEncoder.getCount();
+//		return rightDriveEncoder.getCount();
+		return rightDrive1.getSensorCollection().getQuadraturePosition();
 	}
 	 
 	public double getLeftDriveEncoderDistance() {
-		return leftDriveEncoder.getDistance();
+//		return leftDriveEncoder.getDistance();
+		return leftDrive1.getSensorCollection().getQuadraturePosition() * distPerPulse;
 	}
 	
 	public double getRightDriveEncoderDistance() {
-		return rightDriveEncoder.getDistance();
+//		return rightDriveEncoder.getDistance();
+		return rightDrive1.getSensorCollection().getQuadraturePosition() * distPerPulse;
 	}
 		
 	//Methods
 	public void resetEncoders() {
-		leftDriveEncoder.resetEncoder();
-		rightDriveEncoder.resetEncoder();
+//		leftDriveEncoder.resetEncoder();
+//		rightDriveEncoder.resetEncoder();
+		leftDrive1.getSensorCollection().setQuadraturePosition(0, TIMEOUT_MS);
+		rightDrive1.getSensorCollection().setQuadraturePosition(0, TIMEOUT_MS);
 	}
 	
 	/**
