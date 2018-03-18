@@ -6,6 +6,14 @@ import org.usfirst.frc.team1038.robot.Robot;
 import edu.wpi.first.wpilibj.DriverStation;
 
 public class AutonSelector {
+	public static final String kSingleScaleAuto = "SingleScale";
+	public static final String kDualScaleAuto = "DoubleScale";
+	public static final String kSingleSwitchAuto = "SingleSwitch";
+	public static final String kDualSwitchAuto = "DoubleSwitch";
+	public static final String kForwardAuto = "Forward";
+	public static final String kLeftPosition = "L";
+	public static final String kCenterPosition = "C";
+	public static final String kRightPosition = "R";
 	//fields
 	private String autonChooser;
 	private String position;
@@ -36,36 +44,18 @@ public class AutonSelector {
 		System.out.println(gameDataAuton);
 		System.out.println("Starting choose");
 		String path = "N";
-		if(autonChooser.equals(Robot.kForwardAuto)) {
-			if(position.equals(Robot.kCenterPosition)) {
-				path = "CF";
-			}else if(position.equals(Robot.kLeftPosition)) {
-				path = "LF";
-			}else if(position.equals(Robot.kRightPosition)) {
-				path = "RF";
-			}
-			System.out.println("Choose Forward path");
-		}else if(autonChooser.equals(Robot.kCustomAuto)) {
-			if(position.equals(Robot.kCenterPosition)) {
-				if(gameDataAuton.equals("R")) {
-					path = "CRScale";
-					System.out.println("Choose CRScale");
-				}else if(gameDataAuton.equals("L")) {
-					path = "CLScale";
-				}
-			}else if(position.equals(Robot.kLeftPosition)) {
-				if(gameDataAuton.equals("R")) {
-					path = "LRScale";
-				}else if(gameDataAuton.equals("L")) {
-					path = "LLScale";
-				}
-			}else if(position.equals(Robot.kRightPosition)) {
-				if(gameDataAuton.equals("R")) {
-					path = "RRScale";
-				}else if(gameDataAuton.equals("L")) {
-					path = "RLScale";
-				}
-			}
+		switch (autonChooser)
+		{
+			case kForwardAuto:
+				break;
+			case kDualScaleAuto:
+				break;
+			case kDualSwitchAuto:
+				break;
+			case kSingleScaleAuto:
+				break;
+			case kSingleSwitchAuto:
+				break;
 		}
 		return path;
 	}

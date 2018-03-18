@@ -10,7 +10,6 @@ package org.usfirst.frc.team1038.robot;
 import edu.wpi.first.wpilibj.Compressor;
 import org.usfirst.frc.team1038.auton.AutonSelector;
 import org.usfirst.frc.team1038.auton.commands.DriveStraightCommand;
-import org.usfirst.frc.team1038.auton.commands.TeleopStartCommand;
 import org.usfirst.frc.team1038.robot.SwagLights.WheelWellStates;
 import org.usfirst.frc.team1038.subsystem.AcquisitionScoring;
 import org.usfirst.frc.team1038.subsystem.Climb;
@@ -74,17 +73,11 @@ public class Robot extends IterativeRobot {
 	Joystick1038 operatorJoystick = new Joystick1038(1);
 	
 	//Auton
-	Scheduler schedule = Scheduler.getInstance();;
-	public static final String kCustomAuto = "Custom";
-	public static final String kLeftPosition = "L";
-	public static final String kCenterPosition = "C";
-	public static final String kRightPosition = "R";
-	public static final String kForwardAuto = "Forward";
+	Scheduler schedule = Scheduler.getInstance();
 	public static SendableChooser<String> autoChooser = new SendableChooser<>();
 	public static SendableChooser<String> startPosition = new SendableChooser<>();
 	private I2CGyro gyroSensor = I2CGyro.getInstance();
 	private AutonSelector autonSelector = AutonSelector.getInstance();
-	//private AutonWaypointPath waypointPath = AutonWaypointPath.getInstance();
 	private CommandGroup autonPath;
 	private Dashboard dashboard = Dashboard.getInstance();
 	private DriveStraightCommand drive = new DriveStraightCommand(48);
@@ -96,15 +89,19 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		//c.stop();
+		
 		//Auton Choices to Dashboard
-		autoChooser.addDefault("Forward Auton", kForwardAuto);
-		autoChooser.addObject("My Auto", kCustomAuto);
-		startPosition.addDefault("Center", kCenterPosition);
-		startPosition.addObject("Left", kLeftPosition);
-		startPosition.addObject("Right", kRightPosition);
+		autoChooser.addDefault("Forward Auton", AutonSelector.kForwardAuto);
+		autoChooser.addObject("Single Scale Auto", AutonSelector.kSingleScaleAuto);
+		autoChooser.addObject("Dual Scale Auto", AutonSelector.kDualScaleAuto);
+		autoChooser.addObject("Single Switch Auto", AutonSelector.kSingleSwitchAuto);
+		autoChooser.addObject("Dual Switch Auto", AutonSelector.kDualSwitchAuto);
+		startPosition.addDefault("Center", AutonSelector.kCenterPosition);
+		startPosition.addObject("Left", AutonSelector.kLeftPosition);
+		startPosition.addObject("Right", AutonSelector.kRightPosition);
 		SmartDashboard.putData("Drivers/Start Position", startPosition);
 		SmartDashboard.putData("Drivers/Auton choices", autoChooser);
-		//PathGenerator.generate(); //DO NOT UNCOMMENT THIS LINE UNLESS YOU ARE TRYING TO CALCULATE PATHS
+		
 		//Camera to Dashboard
 		NetworkTableInstance piCamTable = NetworkTableInstance.getDefault();
 		String[] serverAddress = { "mjpeg:http://raspberrypi.local:1180/?action=stream" };
@@ -184,7 +181,6 @@ public class Robot extends IterativeRobot {
 		robotDrive.setCoastMode();
 		gyroSensor.reset();
 		robotDrive.resetEncoders();
-		new TeleopStartCommand();
 		//visionCommandTest = null;
 	}
 
