@@ -33,7 +33,7 @@ public class AcquisitionScoring extends PIDSubsystem {
 	private Spark leftAcqMotor = new Spark(LEFT_ACQ_MOTOR_PORT);
     private Spark rightAcqMotor = new Spark(RIGHT_ACQ_MOTOR_PORT);
     private SpeedControllerGroup acqMotors = new SpeedControllerGroup(leftAcqMotor, rightAcqMotor);
-    //private DoubleSolenoid acqArmsOpenClose = new DoubleSolenoid(ACQ_ARMS_OPEN, ACQ_ARMS_CLOSE);
+    private DoubleSolenoid acqArmsOpenClose = new DoubleSolenoid(ACQ_ARMS_OPEN, ACQ_ARMS_CLOSE);
     private Spark acqArmsUpDown = new Spark(ACQ_ARMS_UP_DOWN_PORT);
     private Encoder acqArmsUpDownEncoder = new Encoder(ACQ_ARMS_ENCODER_A_PORT, ACQ_ARMS_ENCODER_B_PORT, true);
     private static AcquisitionScoring acqSco;
@@ -142,19 +142,19 @@ public class AcquisitionScoring extends PIDSubsystem {
 
 	@Override
 	protected void usePIDOutput(double output) {
-		//if ((acqArmsUpDownEncoder.get() <= 0 && output > 0) || (acqArmsUpDownEncoder.get() >= UP_DOWN_MAX && output < 0) || (acqArmsUpDown.get() > 0 && acqArmsUpDownEncoder.get() < UP_DOWN_MAX))
+//		if ((acqArmsUpDownEncoder.get() <= 0 && output > 0) || (acqArmsUpDownEncoder.get() >= UP_DOWN_MAX && output < 0) || (acqArmsUpDown.get() > 0 && acqArmsUpDownEncoder.get() < UP_DOWN_MAX))
 			acqArmsUpDown.set(output);
 	}
     
     public void openArms()
     {
-    		//acqArmsOpenClose.set(DoubleSolenoid.Value.kForward);
+    		acqArmsOpenClose.set(DoubleSolenoid.Value.kForward);
     		armsOpen = true;
     }
     
     public void closeArms()
     {
-    		//acqArmsOpenClose.set(DoubleSolenoid.Value.kReverse);
+    		acqArmsOpenClose.set(DoubleSolenoid.Value.kReverse);
     		armsOpen = false;
     }
     

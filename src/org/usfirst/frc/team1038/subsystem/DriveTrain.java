@@ -5,6 +5,7 @@ import org.usfirst.frc.team1038.robot.TalonSRX1038;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
@@ -14,7 +15,7 @@ public class DriveTrain extends Subsystem {
 	private final int RIGHT_ENCODER_CHANNEL_A = 2;
 	private final int LEFT_ENCODER_CHANNEL_B = 1;
 	private final int RIGHT_ENCODER_CHANNEL_B = 3;
-	public final int ENCODER_COUNTS_PER_REV = 220; //910 Talon
+	public final int ENCODER_COUNTS_PER_REV = 210; //910 Talon 220 proto bot
 	public final double WHEEL_DIAMETER = 6;
 	private static final int TIMEOUT_MS = 50;
 	//private double distPerPulse;
@@ -32,10 +33,10 @@ public class DriveTrain extends Subsystem {
 	private TalonSRX1038 rightDrive2 = new TalonSRX1038(RIGHT_DRIVE_PORT_2);
 //	private SpeedControllerGroup leftDrive = new SpeedControllerGroup(leftDrive1, leftDrive2);
 //	private SpeedControllerGroup rightDrive = new SpeedControllerGroup(rightDrive1, rightDrive2);
-	//private DoubleSolenoid shifter = new DoubleSolenoid(0, 1);
-	//private DoubleSolenoid PTO = new DoubleSolenoid(2, 3);
+	private DoubleSolenoid shifter = new DoubleSolenoid(0, 1);
+	private DoubleSolenoid PTO = new DoubleSolenoid(2, 3);
 	private Encoder1038 leftDriveEncoder = new Encoder1038(LEFT_ENCODER_CHANNEL_A, LEFT_ENCODER_CHANNEL_B, false, ENCODER_COUNTS_PER_REV, WHEEL_DIAMETER);
-	private Encoder1038 rightDriveEncoder = new Encoder1038(RIGHT_ENCODER_CHANNEL_A, RIGHT_ENCODER_CHANNEL_B, true, ENCODER_COUNTS_PER_REV, WHEEL_DIAMETER);
+	private Encoder1038 rightDriveEncoder = new Encoder1038(RIGHT_ENCODER_CHANNEL_A, RIGHT_ENCODER_CHANNEL_B, false, ENCODER_COUNTS_PER_REV, WHEEL_DIAMETER);
 	private boolean isHighGear = false;
 	private boolean PTOisEngaged = false;
 	private DifferentialDrive differentialDrive;
@@ -94,6 +95,7 @@ public class DriveTrain extends Subsystem {
 		leftDrive2.setNeutralMode(NeutralMode.Brake);
 		rightDrive1.setNeutralMode(NeutralMode.Brake);
 		rightDrive2.setNeutralMode(NeutralMode.Brake);
+		System.out.println("Brake Mode");
 	}
 	
 	public void setCoastMode()
@@ -102,6 +104,7 @@ public class DriveTrain extends Subsystem {
 		leftDrive2.setNeutralMode(NeutralMode.Coast);
 		rightDrive1.setNeutralMode(NeutralMode.Coast);
 		rightDrive2.setNeutralMode(NeutralMode.Coast);
+		System.out.println("Coast Mode");
 	}
 	
 	/**
@@ -150,7 +153,7 @@ public class DriveTrain extends Subsystem {
 	 */
 	public void PTOon() {
 		PTOisEngaged = true;
-		//PTO.set(DoubleSolenoid.Value.kReverse);
+		PTO.set(DoubleSolenoid.Value.kReverse);
 	}
 	
 	/**
@@ -158,7 +161,7 @@ public class DriveTrain extends Subsystem {
 	 */
 	public void PTOoff() {
 		PTOisEngaged = false;
-		//PTO.set(DoubleSolenoid.Value.kForward);
+		PTO.set(DoubleSolenoid.Value.kForward);
 	}
 	
 	/**
@@ -177,7 +180,7 @@ public class DriveTrain extends Subsystem {
 	 */
 	public void highGear() {
 		isHighGear = true;
-		//shifter.set(DoubleSolenoid.Value.kForward);
+		shifter.set(DoubleSolenoid.Value.kForward);
 	}
 	
 	/**
@@ -185,7 +188,7 @@ public class DriveTrain extends Subsystem {
 	 */
 	public void lowGear() {
 		isHighGear = false;
-		//shifter.set(DoubleSolenoid.Value.kReverse);
+		shifter.set(DoubleSolenoid.Value.kReverse);
 	}
 	
 	/**

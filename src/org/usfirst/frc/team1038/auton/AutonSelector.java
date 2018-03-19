@@ -4,6 +4,7 @@ import org.usfirst.frc.team1038.robot.Dashboard;
 import org.usfirst.frc.team1038.robot.Robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class AutonSelector {
 	public static final String kSingleScaleAuto = "SingleScale";
@@ -34,29 +35,29 @@ public class AutonSelector {
 	}
 	
 	//methods
-	public String chooseAuton() {
+	public CommandGroup chooseAuton() {
 		
 		position = Dashboard.getInstance().getPosition(); 
 		autonChooser = Dashboard.getInstance().getAutonChooser(); 
-		String gameDataAuton = DriverStation.getInstance().getGameSpecificMessage().substring(1, 2);
+		String gameData = DriverStation.getInstance().getGameSpecificMessage().substring(1, 2);
 		System.out.println(position);
 		System.out.println(autonChooser);
-		System.out.println(gameDataAuton);
+		System.out.println(gameData);
 		System.out.println("Starting choose");
-		String path = "N";
 		switch (autonChooser)
 		{
 			case kForwardAuto:
-				break;
+				return new ForwardAuton().select();
 			case kDualScaleAuto:
-				break;
+				return new DualScaleAuton(position, gameData).select();
 			case kDualSwitchAuto:
-				break;
+				return new DualSwitchAuton(position, gameData).select();
 			case kSingleScaleAuto:
-				break;
+				return new SingleScaleAuton(position, gameData).select();
 			case kSingleSwitchAuto:
-				break;
+				return new SingleSwitchAuton(position, gameData).select();
+			default:
+				return new ForwardAuton().select();
 		}
-		return path;
 	}
 }

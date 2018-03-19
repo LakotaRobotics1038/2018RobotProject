@@ -15,10 +15,10 @@ public class DriveStraightCommand extends PIDCommand {
 		private final double END_DRIVE_ROTATION = 0.0;
 		private final double TOLERANCE = 1.9;
 		private final double MAX_OUTPUT = .8;
-		private final static double dP = 0.040;
+		private final static double dP = 0.150; //.04 proto
 		private final static double dI = 0.000;
 		private final static double dD = 0.002;
-		private final static double tP = 0.230;
+		private final static double tP = 0.400; //.23 proto
 		private final static double tI = 0.001;
 		private final static double tD = 0.000;
 		private I2CGyro gyroSensor = I2CGyro.getInstance();
@@ -27,10 +27,14 @@ public class DriveStraightCommand extends PIDCommand {
 		private PIDController turnPID = new PIDController(tP, tI, tD, gyroSensor, new Spark(9));
 		
 		//constructor
+		/**
+		 * Makes a new drive straight command
+		 * @param setpoint in feet
+		*/
 		public DriveStraightCommand(double setpoint) {
 			//Drive
 			super(dP, dI, dD);
-			setSetpoint(setpoint);
+			setSetpoint(setpoint * 12);
 			drivePID.setAbsoluteTolerance(TOLERANCE);
 			drivePID.setOutputRange(-MAX_OUTPUT, MAX_OUTPUT);
 			drivePID.setContinuous(false);
@@ -84,7 +88,7 @@ public class DriveStraightCommand extends PIDCommand {
 
 		@Override
 		protected double returnPIDInput() {
-			return drive.getLeftDriveEncoderDistance();
+			return drive.getRightDriveEncoderDistance();
 		}
 
 		protected void usePIDOutput(double drivePower, double turnPower) {

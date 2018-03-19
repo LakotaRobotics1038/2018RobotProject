@@ -55,7 +55,7 @@ public class AutonWaypointPath{
 	}
 	
 	public CommandGroup autonChoice() {
-		autonPath = autonSelector.chooseAuton();
+		//autonPath = autonSelector.chooseAuton();
 		switch (autonPath) {
 			case "N":
 				autonSequence.addSequential(new Pathfinder1038(NLeft, NRight));

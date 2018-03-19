@@ -46,7 +46,7 @@ public class Robot extends IterativeRobot {
 	private Climb robotClimb = Climb.getInstance();
 	
 		//Pneumatics
-	//private Compressor c = new Compressor();
+	private Compressor c = new Compressor();
 	
 		//Drive
 	public static DriveTrain robotDrive = DriveTrain.getInstance();
@@ -176,7 +176,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		schedule.removeAll();
-		SmartDashboard.putBoolean("Reset Arm Encoder", true);
+		SmartDashboard.putBoolean("Drivers/Reset Arm Encoder", true);
 		swag.enable();
 		robotDrive.setCoastMode();
 		gyroSensor.reset();
@@ -189,6 +189,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		//System.out.println(robotDrive.getRightDriveEncoderCount());
 		swag.swagEnabledPeriodic();
 		driver();
 		operator();
