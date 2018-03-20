@@ -5,7 +5,7 @@ import org.usfirst.frc.team1038.subsystem.DriveTrain;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.PIDCommand;
 
-public class VisionDriveToTarget extends PIDCommand{
+public class VisionDriveToTarget extends PIDCommand {
 	
 	private double drivePower = 0.60;
 	private final double END_DRIVE_SPEED = 0.0;
@@ -16,7 +16,7 @@ public class VisionDriveToTarget extends PIDCommand{
 	private final static double D = 0.005;
 	private double leftPower;
 	private double rightPower;
-	private Vision camera = new Vision();
+	private Vision camera = Vision.getInstance();
 	private DriveTrain drive = DriveTrain.getInstance();
 	private PIDController turnPID = getPIDController();
 

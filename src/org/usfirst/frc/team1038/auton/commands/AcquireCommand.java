@@ -7,26 +7,27 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class AcquireCommand extends Command {
 	private AcquisitionScoring acqSco = AcquisitionScoring.getInstance();
-	private boolean acquiring;
+	public enum Modes {Acquire, Dispose};
+	private Modes mode;
 	private double acqTime;
 	private boolean timerRunning = false;
 	private Timer timer = new Timer();
 	
-	public AcquireCommand(boolean acquiring, double acqTime)
+	public AcquireCommand(Modes mode, double acqTime)
 	{
-		this.acquiring = acquiring;
+		
+		this.mode = mode;
 		this.acqTime = acqTime;
 	}
 	
 	public void execute()
 	{
-		if (acquiring)
+		switch (mode)
 		{
-			acqSco.aquire();
-		}
-		else
-		{
-			acqSco.dispose();
+			case Acquire:
+				acqSco.aquire();
+			case Dispose:
+				acqSco.disable();
 		}
 		
 		if (!timerRunning)
@@ -39,7 +40,6 @@ public class AcquireCommand extends Command {
 	
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
 		return timer.get() > acqTime;
 	}
 	

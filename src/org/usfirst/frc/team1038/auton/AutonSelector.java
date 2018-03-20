@@ -30,7 +30,7 @@ public class AutonSelector {
 	}
 	
 	//constructor
-	public AutonSelector() {
+	private AutonSelector() {
 		
 	}
 	
@@ -39,11 +39,12 @@ public class AutonSelector {
 		
 		position = Dashboard.getInstance().getPosition(); 
 		autonChooser = Dashboard.getInstance().getAutonChooser(); 
-		String gameData = DriverStation.getInstance().getGameSpecificMessage().substring(1, 2);
+		String gameData = DriverStation.getInstance().getGameSpecificMessage();
 		System.out.println(position);
 		System.out.println(autonChooser);
 		System.out.println(gameData);
 		System.out.println("Starting choose");
+		
 		switch (autonChooser)
 		{
 			case kForwardAuto:

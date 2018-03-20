@@ -18,7 +18,7 @@ public class TurnCommandVisionTest extends PIDCommand {
 	private final static double I = 0.015;
 	private final static double D = 0.005;
 	private I2CGyro gyroSensor = I2CGyro.getInstance();
-	private Vision camera = new Vision();
+	private Vision camera = Vision.getInstance();
 	private DriveTrain drive = DriveTrain.getInstance();
 	private PIDController turnPID = getPIDController();
 	
@@ -35,7 +35,7 @@ public class TurnCommandVisionTest extends PIDCommand {
 	
 	//methods
 	public void initialize() {
-		gyroSensor.reset();
+		//gyroSensor.reset();
 		
 		if (camera.getAngle() > 0)
 			setSetpoint(camera.getAngle());

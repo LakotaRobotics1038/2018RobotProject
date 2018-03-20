@@ -38,8 +38,7 @@ public class TurnCommand extends PIDCommand {
 	
 	//methods
 	public void initialize() {
-		gyroSensor.reset();
-		//turnPID.setInputRange(0, 359);
+	//	gyroSensor.reset();
 	}
 	
 	public void execute() {

@@ -21,11 +21,9 @@ public class Elevator extends PIDSubsystem {
 	public final static double P_DOWN = .00036;
 	public final static double I_DOWN = .000;
 	public final static double D_DOWN = .000;
-	public final static int SCALE_HIGH = 615;
-	public final static int SCALE_LOW = 480;
-	public final static int MIDDLE = 300;
-	public final static int SWITCH = 220;
-	private final int PORTAL = 0; // TODO find value
+	public final static int SCALE_HIGH = 685; //615 old
+	public final static int SCALE_LOW = 630; //480 old
+	public final static int SWITCH = 350; //220 old
 	public final static int FLOOR = 0;
 	private final int ELEVATOR_CHANNEL_A = 4;
 	private final int ELEVATOR_CHANNEL_B = 5;

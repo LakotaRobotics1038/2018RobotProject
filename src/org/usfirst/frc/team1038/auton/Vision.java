@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1038.auton;
 
+import org.usfirst.frc.team1038.robot.Dashboard;
 import org.usfirst.frc.team1038.subsystem.DriveTrain;
 
 import edu.wpi.first.networktables.NetworkTable;
@@ -12,15 +13,24 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Vision extends Subsystem {
 	//fields
 	
-	//IP 10.10.38.167
-	public static DriveTrain robotDrive = DriveTrain.getInstance();
-	NetworkTableInstance piTable = NetworkTableInstance.create();
-	NetworkTable smartDash = piTable.getTable("SmartDashboard");
-	NetworkTableEntry netFPS = smartDash.getEntry("FPS");   //May need slashes to denote hierarchy
-	NetworkTableEntry netAngle = smartDash.getEntry("Angle");   //May need slashes to denote hierarchy
+	//IP 10.10.38.200
+	private DriveTrain robotDrive = DriveTrain.getInstance();
+	private NetworkTableInstance piTable = NetworkTableInstance.create();
+	private NetworkTable smartDash = piTable.getTable("SmartDashboard");
+	private NetworkTableEntry netFPS = smartDash.getEntry("FPS");   //May need slashes to denote hierarchy
+	private NetworkTableEntry netAngle = smartDash.getEntry("Angle");   //May need slashes to denote hierarchy
+	private static Vision vision;
+	
+	public static Vision getInstance() {
+		if (vision == null) {
+			System.out.println("Creating new Vison");
+			vision = new Vision();
+		}
+		return vision;
+	}
 	
 	//Constructor
-	public Vision() {
+	private Vision() {
 		piTable.setNetworkIdentity("RoboRIO");
 		piTable.startClient("raspberrypi.local", 1735);	
 	}

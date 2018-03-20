@@ -6,22 +6,24 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class AcquisitonOpenCloseCommand extends Command {
 	private AcquisitionScoring acqSco = AcquisitionScoring.getInstance();
-	private boolean changeOpen;
+	public enum States { Open, Close };
+	private States state;
 	
-	public AcquisitonOpenCloseCommand (boolean changeOpen)
+	public AcquisitonOpenCloseCommand (States state)
 	{
-		this.changeOpen = changeOpen;
+		this.state = state;
 	}
 	
 	public void execute()
 	{
-		if (changeOpen)
+		switch (state)
 		{
-			acqSco.openArms();
-		}
-		else
-		{
-			acqSco.closeArms();
+			case Open:
+				acqSco.openArms();
+				break;
+			case Close:
+				acqSco.closeArms();
+				break;
 		}
 	}
 	
