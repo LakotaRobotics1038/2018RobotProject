@@ -2,11 +2,9 @@ package org.usfirst.frc.team1038.subsystem;
 
 import org.usfirst.frc.team1038.robot.Prox;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
-
 
 public class Climb extends Subsystem {
 										//I NEED A DISTANCE FOR IT TO TRAVEL

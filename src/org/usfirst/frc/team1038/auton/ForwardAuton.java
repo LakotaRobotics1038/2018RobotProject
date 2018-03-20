@@ -10,6 +10,8 @@ public class ForwardAuton {
 	
 	private CommandGroup group;
 	
+	private final double DIST_TO_BASELINE_FROM_DS_WALL = 11;
+	
 	public ForwardAuton()
 	{
 		group = new CommandGroup();
@@ -17,7 +19,7 @@ public class ForwardAuton {
 	
 	public CommandGroup select()
 	{
-		group.addSequential(new DriveStraightCommand(11));
+		group.addSequential(new DriveStraightCommand(DIST_TO_BASELINE_FROM_DS_WALL));
 		group.addSequential(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
 		return group;
 	}

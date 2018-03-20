@@ -1,8 +1,6 @@
 package org.usfirst.frc.team1038.auton;
 
 import org.usfirst.frc.team1038.robot.Dashboard;
-import org.usfirst.frc.team1038.robot.Robot;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -18,6 +16,7 @@ public class AutonSelector {
 	//fields
 	private String autonChooser;
 	private String position;
+	private String gameData;
 	private static AutonSelector autonSelector;
 	
 	
@@ -39,11 +38,9 @@ public class AutonSelector {
 		
 		position = Dashboard.getInstance().getPosition(); 
 		autonChooser = Dashboard.getInstance().getAutonChooser(); 
-		String gameData = DriverStation.getInstance().getGameSpecificMessage();
-		System.out.println(position);
-		System.out.println(autonChooser);
-		System.out.println(gameData);
-		System.out.println("Starting choose");
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
+		
+		System.out.printf("%f\n%f\n%f\nStarting Choose", position, autonChooser, gameData);
 		
 		switch (autonChooser)
 		{

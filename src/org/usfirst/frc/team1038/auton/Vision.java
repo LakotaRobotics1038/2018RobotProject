@@ -1,14 +1,11 @@
 package org.usfirst.frc.team1038.auton;
 
-import org.usfirst.frc.team1038.robot.Dashboard;
 import org.usfirst.frc.team1038.subsystem.DriveTrain;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Vision extends Subsystem {
 	//fields
