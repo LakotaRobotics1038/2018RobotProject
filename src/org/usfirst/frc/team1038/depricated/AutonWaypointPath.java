@@ -83,28 +83,28 @@ public class AutonWaypointPath{
 				autonSequence.addSequential(new Pathfinder1038(LToLeftScaleLeft, LToLeftScaleRight));
 				autonSequence.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
 				autonSequence.addSequential(new ElevatorCommand(Elevator.SCALE_HIGH));
-				autonSequence.addSequential(new AcquireCommand(false, 3));
+				//autonSequence.addSequential(new AcquireCommand(false, 3));
 				autonSequence.addSequential(new ElevatorCommand(Elevator.FLOOR));
 				break;
 			case "LRScale":
 				autonSequence.addSequential(new Pathfinder1038(LToRightScaleLeft, LToRightScaleRight));
 				autonSequence.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
 				autonSequence.addSequential(new ElevatorCommand(Elevator.SCALE_HIGH));
-				autonSequence.addSequential(new AcquireCommand(false, 3));
+				//autonSequence.addSequential(new AcquireCommand(false, 3));
 				autonSequence.addSequential(new ElevatorCommand(Elevator.FLOOR));
 				break;
 			case "RRScale":
 				autonSequence.addSequential(new Pathfinder1038(RToRightScaleLeft, RToRightScaleRight));
 				autonSequence.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
 				autonSequence.addSequential(new ElevatorCommand(Elevator.SCALE_HIGH));
-				autonSequence.addSequential(new AcquireCommand(false, 3));
+				//autonSequence.addSequential(new AcquireCommand(false, 3));
 				autonSequence.addSequential(new ElevatorCommand(Elevator.FLOOR));
 				break;
 			case "RLScale":
 				autonSequence.addSequential(new Pathfinder1038(RToLeftScaleLeft, RToLeftScaleRight));
 				autonSequence.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
 				autonSequence.addSequential(new ElevatorCommand(Elevator.SCALE_HIGH));
-				autonSequence.addSequential(new AcquireCommand(false, 3));
+				//autonSequence.addSequential(new AcquireCommand(false, 3));
 				autonSequence.addSequential(new ElevatorCommand(Elevator.FLOOR));
 				break;
 		}

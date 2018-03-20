@@ -127,15 +127,6 @@ public class Elevator extends PIDSubsystem {
 		setSetpoint(SWITCH);
 	}
 	
-	public void moveToPortal() {
-		enable();
-		if (goingDown(PORTAL))
-			elevatorPID.setPID(P_DOWN, I_DOWN, D_DOWN);
-		else
-			elevatorPID.setPID(P_UP, I_UP, D_UP);
-		setSetpoint(PORTAL);
-	}
-	
 	public void moveToFloor() {
 		enable();
 		if (goingDown(FLOOR))

@@ -10,6 +10,7 @@ package org.usfirst.frc.team1038.robot;
 import edu.wpi.first.wpilibj.Compressor;
 import org.usfirst.frc.team1038.auton.AutonSelector;
 import org.usfirst.frc.team1038.auton.commands.DriveStraightCommand;
+import org.usfirst.frc.team1038.auton.commands.TurnCommand;
 import org.usfirst.frc.team1038.robot.SwagLights.WheelWellStates;
 import org.usfirst.frc.team1038.subsystem.AcquisitionScoring;
 import org.usfirst.frc.team1038.subsystem.Climb;
@@ -18,6 +19,7 @@ import org.usfirst.frc.team1038.subsystem.Elevator;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.hal.ControlWord;
@@ -69,18 +71,20 @@ public class Robot extends IterativeRobot {
 	public static boolean disabled = true;
 	
 	//Teleop
-	Joystick1038 driverJoystick = new Joystick1038(0);
-	Joystick1038 operatorJoystick = new Joystick1038(1);
+	private Joystick1038 driverJoystick = new Joystick1038(0);
+	private Joystick1038 operatorJoystick = new Joystick1038(1);
 	
 	//Auton
-	Scheduler schedule = Scheduler.getInstance();
+	private Scheduler schedule = Scheduler.getInstance();
 	public static SendableChooser<String> autoChooser = new SendableChooser<>();
 	public static SendableChooser<String> startPosition = new SendableChooser<>();
 	private I2CGyro gyroSensor = I2CGyro.getInstance();
 	private AutonSelector autonSelector = AutonSelector.getInstance();
 	private CommandGroup autonPath;
 	private Dashboard dashboard = Dashboard.getInstance();
-	private DriveStraightCommand drive = new DriveStraightCommand(48);
+	public static Spark emptySpark = new Spark(9);
+	private DriveStraightCommand drive = new DriveStraightCommand(24);
+	private TurnCommand turn = new TurnCommand(90);
     
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -148,12 +152,12 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		swag.enable();
 		robotDrive.setBrakeMode();
-		autonSelector.chooseAuton();
-		//autonPath = waypointPath.autonChoice();
+		autonPath = autonSelector.chooseAuton();
 		gyroSensor.reset();
 		//pathTest.initialize();
-		//schedule.add(autonPath);
-		schedule.add(drive);
+		schedule.add(autonPath);
+		//schedule.add(drive);
+		//schedule.add(turn);;
 	}
 
 	/**

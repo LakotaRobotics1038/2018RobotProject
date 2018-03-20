@@ -27,7 +27,7 @@ public class AcquireCommand extends Command {
 			case Acquire:
 				acqSco.aquire();
 			case Dispose:
-				acqSco.disable();
+				acqSco.dispose();
 		}
 		
 		if (!timerRunning)

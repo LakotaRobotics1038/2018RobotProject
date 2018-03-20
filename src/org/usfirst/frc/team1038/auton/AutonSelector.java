@@ -40,7 +40,9 @@ public class AutonSelector {
 		autonChooser = Dashboard.getInstance().getAutonChooser(); 
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
 		
-		System.out.printf("%f\n%f\n%f\nStarting Choose", position, autonChooser, gameData);
+		System.out.println("pos:" + position);
+		System.out.println("auto:" + autonChooser);
+		System.out.println("game data:" + gameData);
 		
 		switch (autonChooser)
 		{

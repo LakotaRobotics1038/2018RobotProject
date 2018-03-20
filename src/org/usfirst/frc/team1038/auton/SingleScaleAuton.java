@@ -1,3 +1,9 @@
+
+
+
+
+
+
 package org.usfirst.frc.team1038.auton;
 
 import org.usfirst.frc.team1038.auton.commands.AcquireCommand;
@@ -17,9 +23,9 @@ public class SingleScaleAuton {
 	private String position;
 	private String gameData;
 	
-	private final double DIST_TO_SCALE_FROM_DS_WALL = 24;
-	private final double DIST_TO_BW_SW_AND_SCALE_FROM_DS_WALL = 19.5;
-	private final double DIST_TO_CROSS_BW_SW_AND_SCALE = 15;
+	private final double DIST_TO_SCALE_FROM_DS_WALL = 23.2;
+	private final double DIST_TO_BW_SW_AND_SCALE_FROM_DS_WALL = 18.7;
+	private final double DIST_TO_CROSS_BW_SW_AND_SCALE = 15.5;
 	private final double DIST_FROM_CROSS_TO_SCALE = 4.5;
 	private final double DISPOSE_TIME = 1.5;
 	
@@ -35,7 +41,7 @@ public class SingleScaleAuton {
 		switch (position)
 		{
 			case AutonSelector.kLeftPosition:
-				if (gameData.substring(1, 2) == "L")
+				if (gameData.substring(1, 2).equals("L"))
 				{
 					group.addSequential(new DriveStraightCommand(DIST_TO_SCALE_FROM_DS_WALL));
 					group.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
@@ -49,29 +55,32 @@ public class SingleScaleAuton {
 					group.addSequential(new DriveStraightCommand(DIST_TO_CROSS_BW_SW_AND_SCALE));
 					group.addSequential(new TurnCommand(0));
 					group.addSequential(new DriveStraightCommand(DIST_FROM_CROSS_TO_SCALE));
-					group.addSequential(new TurnCommand(315));
+					//group.addSequential(new TurnCommand(0));
 				}
 				group.addSequential(new ElevatorCommand(Elevator.SCALE_HIGH));
 				group.addSequential(new AcquireCommand(Modes.Dispose, DISPOSE_TIME));
 				group.addSequential(new ElevatorCommand(Elevator.FLOOR));
 				break;
-			case AutonSelector.kRightPosition:
-				if (gameData.substring(1, 2) == "R")
+			case AutonSelector.kRightPosition:			
+				if (gameData.substring(1, 2).equals("R"))
 				{
+					System.out.println(gameData.substring(1, 2) + "Straight Case");
 					group.addSequential(new DriveStraightCommand(DIST_TO_SCALE_FROM_DS_WALL));
 					group.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
 					group.addSequential(new TurnCommand(315));
 				}
 				else
 				{
+					System.out.println("Cross Case");
 					group.addSequential(new DriveStraightCommand(DIST_TO_BW_SW_AND_SCALE_FROM_DS_WALL));
 					group.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
 					group.addSequential(new TurnCommand(270));
 					group.addSequential(new DriveStraightCommand(DIST_TO_CROSS_BW_SW_AND_SCALE));
-					group.addSequential(new TurnCommand(0));
+					group.addSequential(new TurnCommand(1));
 					group.addSequential(new DriveStraightCommand(DIST_FROM_CROSS_TO_SCALE));
-					group.addSequential(new TurnCommand(45));
+					//group.addSequential(new TurnCommand(0));
 				}
+				System.out.println("Continues");
 				group.addSequential(new ElevatorCommand(Elevator.SCALE_HIGH));
 				group.addSequential(new AcquireCommand(Modes.Dispose, DISPOSE_TIME));
 				group.addSequential(new ElevatorCommand(Elevator.FLOOR));

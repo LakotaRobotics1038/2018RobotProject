@@ -18,13 +18,13 @@ public class DriveStraightCommand extends PIDCommand {
 		private final static double dP = 0.150; //.04 proto
 		private final static double dI = 0.000;
 		private final static double dD = 0.002;
-		private final static double tP = 0.400; //.23 proto
+		private final static double tP = 0.200; //.23 proto
 		private final static double tI = 0.001;
 		private final static double tD = 0.000;
 		private I2CGyro gyroSensor = I2CGyro.getInstance();
 		private DriveTrain drive = DriveTrain.getInstance();
 		private PIDController drivePID = getPIDController();
-		private PIDController turnPID = new PIDController(tP, tI, tD, gyroSensor, new Spark(9));
+		private PIDController turnPID = new PIDController(tP, tI, tD, gyroSensor, Robot.emptySpark);
 		
 		//constructor
 		/**
@@ -41,7 +41,6 @@ public class DriveStraightCommand extends PIDCommand {
 			SmartDashboard.putData("Controls/Drive Straight", drivePID);
 			
 			//Angle
-			turnPID.setSetpoint(0);
 			turnPID.setAbsoluteTolerance(TOLERANCE);
 			turnPID.setOutputRange(-MAX_OUTPUT, MAX_OUTPUT);
 			turnPID.setInputRange(0, 360);
@@ -53,6 +52,7 @@ public class DriveStraightCommand extends PIDCommand {
 		//methods
 		public void initialize() {
 //			gyroSensor.reset();
+			turnPID.setSetpoint(gyroSensor.getAngle());
 			drive.resetEncoders();
 			//turnPID.setInputRange(0, 359);
 		}
@@ -62,7 +62,7 @@ public class DriveStraightCommand extends PIDCommand {
 			turnPID.enable();
 			double distancePID = drivePID.get();
 			double anglePID = turnPID.get();
-			System.out.println(distancePID + " " + anglePID);
+			//System.out.println(distancePID + " " + anglePID);
 			usePIDOutput(distancePID, anglePID);
 		}
 		

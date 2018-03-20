@@ -6,15 +6,17 @@ import org.usfirst.frc.team1038.subsystem.DriveTrain;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.PIDCommand;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TurnCommand extends PIDCommand {
 	//fields
 	private double drivePower = 0.0;
 	private final double END_DRIVE_SPEED = 0.0;
 	private final double END_DRIVE_ROTATION = 0.0;
-	private final int TOLERANCE = 1;
-	private final static double P = 0.033;
-	private final static double I = 0.0002;
+	private final double TOLERANCE = 2.1;
+	private final double OUTPUT_RANGE = .6;
+	private final static double P = 0.031;
+	private final static double I = 0.0001;
 	private final static double D = 0.002;
 //	private final static double P = 0.007;
 //	private final static double I = 0.000;
@@ -28,10 +30,10 @@ public class TurnCommand extends PIDCommand {
 		super(P, I, D);
 		setSetpoint(setpoint);
 		turnPID.setAbsoluteTolerance(TOLERANCE);
-		turnPID.setOutputRange(-.75, .75);
+		turnPID.setOutputRange(-OUTPUT_RANGE, OUTPUT_RANGE);
 		super.setInputRange(0, 360);
 		turnPID.setContinuous(true);
-		//SmartDashboard.putData("Controls/Turn PID", turnPID);
+		SmartDashboard.putData("Controls/Turn PID", turnPID);
 		requires(Robot.robotDrive);
 	}
 	
@@ -55,8 +57,8 @@ public class TurnCommand extends PIDCommand {
 	
 	public void interrupted()
 	{
-		end();
 		System.out.println("TurnCommand interrupted");
+		end();
 	}
 	
 	@Override
