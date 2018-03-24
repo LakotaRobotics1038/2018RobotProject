@@ -19,8 +19,8 @@ public class ForwardAuton {
 	
 	public CommandGroup select()
 	{
+		group.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
 		group.addSequential(new DriveStraightCommand(DIST_TO_BASELINE_FROM_DS_WALL));
-		group.addSequential(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
 		return group;
 	}
 }

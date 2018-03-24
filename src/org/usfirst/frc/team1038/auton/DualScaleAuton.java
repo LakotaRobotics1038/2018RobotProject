@@ -41,15 +41,15 @@ public class DualScaleAuton {
 				if (gameData.substring(1, 2).equals("L"))
 				{
 					group.addSequential(new TurnCommand(135));
-					group.addSequential(new DriveStraightCommand(DIST_TO_CUBE_FROM_SCALE));
 					group.addParallel(new AcquisitonOpenCloseCommand(States.Open));
 					group.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_ZERO));
+					group.addSequential(new DriveStraightCommand(DIST_TO_CUBE_FROM_SCALE));
 					group.addSequential(new TurnCommandVision());
 					group.addSequential(new DriveStraightCommand(DIST_TO_ACQUIRE));
-					group.addSequential(new AcquisitonOpenCloseCommand(States.Close));
 					group.addParallel(new AcquireCommand(Modes.Acquire, ACQUIRE_TIME));
-					group.addSequential(new DriveStraightCommand(-DIST_TO_ACQUIRE));
+					group.addSequential(new AcquisitonOpenCloseCommand(States.Close));
 					group.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
+					group.addSequential(new DriveStraightCommand(-DIST_TO_ACQUIRE));
 					group.addSequential(new TurnCommand(0));
 					group.addSequential(new DriveStraightCommand(DIST_TO_CUBE_FROM_SCALE));
 					group.addSequential(new TurnCommand(45));
@@ -57,15 +57,15 @@ public class DualScaleAuton {
 				else
 				{
 					group.addSequential(new TurnCommand(215));
-					group.addSequential(new DriveStraightCommand(DIST_TO_CUBE_FROM_SCALE));
 					group.addParallel(new AcquisitonOpenCloseCommand(States.Open));
 					group.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_ZERO));
+					group.addSequential(new DriveStraightCommand(DIST_TO_CUBE_FROM_SCALE));
 					group.addSequential(new TurnCommandVision());
-					group.addSequential(new DriveStraightCommand(DIST_TO_ACQUIRE));
-					group.addSequential(new AcquisitonOpenCloseCommand(States.Close));
+					group.addSequential(new DriveStraightCommand(DIST_TO_ACQUIRE));					
 					group.addParallel(new AcquireCommand(Modes.Acquire, ACQUIRE_TIME));
-					group.addSequential(new DriveStraightCommand(-DIST_TO_ACQUIRE));
+					group.addSequential(new AcquisitonOpenCloseCommand(States.Close));				
 					group.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
+					group.addSequential(new DriveStraightCommand(-DIST_TO_ACQUIRE));
 					group.addSequential(new TurnCommand(0));
 					group.addSequential(new DriveStraightCommand(DIST_TO_CUBE_FROM_SCALE));
 					group.addSequential(new TurnCommand(315));	
@@ -78,32 +78,32 @@ public class DualScaleAuton {
 				group = new SingleScaleAuton(position, gameData).select();
 				if (gameData.substring(1, 2).equals("R"))
 				{
-					group.addSequential(new TurnCommand(215));
-					group.addSequential(new DriveStraightCommand(DIST_TO_CUBE_FROM_SCALE));
+					group.addSequential(new TurnCommand(215));					
 					group.addParallel(new AcquisitonOpenCloseCommand(States.Open));
 					group.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_ZERO));
+					group.addSequential(new DriveStraightCommand(DIST_TO_CUBE_FROM_SCALE));
 					group.addSequential(new TurnCommandVision());
-					group.addSequential(new DriveStraightCommand(DIST_TO_ACQUIRE));
-					group.addSequential(new AcquisitonOpenCloseCommand(States.Close));
+					group.addSequential(new DriveStraightCommand(DIST_TO_ACQUIRE));				
 					group.addParallel(new AcquireCommand(Modes.Acquire, ACQUIRE_TIME));
-					group.addSequential(new DriveStraightCommand(-DIST_TO_ACQUIRE));
+					group.addSequential(new AcquisitonOpenCloseCommand(States.Close));
 					group.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
+					group.addSequential(new DriveStraightCommand(-DIST_TO_ACQUIRE));
 					group.addSequential(new TurnCommand(0));
 					group.addSequential(new DriveStraightCommand(DIST_TO_CUBE_FROM_SCALE));
 					group.addSequential(new TurnCommand(315));
 				}
 				else
 				{
-					group.addSequential(new TurnCommand(135));
-					group.addSequential(new DriveStraightCommand(DIST_TO_CUBE_FROM_SCALE));
+					group.addSequential(new TurnCommand(135));					
 					group.addParallel(new AcquisitonOpenCloseCommand(States.Open));
 					group.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_ZERO));
+					group.addSequential(new DriveStraightCommand(DIST_TO_CUBE_FROM_SCALE));
 					group.addSequential(new TurnCommandVision());
-					group.addSequential(new DriveStraightCommand(DIST_TO_ACQUIRE));
-					group.addSequential(new AcquisitonOpenCloseCommand(States.Close));
+					group.addSequential(new DriveStraightCommand(DIST_TO_ACQUIRE));					
 					group.addParallel(new AcquireCommand(Modes.Acquire, ACQUIRE_TIME));
-					group.addSequential(new DriveStraightCommand(-DIST_TO_ACQUIRE));
+					group.addSequential(new AcquisitonOpenCloseCommand(States.Close));
 					group.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
+					group.addSequential(new DriveStraightCommand(-DIST_TO_ACQUIRE));					
 					group.addSequential(new TurnCommand(0));
 					group.addSequential(new DriveStraightCommand(DIST_TO_CUBE_FROM_SCALE));
 					group.addSequential(new TurnCommand(45));	

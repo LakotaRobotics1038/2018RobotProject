@@ -16,6 +16,7 @@ import org.usfirst.frc.team1038.subsystem.AcquisitionScoring;
 import org.usfirst.frc.team1038.subsystem.Climb;
 import org.usfirst.frc.team1038.subsystem.DriveTrain;
 import org.usfirst.frc.team1038.subsystem.Elevator;
+import org.usfirst.frc.team1038.subsystem.AcquisitionScoring.SpeedModes;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -59,6 +60,7 @@ public class Robot extends IterativeRobot {
 	private AcquisitionScoring acqSco = AcquisitionScoring.getInstance();
 	private boolean povUpLastPressed = false;
 	private boolean povDownLastPressed = false;
+	private final double ACQ_START_SPEED = .8;
 	
 		//Elevator
 	public static Elevator elevator = Elevator.getInstance();
@@ -189,6 +191,7 @@ public class Robot extends IterativeRobot {
 		robotDrive.setCoastMode();
 		gyroSensor.reset();
 		robotDrive.resetEncoders();
+		acqSco.setAcqSpeed(ACQ_START_SPEED);
 		//visionCommandTest = null;
 	}
 
@@ -278,10 +281,10 @@ public class Robot extends IterativeRobot {
 		elevator.move(operatorJoystick.getLeftJoystickVertical());
 		
 		if (operatorJoystick.getPOV() == 0 && !povUpLastPressed) {
-			acqSco.setAcqSpeed(true);
+			acqSco.setAcqSpeed(SpeedModes.Up);
 			povUpLastPressed = true;
 		} else if (operatorJoystick.getPOV() == 180 && !povDownLastPressed) {
-			acqSco.setAcqSpeed(false);
+			acqSco.setAcqSpeed(SpeedModes.Down);
 			povDownLastPressed = true;
 		} else if (operatorJoystick.getPOV() == -1) {
 			povUpLastPressed = false;

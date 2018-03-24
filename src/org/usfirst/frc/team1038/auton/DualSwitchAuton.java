@@ -40,16 +40,16 @@ public class DualSwitchAuton {
 				if (gameData.substring(0, 1).equals("L"))
 				{
 					group.addSequential(new DriveStraightCommand(DIST_FROM_SIDE_SWITCH_TO_BW_SW_AND_SCALE));
-					group.addSequential(new TurnCommand(135));
-					group.addSequential(new TurnCommandVision());
+					group.addSequential(new TurnCommand(135));					
 					group.addParallel(new AcquisitonOpenCloseCommand(States.Open));
-					group.addSequential(new DriveStraightCommand(DIST_TO_COLLECT_CUBE));
-					group.addSequential(new AcquisitonOpenCloseCommand(States.Close));
+					group.addSequential(new TurnCommandVision());
+					group.addSequential(new DriveStraightCommand(DIST_TO_COLLECT_CUBE));					
 					group.addParallel(new AcquireCommand(Modes.Acquire, ACQUIRE_TIME));
+					group.addSequential(new AcquisitonOpenCloseCommand(States.Close));
 					group.addSequential(new ElevatorCommand(Elevator.SWITCH));
-					group.addSequential(new AcquireCommand(Modes.Dispose, DISPOSE_TIME));
-					group.addSequential(new DriveStraightCommand(DIST_TO_BACK_AWAY));
+					group.addSequential(new AcquireCommand(Modes.Dispose, DISPOSE_TIME));					
 					group.addParallel(new ElevatorCommand(Elevator.FLOOR));
+					group.addSequential(new DriveStraightCommand(DIST_TO_BACK_AWAY));
 					group.addSequential(new TurnCommand(0));
 				}
 				break;
@@ -59,15 +59,15 @@ public class DualSwitchAuton {
 				{
 					group.addSequential(new DriveStraightCommand(DIST_FROM_SIDE_SWITCH_TO_BW_SW_AND_SCALE));
 					group.addSequential(new TurnCommand(215));
-					group.addSequential(new TurnCommandVision());
 					group.addParallel(new AcquisitonOpenCloseCommand(States.Open));
+					group.addSequential(new TurnCommandVision());				
 					group.addSequential(new DriveStraightCommand(DIST_TO_COLLECT_CUBE));
-					group.addSequential(new AcquisitonOpenCloseCommand(States.Close));
 					group.addParallel(new AcquireCommand(Modes.Acquire, ACQUIRE_TIME));
+					group.addSequential(new AcquisitonOpenCloseCommand(States.Close));					
 					group.addSequential(new ElevatorCommand(Elevator.SWITCH));
 					group.addSequential(new AcquireCommand(Modes.Dispose, DISPOSE_TIME));
-					group.addSequential(new DriveStraightCommand(DIST_TO_BACK_AWAY));
 					group.addParallel(new ElevatorCommand(Elevator.FLOOR));
+					group.addSequential(new DriveStraightCommand(DIST_TO_BACK_AWAY));					
 					group.addSequential(new TurnCommand(0));
 				}
 				break;

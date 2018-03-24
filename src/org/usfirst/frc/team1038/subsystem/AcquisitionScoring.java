@@ -19,6 +19,7 @@ public class AcquisitionScoring extends PIDSubsystem {
 	private final double ACQ_UP_DOWN_SPEED = .65;
 	private final double MIN_ACQ_SPEED = .6;
 	private final double MAX_ACQ_SPEED = 1;
+	public enum SpeedModes { Up, Down };
 	private final static double P = .1;
 	private final static double I = 0.001;
 	private final static double D = 0.0001;
@@ -69,12 +70,17 @@ public class AcquisitionScoring extends PIDSubsystem {
     		return acqMotors.get();
     }
 	
-    public void setAcqSpeed(boolean up)
+    public void setAcqSpeed(SpeedModes mode)
     {
-    		if (acqMotorSpeed < MAX_ACQ_SPEED && up)
+    		if (acqMotorSpeed < MAX_ACQ_SPEED && mode == SpeedModes.Up)
     			acqMotorSpeed += .2;
-    		else if (acqMotorSpeed > MIN_ACQ_SPEED && !up)
+    		else if (acqMotorSpeed > MIN_ACQ_SPEED && mode == SpeedModes.Down)
     			acqMotorSpeed -= .2;
+    }
+    
+    public void setAcqSpeed(double speed)
+    {
+    		acqMotorSpeed = speed;
     }
     
     public void aquire() 
