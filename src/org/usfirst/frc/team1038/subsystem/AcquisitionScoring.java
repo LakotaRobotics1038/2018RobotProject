@@ -24,7 +24,7 @@ public class AcquisitionScoring extends PIDSubsystem {
 	private final static double D = 0.0001;
 	private final int TOLERANCE = 5;
 	public final static int UP_DOWN_MAX = 490;
-	public final static int UP_DOWN_HALF = UP_DOWN_MAX / 2;
+	public final static int UP_DOWN_HALF = (UP_DOWN_MAX / 2) + 80;
 	public final static int UP_DOWN_ZERO = 0;
 	private double acqMotorSpeed = 0.8;
 	private boolean armsOpen;

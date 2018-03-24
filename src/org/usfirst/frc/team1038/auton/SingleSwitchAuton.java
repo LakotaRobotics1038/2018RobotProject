@@ -19,9 +19,9 @@ public class SingleSwitchAuton {
 	
 	private final double DIST_FROM_DS_WALL_TO_SWITCH = 14;
 	private final double DIST_TO_APPROACH_SWITCH_FROM_SIDE = 2;
-	private final double DIST_FROM_DS_WALL_TO_CUBE_PILE = 6;
+	private final double DIST_FROM_DS_WALL_TO_CUBE_PILE = 4.5;
 	private final double DIST_FROM_CUBE_PILE_TO_SWITCH = 5;
-	private final double DIST_TO_APPROACH_SWITCH_FROM_FRONT = 4.5;
+	private final double DIST_TO_APPROACH_SWITCH_FROM_FRONT = 3.5;
 	private final double DIST_TO_BACK_AWAY = 1;
 	private final double DISPOSE_TIME = 1.5;
 	
@@ -37,17 +37,17 @@ public class SingleSwitchAuton {
 		switch (position)
 		{
 			case AutonSelector.kLeftPosition:
-				if (gameData.substring(0, 1) == "L")
+				if (gameData.substring(0, 1).equals("L"))
 				{
-					group.addSequential(new DriveStraightCommand(DIST_FROM_DS_WALL_TO_SWITCH));
 					group.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
+					group.addSequential(new DriveStraightCommand(DIST_FROM_DS_WALL_TO_SWITCH));
 					group.addSequential(new TurnCommand(90));
-					group.addSequential(new DriveStraightCommand(DIST_TO_APPROACH_SWITCH_FROM_SIDE));
 					group.addParallel(new ElevatorCommand(Elevator.SWITCH));
+					group.addSequential(new DriveStraightCommand(DIST_TO_APPROACH_SWITCH_FROM_SIDE));
 					group.addSequential(new AcquireCommand(Modes.Dispose, DISPOSE_TIME));
 					group.addSequential(new DriveStraightCommand(-DIST_TO_BACK_AWAY));
-					group.addSequential(new TurnCommand(0));
 					group.addParallel(new ElevatorCommand(Elevator.FLOOR));
+					group.addSequential(new TurnCommand(0));					
 				}
 				else
 				{
@@ -55,17 +55,17 @@ public class SingleSwitchAuton {
 				}
 				break;
 			case AutonSelector.kRightPosition:
-				if (gameData.substring(0, 1) == "R")
+				if (gameData.substring(0, 1).equals("R"))
 				{
-					group.addSequential(new DriveStraightCommand(DIST_FROM_DS_WALL_TO_SWITCH));
 					group.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
+					group.addSequential(new DriveStraightCommand(DIST_FROM_DS_WALL_TO_SWITCH));
 					group.addSequential(new TurnCommand(270));
-					group.addSequential(new DriveStraightCommand(DIST_TO_APPROACH_SWITCH_FROM_SIDE));
 					group.addParallel(new ElevatorCommand(Elevator.SWITCH));
+					group.addSequential(new DriveStraightCommand(DIST_TO_APPROACH_SWITCH_FROM_SIDE));
 					group.addSequential(new AcquireCommand(Modes.Dispose, DISPOSE_TIME));
 					group.addSequential(new DriveStraightCommand(-DIST_TO_BACK_AWAY));
-					group.addSequential(new TurnCommand(0));
 					group.addParallel(new ElevatorCommand(Elevator.FLOOR));
+					group.addSequential(new TurnCommand(0));
 				}
 				else
 				{
@@ -73,31 +73,31 @@ public class SingleSwitchAuton {
 				}
 				break;
 			case AutonSelector.kCenterPosition:
-				if (gameData.substring(0, 1) == "L")
+				if (gameData.substring(0, 1).equals("L"))
 				{
-					group.addSequential(new DriveStraightCommand(DIST_FROM_DS_WALL_TO_CUBE_PILE));
 					group.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
+					group.addSequential(new DriveStraightCommand(DIST_FROM_DS_WALL_TO_CUBE_PILE));				
 					group.addSequential(new TurnCommand(270));
 					group.addSequential(new DriveStraightCommand(DIST_FROM_CUBE_PILE_TO_SWITCH));
 					group.addSequential(new TurnCommand(0));
-					group.addSequential(new DriveStraightCommand(DIST_TO_APPROACH_SWITCH_FROM_FRONT));
 					group.addParallel(new ElevatorCommand(Elevator.SWITCH));
+					group.addSequential(new DriveStraightCommand(DIST_TO_APPROACH_SWITCH_FROM_FRONT));
 					group.addSequential(new AcquireCommand(Modes.Dispose, DISPOSE_TIME));
-					group.addSequential(new DriveStraightCommand(-DIST_TO_BACK_AWAY));
 					group.addParallel(new ElevatorCommand(Elevator.FLOOR));
+					group.addSequential(new DriveStraightCommand(-DIST_TO_BACK_AWAY));
 				}
 				else
 				{
-					group.addSequential(new DriveStraightCommand(DIST_FROM_DS_WALL_TO_CUBE_PILE));
 					group.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
+					group.addSequential(new DriveStraightCommand(DIST_FROM_DS_WALL_TO_CUBE_PILE));
 					group.addSequential(new TurnCommand(90));
 					group.addSequential(new DriveStraightCommand(DIST_FROM_CUBE_PILE_TO_SWITCH));
 					group.addSequential(new TurnCommand(0));
-					group.addSequential(new DriveStraightCommand(DIST_TO_APPROACH_SWITCH_FROM_FRONT));
 					group.addParallel(new ElevatorCommand(Elevator.SWITCH));
+					group.addSequential(new DriveStraightCommand(DIST_TO_APPROACH_SWITCH_FROM_FRONT));
 					group.addSequential(new AcquireCommand(Modes.Dispose, DISPOSE_TIME));
-					group.addSequential(new DriveStraightCommand(-DIST_TO_BACK_AWAY));
 					group.addParallel(new ElevatorCommand(Elevator.FLOOR));
+					group.addSequential(new DriveStraightCommand(-DIST_TO_BACK_AWAY));
 				}
 				break;
 		}

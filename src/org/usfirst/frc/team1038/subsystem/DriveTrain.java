@@ -114,7 +114,10 @@ public class DriveTrain extends Subsystem {
 	 * @param inputR Right stick input (range -1 to 1)
 	 */
 	public void tankDrive(double inputL, double inputR) {
-		differentialDrive.tankDrive(inputL, inputR, true);
+		if (PTOisEngaged)
+			differentialDrive.tankDrive(-inputL, inputR, true);
+		else
+			differentialDrive.tankDrive(inputL, inputR, true);
 	}
 	
 	/**
@@ -124,7 +127,10 @@ public class DriveTrain extends Subsystem {
 	 * @param curve Wanted turn value of robot
 	 */
 	public void singleArcadeDrive(double speed, double curve) {
-		differentialDrive.arcadeDrive(speed, curve, true);
+		if (PTOisEngaged)
+			differentialDrive.arcadeDrive(-speed, curve, true);
+		else
+			differentialDrive.arcadeDrive(speed, curve, true);
 	}
 	
 	/**
@@ -134,7 +140,10 @@ public class DriveTrain extends Subsystem {
 	 * @param inputLR Left/Right value (range -1 to 1)
 	 */
 	public void dualArcadeDrive(double yaxis, double xaxis) {
-		differentialDrive.arcadeDrive(yaxis, xaxis, true);
+		if (PTOisEngaged)
+			differentialDrive.arcadeDrive(-yaxis, xaxis, true);
+		else
+			differentialDrive.arcadeDrive(yaxis, xaxis, true);
 	}
 	
 	/**

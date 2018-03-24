@@ -29,6 +29,8 @@ public class Dashboard {
 	{
 		SmartDashboard.putBoolean("Drivers/Reset Arm Encoder", false);
 		SmartDashboard.putBoolean("Drivers/Reset Elevator Encoder", false);
+		SmartDashboard.putBoolean("Controls/Reset Gyro", false);
+		SmartDashboard.putBoolean("Controls/Recal Gyro", false);
 	}
 	
 	public void update(double lowPressure, double highPressure)
@@ -70,6 +72,18 @@ public class Dashboard {
 		{
 			Elevator.getInstance().resetEncoder();
 			SmartDashboard.putBoolean("Drivers/Reset Elevator Encoder", false);
+		}
+		
+		if (SmartDashboard.getBoolean("Controls/Reset Gyro", false))
+		{
+			I2CGyro.getInstance().reset();
+			SmartDashboard.putBoolean("Controls/Reset Gyro", false);
+		}
+		
+		if (SmartDashboard.getBoolean("Controls/Recal Gyro", false))
+		{
+			I2CGyro.getInstance().calibrate();
+			SmartDashboard.putBoolean("Controls/Recal Gyro", false);
 		}
 		
 		position = Robot.startPosition.getSelected();

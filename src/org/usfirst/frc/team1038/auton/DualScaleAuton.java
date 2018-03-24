@@ -38,7 +38,7 @@ public class DualScaleAuton {
 		{
 			case AutonSelector.kLeftPosition:
 				group = new SingleScaleAuton(position, gameData).select();
-				if (gameData.substring(1, 2) == "L")
+				if (gameData.substring(1, 2).equals("L"))
 				{
 					group.addSequential(new TurnCommand(135));
 					group.addSequential(new DriveStraightCommand(DIST_TO_CUBE_FROM_SCALE));
@@ -76,7 +76,7 @@ public class DualScaleAuton {
 				break;
 			case AutonSelector.kRightPosition:
 				group = new SingleScaleAuton(position, gameData).select();
-				if (gameData.substring(1, 2) == "R")
+				if (gameData.substring(1, 2).equals("R"))
 				{
 					group.addSequential(new TurnCommand(215));
 					group.addSequential(new DriveStraightCommand(DIST_TO_CUBE_FROM_SCALE));

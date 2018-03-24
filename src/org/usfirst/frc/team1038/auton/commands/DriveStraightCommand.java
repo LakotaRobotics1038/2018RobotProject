@@ -62,7 +62,7 @@ public class DriveStraightCommand extends PIDCommand {
 			turnPID.enable();
 			double distancePID = drivePID.get();
 			double anglePID = turnPID.get();
-			//System.out.println(distancePID + " " + anglePID);
+			System.out.println("dist out: " + distancePID + " ang out: " + anglePID + " ang sp: " + turnPID.getSetpoint() + "ang: " + gyroSensor.getAngle());
 			usePIDOutput(distancePID, anglePID);
 		}
 		

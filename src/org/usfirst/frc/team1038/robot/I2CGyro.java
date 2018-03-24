@@ -26,9 +26,8 @@ public class I2CGyro extends GyroBase{
 	{
 		I2CBus = new I2C(I2C.Port.kOnboard, DEVICE_ADDRESS);
 		//I2CBus.write(0x10, 22);
-		I2CBus.write(COMMAND, GYRO_RECALIBRATE);
-		I2CBus.write(SENSOR_ID_CODE, NORMAL_MEASUREMENT_MODE);
-		System.out.println("Gyro Calibrated");
+		calibrate();
+
 	}
 	
 	public static I2CGyro getInstance() {
@@ -42,6 +41,11 @@ public class I2CGyro extends GyroBase{
 	//Reads and translates input from the Gyro into a value from 0-359
 	@Override
 	public double getAngle() {
+		return gyroVal;
+	  }
+	
+	public double readGyro()
+	{
 		byte[] dataBuffer = new byte[6];
 		
 	    if (I2CBus == null) {
@@ -65,7 +69,7 @@ public class I2CGyro extends GyroBase{
 		}
 		
 	    return gyroVal;
-	  }
+	}
 	
 	//Sets current gyro value to 0
 	@Override
@@ -78,6 +82,7 @@ public class I2CGyro extends GyroBase{
 	@Override
 	public void calibrate()
 	{
+		System.out.println("Gyro Calibrated");
 		I2CBus.write(COMMAND, GYRO_RECALIBRATE);
 		I2CBus.write(SENSOR_ID_CODE, NORMAL_MEASUREMENT_MODE);
 	}

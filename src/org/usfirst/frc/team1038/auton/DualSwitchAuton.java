@@ -37,7 +37,7 @@ public class DualSwitchAuton {
 		{
 			case AutonSelector.kLeftPosition:
 				group = new SingleSwitchAuton(position, gameData).select();
-				if (gameData.substring(0, 1) == "L")
+				if (gameData.substring(0, 1).equals("L"))
 				{
 					group.addSequential(new DriveStraightCommand(DIST_FROM_SIDE_SWITCH_TO_BW_SW_AND_SCALE));
 					group.addSequential(new TurnCommand(135));
@@ -55,7 +55,7 @@ public class DualSwitchAuton {
 				break;
 			case AutonSelector.kRightPosition:
 				group = new SingleSwitchAuton(position, gameData).select();
-				if (gameData.substring(0, 1) == "R")
+				if (gameData.substring(0, 1).equals("R"))
 				{
 					group.addSequential(new DriveStraightCommand(DIST_FROM_SIDE_SWITCH_TO_BW_SW_AND_SCALE));
 					group.addSequential(new TurnCommand(215));

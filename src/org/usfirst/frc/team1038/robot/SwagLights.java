@@ -140,7 +140,7 @@ public class SwagLights {
 			setTower(TowerStates.ElevatorUp);
 		} else if (elevator.getElevatorSpeed() < 1) {
 			setTower(TowerStates.ElevatorDown);*/
-		/*} else */if (acqSco.getAcqMotorPower() > .2) {
+		/*} else*/ if (acqSco.getAcqMotorPower() > .2) {
 			setTower(TowerStates.Acquiring);
 		} else if (acqSco.getAcqMotorPower() < -.2) {
 			setTower(TowerStates.Disposing);

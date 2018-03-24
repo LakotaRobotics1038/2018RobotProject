@@ -421,6 +421,28 @@
               "_source0": "network_table:///SmartDashboard/Controls/Turn PID",
               "_title": "Turn PID"
             }
+          },
+          "0,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Toggle Button",
+              "_source0": "network_table:///SmartDashboard/Controls/Reset Gyro",
+              "_title": "Reset Gyro"
+            }
+          },
+          "1,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Toggle Button",
+              "_source0": "network_table:///SmartDashboard/Controls/Recal Gyro",
+              "_title": "Recal Gyro"
+            }
           }
         }
       }

@@ -46,6 +46,9 @@ public class SingleScaleAuton {
 					group.addSequential(new DriveStraightCommand(DIST_TO_SCALE_FROM_DS_WALL));
 					group.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
 					group.addSequential(new TurnCommand(45));
+//					group.addSequential(new ElevatorCommand(Elevator.SCALE_HIGH));
+//					group.addSequential(new AcquireCommand(Modes.Dispose, DISPOSE_TIME));
+//					group.addSequential(new ElevatorCommand(Elevator.FLOOR));
 				}
 				else
 				{
@@ -55,7 +58,6 @@ public class SingleScaleAuton {
 					group.addSequential(new DriveStraightCommand(DIST_TO_CROSS_BW_SW_AND_SCALE));
 					group.addSequential(new TurnCommand(0));
 					group.addSequential(new DriveStraightCommand(DIST_FROM_CROSS_TO_SCALE));
-					//group.addSequential(new TurnCommand(0));
 				}
 				group.addSequential(new ElevatorCommand(Elevator.SCALE_HIGH));
 				group.addSequential(new AcquireCommand(Modes.Dispose, DISPOSE_TIME));
@@ -68,6 +70,9 @@ public class SingleScaleAuton {
 					group.addSequential(new DriveStraightCommand(DIST_TO_SCALE_FROM_DS_WALL));
 					group.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
 					group.addSequential(new TurnCommand(315));
+//					group.addSequential(new ElevatorCommand(Elevator.SCALE_HIGH));
+//					group.addSequential(new AcquireCommand(Modes.Dispose, DISPOSE_TIME));
+//					group.addSequential(new ElevatorCommand(Elevator.FLOOR));
 				}
 				else
 				{
@@ -76,9 +81,8 @@ public class SingleScaleAuton {
 					group.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_HALF));
 					group.addSequential(new TurnCommand(270));
 					group.addSequential(new DriveStraightCommand(DIST_TO_CROSS_BW_SW_AND_SCALE));
-					group.addSequential(new TurnCommand(1));
+					group.addSequential(new TurnCommand(0));
 					group.addSequential(new DriveStraightCommand(DIST_FROM_CROSS_TO_SCALE));
-					//group.addSequential(new TurnCommand(0));
 				}
 				System.out.println("Continues");
 				group.addSequential(new ElevatorCommand(Elevator.SCALE_HIGH));

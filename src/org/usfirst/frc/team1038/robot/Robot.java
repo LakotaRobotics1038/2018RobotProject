@@ -115,6 +115,7 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void robotPeriodic() {
+		gyroSensor.readGyro();
 		dashboard.update(lowPressureSensor.getPressure(), highPressureSensor.getPressure());
 		swag.swagPeriodic();
 		
@@ -128,7 +129,7 @@ public class Robot extends IterativeRobot {
 		acqSco.AcquisitionPeriodic();
 		
 		if (elevator.getLowProx()) {
-			elevator.resetEncoder();
+			//elevator.resetEncoder();
 			if (elevator.getSetpoint() == 0)
 				elevator.disable();
 		}
@@ -155,9 +156,12 @@ public class Robot extends IterativeRobot {
 		autonPath = autonSelector.chooseAuton();
 		gyroSensor.reset();
 		//pathTest.initialize();
-		schedule.add(autonPath);
 		//schedule.add(drive);
 		//schedule.add(turn);;
+//		autonPath = new CommandGroup();
+//		autonPath.addSequential(new TurnCommand(90));
+//		autonPath.addSequential(new TurnCommand(0));
+		schedule.add(autonPath);
 	}
 
 	/**
@@ -195,6 +199,7 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		//System.out.println(robotDrive.getRightDriveEncoderCount());
 		swag.swagEnabledPeriodic();
+		//System.out.println(elevator.getElevatorSpeed());
 		driver();
 		operator();
 	}
@@ -327,7 +332,8 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void testInit() {
-		
+		schedule.add(new TurnCommand(90));
+		//schedule.add(new TurnCommand(0));
 	}
 
 	/**
@@ -335,8 +341,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
-		System.out.println(operatorJoystick.getRightJoystickVertical());
-		driver();
-		operator();
+		schedule.run();
 	}
 }
