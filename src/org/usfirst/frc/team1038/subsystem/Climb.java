@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Climb extends Subsystem {
-										//I NEED A DISTANCE FOR IT TO TRAVEL
+
 	//variables
 	private final int ARM_MOTOR_PORT = 2;
 	private final int ARM_ENCODER_PORT_A = 8;
@@ -31,30 +31,13 @@ public class Climb extends Subsystem {
 		
 	}
 	
-	//methods
-//	public boolean autoArmRaise()
-//	{
-//		//pushes out telescoping arm
-////		encoderDistance = armEncoder.getDistance();
-//		armMotor.set(RAISE_SPEED);
-//		if(armEncoder.get() < FINAL_DISTANCE/*set to distance in inches from rest to bar*/)
-//		{
-//			climbing = true;
-//		}
-//		else
-//		{
-//		climbing = false;
-//		armMotor.set(0);
-//		}
-//		return climbing;
-//	}
-	
-	public void move (double joystickPower)
-	{
-		if ((armEncoder.get() <= 8 && joystickPower > .1) || (joystickPower > .1 || joystickPower < -.1))
-		{
-			if (armEncoder.get() > 0)
-			{
+	/**
+	 * Moves the climb arm
+	 * @param joystickPower power at which to move the climb arm. thic value is cut in half.
+	 */
+	public void move (double joystickPower) {
+		if ((armEncoder.get() <= 8 && joystickPower > .1) || (joystickPower > .1 || joystickPower < -.1)) {
+			if (armEncoder.get() > 0) {
 				if (AcquisitionScoring.getInstance().getUpDownEncoder() > ACQ_ARMS_DEADBAND)
 					AcquisitionScoring.getInstance().armsToZero();
 				if (AcquisitionScoring.getInstance().areArmsOpen())
@@ -66,31 +49,20 @@ public class Climb extends Subsystem {
 			armMotor.set(0);
 	}
 	
-	public void resetEncoder()
-	{
+	/**
+	 * Reset the arm encoder
+	 */
+	public void resetEncoder() {
 		armEncoder.reset();
 	}
 	
-	public boolean getProx()
-	{
+	/**
+	 * Get the state of the arm prox
+	 * @return is the arm in front of the prox
+	 */
+	public boolean getProx() {
 		return armProx.get();
 	}
-	
-//	public boolean armLower()
-//	{
-//		// lowers telescoping arm
-//		armMotor.set(RAISE_SPEED*-1);
-//		if(armEncoder.get() < FINAL_DISTANCE) //TODO: Find value
-//		{
-//			lowering = true;
-//		}
-//		else
-//		{
-//			lowering = false;
-//			armMotor.set(0);
-//		}
-//		return lowering;
-//	}
 
 	@Override
 	protected void initDefaultCommand() {

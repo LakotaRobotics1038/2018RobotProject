@@ -46,8 +46,7 @@ public class AcquisitionScoring extends PIDSubsystem {
 		return acqSco;
 	}
     
-    private AcquisitionScoring()
-    {
+    private AcquisitionScoring() {
 		super (P, I, D);
     		leftAcqMotor.setInverted(true);
     		acqArmsUpDown.setInverted(true);
@@ -60,78 +59,103 @@ public class AcquisitionScoring extends PIDSubsystem {
     		//SmartDashboard.putData("AcqUpDown", acqArmsUpDown);
     }
     
-    public double getAcqSpeed()
-    {
+    /**
+     * Get the speed setpoint for the acquisition wheels
+     * @return the speed setpoint for the acquisition wheels
+     */
+    public double getAcqSpeed() {
     		return acqMotorSpeed;
     }
     
-    public double getAcqMotorPower()
-    {
+    /**
+     * Get the current power setting for the acquisition motors
+     * @return the current power setting for the acquisition motors
+     */
+    public double getAcqMotorPower() {
     		return acqMotors.get();
     }
 	
-    public void setAcqSpeed(SpeedModes mode)
-    {
+    /**
+     * Change the speed setpoint for disposing a cube
+     * @param mode direction to move value (plus or minus .2) (postcondition bounded between .4 and 1)
+     */
+    public void setAcqSpeed(SpeedModes mode) {
     		if (acqMotorSpeed < MAX_ACQ_SPEED && mode == SpeedModes.Up)
     			acqMotorSpeed += .2;
     		else if (acqMotorSpeed > MIN_ACQ_SPEED && mode == SpeedModes.Down)
     			acqMotorSpeed -= .2;
     }
     
-    public void setAcqSpeed(double speed)
-    {
+    /**
+     * Set the speed setpoint for disposing a cube
+     * @param speed new value for setpoint (precondition bounded between .4 and 1)
+     */
+    public void setAcqSpeed(double speed) {
     		acqMotorSpeed = speed;
     }
     
-    public void aquire() 
-    {
+    /**
+     * Runs acquisition motors at full power inwards
+     */
+    public void aquire() {
     		acqMotors.set(1);
     }
     
-    public void dispose() 
-    {
+    /**
+     * Runs acquisition motors inwards at the current setpoint
+     */
+    public void dispose() {
     		acqMotors.set(-acqMotorSpeed);
     }
     
-    public void stop()
-    {
+    /**
+     * sets the acquisition motors to zero
+     */
+    public void stop() {
     		acqMotors.set(0);
     }
     
-    public void armsToZero() 
-    {
+    /**
+     * change the angle setpoint to zero
+     */
+    public void armsToZero() {
     		enable();
     		setSetpoint(UP_DOWN_ZERO);
     }
     
-    public void armsTo90() 
-    {
+    /**
+     * change the angle setpoint to 90 degrees
+     */
+    public void armsTo90() {
     		enable();
     		setSetpoint(UP_DOWN_MAX);
     }
     
-    public void armsTo45() 
-    {
+    /**
+     * change the angle setpoint to 60 degrees
+     */
+    public void armsTo60() {
     		enable();
     		setSetpoint(UP_DOWN_HALF);
     }
     
-    public void armsUpDownSetMotor(double power)
-    {
+    /**
+     * set the motor power for the acquisition angle
+     * @param power to set the motor to
+     */
+    public void armsUpDownSetMotor(double power) {
     		acqArmsUpDown.set(power);
     }
     
-    public void AcquisitionPeriodic()
-    {
-    		if (acqUpDownController.isEnabled())
-    		{		
-    			if (acqArmsUpDownEncoder.get() > -10 && acqArmsUpDownEncoder.get() < 10 && getSetpoint() == 0)
-    			{
+    /**
+     * Call this method in robot periodic to control the acquision
+     */
+    public void AcquisitionPeriodic() {
+    		if (acqUpDownController.isEnabled()) {		
+    			if (acqArmsUpDownEncoder.get() > -10 && acqArmsUpDownEncoder.get() < 10 && getSetpoint() == 0) {
     				acqArmsUpDown.set(0);
     				disable();
-    			}
-    			else
-    			{
+    			} else {
     				double PIDValue = acqUpDownController.get();
     				usePIDOutput(PIDValue);
     			}
@@ -150,30 +174,42 @@ public class AcquisitionScoring extends PIDSubsystem {
 			acqArmsUpDown.set(output);
 	}
     
-    public void openArms()
-    {
+	/**
+	 * open the acquisition arms
+	 */
+    public void openArms() {
     		acqArmsOpenClose.set(DoubleSolenoid.Value.kForward);
     		armsOpen = true;
     }
     
-    public void closeArms()
-    {
+    /**
+     * close the acquisition arms
+     */
+    public void closeArms() {
     		acqArmsOpenClose.set(DoubleSolenoid.Value.kReverse);
     		armsOpen = false;
     }
     
-    public int getUpDownEncoder()
-    {
+    /**
+     * Get the value of the acquisition angle encoder
+     * @return the value of the acquisition angle encoder
+     */
+    public int getUpDownEncoder() {
     		return acqArmsUpDownEncoder.get();
     }
     
-    public void resetUpDownEncoder()
-    {
+    /**
+     * reset the encoder for the acquisition angle
+     */
+    public void resetUpDownEncoder() {
     		acqArmsUpDownEncoder.reset();
     }
     
-    public boolean areArmsOpen()
-    {
+    /**
+     * Determine if the acquisition arms are open
+     * @return are the acquisition arms open
+     */
+    public boolean areArmsOpen() {
     		return armsOpen;
     }
 
@@ -184,8 +220,7 @@ public class AcquisitionScoring extends PIDSubsystem {
 	}
 	
 	@Override
-	public void disable()
-	{
+	public void disable() {
 		super.disable();
 		acqArmsUpDown.set(0);
 	}

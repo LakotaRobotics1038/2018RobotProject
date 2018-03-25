@@ -9,15 +9,17 @@ public class AcquisitonOpenCloseCommand extends Command {
 	public enum States { Open, Close };
 	private States state;
 	
-	public AcquisitonOpenCloseCommand (States state)
-	{
+	/**
+	 * Creates a new command to open or close the acquisition
+	 * @param state to change the acquisition arms to
+	 */
+	public AcquisitonOpenCloseCommand (States state) {
 		this.state = state;
 	}
 	
-	public void execute()
-	{
-		switch (state)
-		{
+	@Override
+	public void execute() {
+		switch (state) {
 			case Open:
 				acqSco.openArms();
 				break;
@@ -33,8 +35,8 @@ public class AcquisitonOpenCloseCommand extends Command {
 		return true;
 	}
 	
-	public void end()
-	{
+	@Override
+	public void end() {
 		
 	}
 }

@@ -1,9 +1,9 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------*/
+/* Copyright (c) 2017-2018 FIRST and Lakota Robotics 1038. All Rights Reserved.*/
+/* Open Source Software - may be modified and shared by FRC teams. The code    */
+/* must be accompanied by the FIRST BSD license file in the root directory of  */
+/* the project.                                                                */
+/*-----------------------------------------------------------------------------*/
 
 package org.usfirst.frc.team1038.robot;
 
@@ -11,12 +11,14 @@ import edu.wpi.first.wpilibj.Compressor;
 import org.usfirst.frc.team1038.auton.AutonSelector;
 import org.usfirst.frc.team1038.auton.commands.DriveStraightCommand;
 import org.usfirst.frc.team1038.auton.commands.TurnCommand;
-import org.usfirst.frc.team1038.robot.SwagLights.WheelWellStates;
 import org.usfirst.frc.team1038.subsystem.AcquisitionScoring;
 import org.usfirst.frc.team1038.subsystem.Climb;
+import org.usfirst.frc.team1038.subsystem.Dashboard;
 import org.usfirst.frc.team1038.subsystem.DriveTrain;
 import org.usfirst.frc.team1038.subsystem.Elevator;
+import org.usfirst.frc.team1038.subsystem.SwagLights;
 import org.usfirst.frc.team1038.subsystem.AcquisitionScoring.SpeedModes;
+import org.usfirst.frc.team1038.subsystem.SwagLights.WheelWellStates;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -308,7 +310,7 @@ public class Robot extends IterativeRobot {
 		if (operatorJoystick.getAButton()) {
 			acqSco.armsToZero();
 		} else if (operatorJoystick.getBButton()) {
-			acqSco.armsTo45();
+			acqSco.armsTo60();
 		} else if (operatorJoystick.getYButton()) {
 			acqSco.armsTo90();
 		}

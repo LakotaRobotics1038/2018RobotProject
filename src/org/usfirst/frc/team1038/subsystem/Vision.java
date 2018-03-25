@@ -1,6 +1,4 @@
-package org.usfirst.frc.team1038.auton;
-
-import org.usfirst.frc.team1038.subsystem.DriveTrain;
+package org.usfirst.frc.team1038.subsystem;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -8,7 +6,6 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Vision extends Subsystem {
-	//fields
 	
 	//IP 10.10.38.200
 	private DriveTrain robotDrive = DriveTrain.getInstance();
@@ -26,21 +23,30 @@ public class Vision extends Subsystem {
 		return vision;
 	}
 	
-	//Constructor
 	private Vision() {
 		piTable.setNetworkIdentity("RoboRIO");
 		piTable.startClient("raspberrypi.local", 1735);	
 	}
 	
-	//methods
+	/**
+	 * Get the FPS of the camera
+	 * @return the FPS of the camera
+	 */
 	public double getFPS() {
 		return netFPS.getDouble(0);
 	}
 	
+	/**
+	 * Get the angle of the cube in the camera frame
+	 * @return the angle of the cube in the camera frame
+	 */
 	public int getAngle() {
 		return (int)Math.round(netAngle.getDouble(-1));
 	}
 	
+	/**
+	 * Turn the robot to the camera angle
+	 */
 	public void turnToAngle() {
 		while(this.getAngle() < -1 || this.getAngle() > 1) {
 			if(this.getAngle() > 1) {
@@ -56,6 +62,5 @@ public class Vision extends Subsystem {
 	@Override
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub
-		
 	}
 }

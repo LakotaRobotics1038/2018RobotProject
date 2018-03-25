@@ -8,13 +8,16 @@ public class AcquisitionAngleCommand extends Command{
 
 	private AcquisitionScoring acqSco = AcquisitionScoring.getInstance();
 	
-	public AcquisitionAngleCommand(int setpoint)
-	{
+	/**
+	 * Creates a new command to angle the acquisition arms
+	 * @param setpoint to change the angle to (This should come from a public final in AcquisitionScoring.java)
+	 */
+	public AcquisitionAngleCommand(int setpoint) {
 		acqSco.setSetpoint(setpoint);
 	}
 	
-	public void execute()
-	{
+	@Override
+	public void execute() {
 		acqSco.enable();
 	}
 	
@@ -24,8 +27,8 @@ public class AcquisitionAngleCommand extends Command{
 		return acqSco.onTarget();
 	}
 	
-	public void end()
-	{
+	@Override
+	public void end() {
 		
 	}
 }

@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.PIDCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TurnCommand extends PIDCommand {
-	//fields
+	
 	private double drivePower = 0.0;
 	private final double END_DRIVE_SPEED = 0.0;
 	private final double END_DRIVE_ROTATION = 0.0;
@@ -25,7 +25,10 @@ public class TurnCommand extends PIDCommand {
 	private DriveTrain drive = DriveTrain.getInstance();
 	private PIDController turnPID = getPIDController();
 	
-	//constructor
+	/**
+	 * Creates a new Turn Command
+	 * @param setpoint angle to turn to
+	 */
 	public TurnCommand(int setpoint) {
 		super(P, I, D);
 		setSetpoint(setpoint);
@@ -37,11 +40,12 @@ public class TurnCommand extends PIDCommand {
 		requires(Robot.robotDrive);
 	}
 	
-	//methods
+	@Override
 	public void initialize() {
 	//	gyroSensor.reset();
 	}
 	
+	@Override
 	public void execute() {
 		turnPID.enable();
 		double PIDTurnAdjust = turnPID.get();
@@ -55,8 +59,8 @@ public class TurnCommand extends PIDCommand {
 		System.out.println("Current Angle: " + gyroSensor.getAngle() + ", PIDTurnAdjust: " + turnPID.get() + ", Setpoint: " + getSetpoint());
 	}
 	
-	public void interrupted()
-	{
+	@Override
+	public void interrupted() {
 		System.out.println("TurnCommand interrupted");
 		end();
 	}

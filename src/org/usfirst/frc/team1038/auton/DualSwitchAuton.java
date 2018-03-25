@@ -12,11 +12,7 @@ import org.usfirst.frc.team1038.subsystem.Elevator;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class DualSwitchAuton {
-	
-	private CommandGroup group;
-	private String position;
-	private String gameData;
+public class DualSwitchAuton extends Auton {
 	
 	private final double DIST_FROM_SIDE_SWITCH_TO_BW_SW_AND_SCALE = 5;
 	private final double DIST_TO_COLLECT_CUBE = 3; //TODO check this value
@@ -24,21 +20,21 @@ public class DualSwitchAuton {
 	private final double ACQUIRE_TIME = 2;
 	private final double DISPOSE_TIME = 1.5;
 	
-	public DualSwitchAuton(String positionIn, String gameDataIn)
-	{
-		group = new CommandGroup();
-		position = positionIn;
-		gameData = gameDataIn;
+	/**
+	 * Creates a new dual switch auton
+	 * @param positionIn The position of the robot on the field
+	 * @param gameDataIn Game data from FMS
+	 */
+	public DualSwitchAuton(String positionIn, String gameDataIn) {
+		super(positionIn, gameDataIn);
 	}
 	
-	public CommandGroup select()
-	{
-		switch (position)
-		{
+	@Override
+	public CommandGroup select() {
+		switch (position) {
 			case AutonSelector.kLeftPosition:
 				group = new SingleSwitchAuton(position, gameData).select();
-				if (gameData.substring(0, 1).equals("L"))
-				{
+				if (gameData.substring(0, 1).equals("L")) {
 					group.addSequential(new DriveStraightCommand(DIST_FROM_SIDE_SWITCH_TO_BW_SW_AND_SCALE));
 					group.addSequential(new TurnCommand(135));					
 					group.addParallel(new AcquisitonOpenCloseCommand(States.Open));
@@ -55,8 +51,7 @@ public class DualSwitchAuton {
 				break;
 			case AutonSelector.kRightPosition:
 				group = new SingleSwitchAuton(position, gameData).select();
-				if (gameData.substring(0, 1).equals("R"))
-				{
+				if (gameData.substring(0, 1).equals("R")) {
 					group.addSequential(new DriveStraightCommand(DIST_FROM_SIDE_SWITCH_TO_BW_SW_AND_SCALE));
 					group.addSequential(new TurnCommand(215));
 					group.addParallel(new AcquisitonOpenCloseCommand(States.Open));

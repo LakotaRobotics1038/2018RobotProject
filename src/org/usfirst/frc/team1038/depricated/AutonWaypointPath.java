@@ -39,7 +39,7 @@ public class AutonWaypointPath{
 	public static File CToLeftScaleLeft = new File("/home/lvuser/Paths/CToLeftScale_left_detailed.csv");
 	private CommandGroup autonSequence = new CommandGroup();;
 	private String autonPath;
-	private static AutonSelector autonSelector = AutonSelector.getInstance();
+	private static AutonSelector autonSelector;
 	private static AutonWaypointPath waypointPath;
 	
 	public static AutonWaypointPath getInstance() {

@@ -2,7 +2,6 @@ package org.usfirst.frc.team1038.depricated;
 
 import java.io.File;
 
-import org.usfirst.frc.team1038.robot.Conversions;
 import org.usfirst.frc.team1038.robot.I2CGyro;
 import org.usfirst.frc.team1038.robot.Robot;
 import org.usfirst.frc.team1038.subsystem.DriveTrain;

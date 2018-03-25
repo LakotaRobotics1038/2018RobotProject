@@ -5,19 +5,20 @@ import org.usfirst.frc.team1038.subsystem.AcquisitionScoring;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class ChangeAcquisitionPowerCommand extends Command {
+	
 	private AcquisitionScoring acqSco = AcquisitionScoring.getInstance();
 	private double power;
 	
 	/**
+	 * Creates a new command to change the Acquisition Power setpoint
 	 * @param power to change the acquisition to (between .4 and 1)
 	 */
-	public ChangeAcquisitionPowerCommand (double power)
-	{
+	public ChangeAcquisitionPowerCommand (double power) {
 		this.power = power;
 	}
 	
-	public void execute()
-	{
+	@Override
+	public void execute() {
 		if (power > 1)
 		{
 			power = 1;
@@ -35,8 +36,7 @@ public class ChangeAcquisitionPowerCommand extends Command {
 		return true;
 	}
 	
-	public void end()
-	{
-		
+	@Override
+	public void end() {
 	}
 }

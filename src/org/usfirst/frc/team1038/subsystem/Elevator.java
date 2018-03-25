@@ -55,50 +55,75 @@ public class Elevator extends PIDSubsystem {
 		elevatorMotor.setInverted(true);
 	}
 	
-	//methods	
+	/**
+	 * Get the state of the low prox
+	 * @return is low prox active
+	 */
 	public boolean getLowProx() {
 		return lowProx.get();
 	}
 	
+	/**
+	 * Get the state of the high prox
+	 * @return is high prox active
+	 */
 	public boolean getHighProx() {
 		return highProx.get();
 	}
 	
+	/**
+	 * Get the encoder counts from the elevator
+	 * @return encoder counts of elevator
+	 */
 	public int getEncoderCount() {
 		return elevatorEncoder.get();
 	}
 	
+	/**
+	 * Get the speed at which the elevator is moving
+	 * @return speed the elevator is moving in counts / second
+	 */
 	public double getElevatorSpeed() {
 		return elevatorEncoder.getRate();
 	}
 	
+	/**
+	 * Get the current motor output to the elevator
+	 * @return the current motor outpur to the elevator
+	 */
 	public double getMotorOutput() {
 		return elevatorMotor.get();
 	}
 	
+	/**
+	 * Call this method in robot period to control the elevator
+	 */
 	public void elevatorPeriodic() {
-		if (elevatorPID.isEnabled())
-		{
+		if (elevatorPID.isEnabled()) {
 			double PIDValue = elevatorPID.get();
 			//System.out.println(elevatorPID.getP() + " " + elevatorPID.getI() + " " + elevatorPID.getD());
 			usePIDOutput(PIDValue);
 		}
 	}
 	
-	public boolean goingDown(int newSetpoint)
-	{
-		if (getSetpoint() > newSetpoint)
-		{
+	/**
+	 * Determine if the new setpoint for the elevator goes up or down
+	 * @param newSetpoint The new setpoint for the elevator
+	 * @return is new setpoint lower than current
+	 */
+	public boolean goingDown(int newSetpoint) {
+		if (getSetpoint() > newSetpoint) {
 			System.out.println("Going Down");
 			return true;
-		}
-		else
-		{
+		} else {
 			System.out.println("Going Up");
 			return false;
 		}
 	}
 	
+	/**
+	 * Changes the setpoint of the elevator to the defined high scale value
+	 */
 	public void moveToScaleHigh() {
 		enable();
 		if (goingDown(SCALE_HIGH))
@@ -108,7 +133,9 @@ public class Elevator extends PIDSubsystem {
 		setSetpoint(SCALE_HIGH);
 	}
 	
-
+	/**
+	 * Changes the setpoint of the elevator to the defined low scale value
+	 */
 	public void moveToScaleLow() {
 		enable();
 		if (goingDown(SCALE_LOW))
@@ -118,6 +145,9 @@ public class Elevator extends PIDSubsystem {
 		setSetpoint(SCALE_LOW);
 	}
 	
+	/**
+	 * Changes the setpoint of the elevator to the defined switch value
+	 */
 	public void moveToSwitch() {
 		enable();
 		if (goingDown(SWITCH))
@@ -127,6 +157,9 @@ public class Elevator extends PIDSubsystem {
 		setSetpoint(SWITCH);
 	}
 	
+	/**
+	 * Changes the setpoint of the elevator to zero
+	 */
 	public void moveToFloor() {
 		enable();
 		if (goingDown(FLOOR))
@@ -136,22 +169,27 @@ public class Elevator extends PIDSubsystem {
 		setSetpoint(FLOOR);
 	}
 	
+	/**
+	 * Changes the setpoint of the elevator by plus or minus 2
+	 * @param joystickValue Value used to change setpoint. If positive, setpoint += 2. If negative, setpoint -= 2
+	 */
 	public void move(double joystickValue) {
 		
-		if(getSetpoint() <= SCALE_HIGH && joystickValue > .09)
-		{
+		if(getSetpoint() <= SCALE_HIGH && joystickValue > .09) {
 			elevatorPID.setPID(P_UP, I_UP, D_UP);
 			enable();
 			setSetpoint(getSetpoint() + 2);
-		}
-		else if(getSetpoint() > 0 && joystickValue < -.09)
-		{
+		} 
+		else if(getSetpoint() > 0 && joystickValue < -.09) {
 			elevatorPID.setPID(P_UP, I_UP, D_UP);
 			enable();
 			setSetpoint(getSetpoint() - 2);
 		}
 	}
 	
+	/**
+	 * Reset the elevator encoder
+	 */
 	public void resetEncoder() {
 		elevatorEncoder.reset();
 	}
@@ -163,8 +201,7 @@ public class Elevator extends PIDSubsystem {
 
 	@Override
 	protected void usePIDOutput(double output) {
-		if ((output < 0 && !lowProx.get()) || (output > 0 && !highProx.get()))
-		{
+		if ((output < 0 && !lowProx.get()) || (output > 0 && !highProx.get())) {
 			elevatorMotor.set(output);
 			//elevatorPID.setOutputRange(-.2, output + ramp);
 		}
@@ -176,8 +213,7 @@ public class Elevator extends PIDSubsystem {
 	}
 	
 	@Override
-	public void disable()
-	{
+	public void disable() {
 		super.disable();
 		elevatorMotor.set(0);
 	}

@@ -1,7 +1,8 @@
-package org.usfirst.frc.team1038.robot;
+package org.usfirst.frc.team1038.depricated;
 
 import edu.wpi.first.wpilibj.SerialPort;
 
+@Deprecated
 public class LaserRangeFinder {
 	private SerialPort ard;
 	private double[] lastReading;

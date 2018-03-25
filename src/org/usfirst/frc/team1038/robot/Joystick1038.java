@@ -2,7 +2,7 @@ package org.usfirst.frc.team1038.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-public class Joystick1038 {
+public class Joystick1038 extends Joystick {
 	
 	//Button Locations
 	private final int X_BUTTON = 1;
@@ -24,95 +24,135 @@ public class Joystick1038 {
 	private final int RIGHT_STICK_HORIZONTAL = 2;
 	private final int RIGHT_STICK_VERTICAL = 3;
 	
-	private Joystick joystick;
-	
-	public Joystick1038(int port)
-	{
-		joystick = new Joystick(port);
+	public Joystick1038(int port) {
+		super(port);
 	}
 	
-	public boolean getXButton()
-	{
-		return joystick.getRawButton(X_BUTTON);
+	/**
+	 * Returns the state of the X button on the controller
+	 * @return is the X button pressed
+	 */
+	public boolean getXButton() {
+		return getRawButton(X_BUTTON);
 	}
 	
-	public boolean getAButton()
-	{
-		return joystick.getRawButton(A_BUTTON);
+	/**
+	 * Returns the state of the A button on the controller
+	 * @return is the A button pressed
+	 */
+	public boolean getAButton() {
+		return getRawButton(A_BUTTON);
 	}
 	
-	public boolean getBButton()
-	{
-		return joystick.getRawButton(B_BUTTON);
+	/**
+	 * Returns the state of the B button on the controller
+	 * @return is the B button pressed
+	 */
+	public boolean getBButton() {
+		return getRawButton(B_BUTTON);
 	}
 	
-	public boolean getYButton()
-	{
-		return joystick.getRawButton(Y_BUTTON);
+	/**
+	 * Returns the state of the Y button on the controller
+	 * @return is the Y button pressed
+	 */
+	public boolean getYButton() {
+		return getRawButton(Y_BUTTON);
 	}
 	
-	public boolean getLeftButton()
-	{
-		return joystick.getRawButton(LEFT_BUTTON);
+	/**
+	 * Returns the state of the left button on the controller
+	 * @return is the left button pressed
+	 */
+	public boolean getLeftButton() {
+		return getRawButton(LEFT_BUTTON);
 	}
 	
-	public boolean getRightButton()
-	{
-		return joystick.getRawButton(RIGHT_BUTTON);
+	/**
+	 * Returns the state of the right button on the controller
+	 * @return is the right button pressed
+	 */
+	public boolean getRightButton() {
+		return getRawButton(RIGHT_BUTTON);
 	}
 	
-	public boolean getLeftTrigger()
-	{
-		return joystick.getRawButton(LEFT_TRIGGER);
+	/**
+	 * Returns the state of the left trigger on the controller
+	 * @return is the left trigger pressed
+	 */
+	public boolean getLeftTrigger() {
+		return getRawButton(LEFT_TRIGGER);
 	}
 	
-	public boolean getRightTrigger()
-	{
-		return joystick.getRawButton(RIGHT_TRIGER);
+	/**
+	 * Returns the state of the right trigger on the controller
+	 * @return is the right trigger pressed
+	 */
+	public boolean getRightTrigger() {
+		return getRawButton(RIGHT_TRIGER);
 	}
 	
-	public boolean getBackButton()
-	{
-		return joystick.getRawButton(BACK_BUTTON);
+	/**
+	 * Returns the state of the back button on the controller
+	 * @return is the back button pressed
+	 */
+	public boolean getBackButton() {
+		return getRawButton(BACK_BUTTON);
 	}
 	
-	public boolean getStartButton()
-	{
-		return joystick.getRawButton(START_BUTTON);
+	/**
+	 * Returns the state of the start button on the controller
+	 * @return is the start button pressed
+	 */
+	public boolean getStartButton() {
+		return getRawButton(START_BUTTON);
 	}
 	
-	public boolean getLeftJoystickClick()
-	{
-		return joystick.getRawButton(LEFT_JOYSTICK_CLICK);
+	/**
+	 * Returns the state of the left joystick click on the controller
+	 * @return is the left joystick button pressed
+	 */
+	public boolean getLeftJoystickClick() {
+		return getRawButton(LEFT_JOYSTICK_CLICK);
 	}
 	
-	public boolean getRightJoystickClick()
-	{
-		return joystick.getRawButton(RIGHT_JOYSTICK_CLICK);
+	/**
+	 * Returns the state of the right joystick click on the controller
+	 * @return is the right joystick button pressed
+	 */
+	public boolean getRightJoystickClick() {
+		return getRawButton(RIGHT_JOYSTICK_CLICK);
 	}
 	
-	public double getLeftJoystickVertical()
-	{
-		return joystick.getRawAxis(LEFT_STICK_VERTICAL) * -1;
+	/**
+	 * Returns the state of the left joystick on its vertical axis
+	 * @return value of the left joystick vertical axis, inverted so positive values are joystick up
+	 */
+	public double getLeftJoystickVertical() {
+		return getRawAxis(LEFT_STICK_VERTICAL) * -1;
 	}
 	
-	public double getLeftJoystickHorizontal()
-	{
-		return joystick.getRawAxis(LEFT_STICK_HORIZONTAL);
+	/**
+	 * Returns the state of the left joystick on its horizontal axis
+	 * @return value of the left joystick horizontal axis
+	 */
+	public double getLeftJoystickHorizontal() {
+		return getRawAxis(LEFT_STICK_HORIZONTAL);
 	}
 	
-	public double getRightJoystickVertical()
-	{
-		return joystick.getRawAxis(RIGHT_STICK_VERTICAL) * -1;
+	/**
+	 * Returns the state of the right joystick on its vertical axis
+	 * @return value of the right joystick vertical axis, inverted so positive values are joystick up
+	 */
+	public double getRightJoystickVertical() {
+		return getRawAxis(RIGHT_STICK_VERTICAL) * -1;
 	}
 	
-	public double getRightJoystickHorizontal()
-	{
-		return joystick.getRawAxis(RIGHT_STICK_HORIZONTAL);
-	}
-	
-	public double getPOV()
-	{
-		return joystick.getPOV();
+	/**
+	 * Returns the state of the right joystick on its horizontal axis
+	 * @return value of the right joystick horizontal axis
+	 */
+	public double getRightJoystickHorizontal() {
+		return getRawAxis(RIGHT_STICK_HORIZONTAL);
 	}
 }

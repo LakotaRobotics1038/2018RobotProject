@@ -1,14 +1,12 @@
-package org.usfirst.frc.team1038.robot;
+package org.usfirst.frc.team1038.subsystem;
 
-import org.usfirst.frc.team1038.subsystem.AcquisitionScoring;
-import org.usfirst.frc.team1038.subsystem.DriveTrain;
-import org.usfirst.frc.team1038.subsystem.Elevator;
+import org.usfirst.frc.team1038.robot.Robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class SwagLights {
+public class SwagLights extends Subsystem {
 	public enum WheelWellStates { Disabled, EStop, Red, Blue };
 	public enum NameNumberStates { HighGear, LowGear };
 	public enum TowerStates { Default, Cam1, Cam2, Acquiring, Disposing, ElevatorUp, ElevatorDown};
@@ -26,8 +24,8 @@ public class SwagLights {
 	//Tower
 	private final String CAN_CUN_NO = "s"; //Camera doesn't see cube, does not have cube, & isn't acquiring
 	private final String CAY_CUN_NO = "f"; //Camera sees cube, doesn't have cube, & isn't  acquiring
-	private final String ACQUIRING = "p";
-	private final String DISPOSING = "a";
+	private final String ACQUIRING = "a";
+	private final String DISPOSING = "p";
 	private final String ELEVATOR_UP = "u";
 	private final String ELEVATOR_DOWN = "d";
 	private final String TOWER_DEFAULT = "n";
@@ -38,7 +36,6 @@ public class SwagLights {
 	private DriveTrain robotDrive = DriveTrain.getInstance();
 	private Elevator elevator = Elevator.getInstance();
 	private AcquisitionScoring acqSco = AcquisitionScoring.getInstance();
-	private Timer timer = new Timer();
 	
 	private SerialPort ard = new SerialPort(9600, SerialPort.Port.kMXP);
 	private static SwagLights swag;
@@ -51,13 +48,14 @@ public class SwagLights {
 		return swag;
 	}
 	
-	private SwagLights()
-	{
-		timer.start();
+	private SwagLights() {
 	}
 	
-	public void setWheelWell(WheelWellStates state)
-	{
+	/**
+	 * Changes the state of the wheel well lights
+	 * @param state state to change the wheel well lights to
+	 */
+	public void setWheelWell(WheelWellStates state) {
 		switch (state)
 		{
 		case Blue:
@@ -75,10 +73,12 @@ public class SwagLights {
 		}
 	}
 	
-	public void setNameNumer(NameNumberStates state)
-	{
-		switch (state)
-		{
+	/**
+	 * Changes the state of the Name/Number plates
+	 * @param state state to change the Name/Number plates to
+	 */
+	public void setNameNumer(NameNumberStates state) {
+		switch (state) {
 		case HighGear:
 			nameNumber = HIGH_GEAR;
 			break;
@@ -88,10 +88,12 @@ public class SwagLights {
 		}
 	}
 	
-	public void setTower(TowerStates state)
-	{
-		switch (state)
-		{
+	/**
+	 * Changes the state of the tower lights
+	 * @param state state to change the tower lights to
+	 */
+	public void setTower(TowerStates state) {
+		switch (state) {
 		case Acquiring:
 			tower = ACQUIRING;
 			break;
@@ -116,20 +118,18 @@ public class SwagLights {
 		}
 	}
 	
-	public void swagPeriodic()
-	{
-//		if (timer.get() > 1)
-//		{
+	/**
+	 * Call this method in robotPeriodic() to write the currently selected state to the arduino
+	 */
+	public void swagPeriodic() {
 		String toWrite = wheelWell + "\r" + nameNumber + "\r" + tower + "\r";
-		//System.out.println(toWrite + "\n");
 		ard.writeString(toWrite);
-		//System.out.println(ard.readString());
-//		timer.reset();
-//		}
 	}	
 	
-	public void swagEnabledPeriodic()
-	{
+	/**
+	 * Call this method in Teleop and Auton periodic to update the state of the LEDs
+	 */
+	public void swagEnabledPeriodic() {
 		if(robotDrive.isHighGear()) {
 			setNameNumer(NameNumberStates.HighGear);
 		} else {
@@ -149,8 +149,10 @@ public class SwagLights {
 		}
 	}
 	
-	public void enable()
-	{
+	/**
+	 * Call this method in Teleop and Auton Init to change the leds out of disabled mode
+	 */
+	public void enable() {
 		Robot.disabled = false;
 		Robot.eStopped = false;
 		
@@ -159,5 +161,10 @@ public class SwagLights {
 		} else {
 			setWheelWell(WheelWellStates.Blue);
 		}
+	}
+
+	@Override
+	protected void initDefaultCommand() {
+		// TODO Auto-generated method stub
 	}
 }

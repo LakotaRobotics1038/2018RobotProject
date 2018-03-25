@@ -13,25 +13,27 @@ public class AcquireCommand extends Command {
 	private boolean timerRunning = false;
 	private Timer timer = new Timer();
 	
-	public AcquireCommand(Modes mode, double acqTime)
-	{
+	/**
+	 * Creates a new Acquire Command
+	 * @param mode Determines whether the acquisition should acquire or dispose
+	 * @param acqTime time to run the wheels for
+	 */
+	public AcquireCommand(Modes mode, double acqTime) {
 		
 		this.mode = mode;
 		this.acqTime = acqTime;
 	}
 	
-	public void execute()
-	{
-		switch (mode)
-		{
+	@Override
+	public void execute() {
+		switch (mode) {
 			case Acquire:
 				acqSco.aquire();
 			case Dispose:
 				acqSco.dispose();
 		}
 		
-		if (!timerRunning)
-		{
+		if (!timerRunning) {
 			timerRunning = true;
 			timer.start();
 		}
@@ -43,13 +45,13 @@ public class AcquireCommand extends Command {
 		return timer.get() > acqTime;
 	}
 	
-	public void interrupted()
-	{
+	@Override
+	public void interrupted() {
 		end();
 	}
 	
-	public void end()
-	{
+	@Override
+	public void end() {
 		acqSco.stop();
 	}
 }

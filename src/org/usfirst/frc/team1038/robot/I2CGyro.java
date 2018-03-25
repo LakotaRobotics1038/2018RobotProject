@@ -22,8 +22,7 @@ public class I2CGyro extends GyroBase{
 	private double gyroVal;
 	
 	//Class constructor
-	private I2CGyro()
-	{
+	private I2CGyro() {
 		I2CBus = new I2C(I2C.Port.kOnboard, DEVICE_ADDRESS);
 		//I2CBus.write(0x10, 22);
 		calibrate();
@@ -38,18 +37,20 @@ public class I2CGyro extends GyroBase{
 		return gyroSensor;
 	}
 	
-	//Reads and translates input from the Gyro into a value from 0-359
 	@Override
 	public double getAngle() {
 		return gyroVal;
-	  }
+	 }
 	
-	public double readGyro()
-	{
+	/**
+	 * Calculate the heading of the gyro
+	 * @return
+	 */
+	public void readGyro() {
 		byte[] dataBuffer = new byte[6];
 		
 	    if (I2CBus == null) {
-	      return 102.7;
+	      gyroVal = 102.7;
 	    }
 	    I2CBus.read(COMMAND, 6, dataBuffer);
 		if (dataBuffer[1] >= 0) {
@@ -67,27 +68,26 @@ public class I2CGyro extends GyroBase{
 		while (gyroVal > 359) {
 		   gyroVal = gyroVal - 360;	
 		}
-		
-	    return gyroVal;
 	}
 	
 	//Sets current gyro value to 0
 	@Override
-	public void reset()
-	{
+	public void reset() {
 		I2CBus.write(COMMAND, RESET_Z_AXIS_INTEGRATOR);
 		I2CBus.write(SENSOR_ID_CODE, NORMAL_MEASUREMENT_MODE);
 	}
 	
 	@Override
-	public void calibrate()
-	{
+	public void calibrate() {
 		System.out.println("Gyro Calibrated");
 		I2CBus.write(COMMAND, GYRO_RECALIBRATE);
 		I2CBus.write(SENSOR_ID_CODE, NORMAL_MEASUREMENT_MODE);
 	}
 
 	@Override
+	/**
+	 * This method is not currently implemented
+	 */
 	public double getRate() {
 		// TODO Auto-generated method stub
 		return 0;

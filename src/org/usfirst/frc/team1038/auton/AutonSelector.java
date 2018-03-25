@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1038.auton;
 
-import org.usfirst.frc.team1038.robot.Dashboard;
+import org.usfirst.frc.team1038.subsystem.Dashboard;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -28,14 +29,10 @@ public class AutonSelector {
 		return autonSelector;
 	}
 	
-	//constructor
-	private AutonSelector() {
-		
+	private AutonSelector() {		
 	}
 	
-	//methods
 	public CommandGroup chooseAuton() {
-		
 		position = Dashboard.getInstance().getPosition(); 
 		autonChooser = Dashboard.getInstance().getAutonChooser(); 
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
@@ -44,8 +41,7 @@ public class AutonSelector {
 		System.out.println("auto:" + autonChooser);
 		System.out.println("game data:" + gameData);
 		
-		switch (autonChooser)
-		{
+		switch (autonChooser) {
 			case kForwardAuto:
 				return new ForwardAuton().select();
 			case kDualScaleAuto:

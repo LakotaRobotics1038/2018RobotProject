@@ -14,32 +14,28 @@ import org.usfirst.frc.team1038.subsystem.Elevator;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class DualScaleAuton {
-	
-	private CommandGroup group;
-	private String position;
-	private String gameData;
+public class DualScaleAuton extends Auton {
 	
 	private final double DIST_TO_CUBE_FROM_SCALE = 6; //TODO Check this value
 	private final double DIST_TO_ACQUIRE = 1;
 	private final double ACQUIRE_TIME = 1.5;
 	private final double DISPOSE_TIME = 1.5;
 	
-	public DualScaleAuton(String positionIn, String gameDataIn)
-	{
-		group = new CommandGroup();
-		position = positionIn;
-		gameData = gameDataIn;
+	/**
+	 * Creates a new dual scale auton
+	 * @param positionIn The position of the robot on the field
+	 * @param gameDataIn Game data from FMS
+	 */
+	public DualScaleAuton(String positionIn, String gameDataIn) {
+		super(positionIn, gameDataIn);
 	}
 	
-	public CommandGroup select()
-	{
-		switch (position)
-		{
+	@Override
+	public CommandGroup select() {
+		switch (position) {
 			case AutonSelector.kLeftPosition:
 				group = new SingleScaleAuton(position, gameData).select();
-				if (gameData.substring(1, 2).equals("L"))
-				{
+				if (gameData.substring(1, 2).equals("L")) {
 					group.addSequential(new TurnCommand(135));
 					group.addParallel(new AcquisitonOpenCloseCommand(States.Open));
 					group.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_ZERO));
@@ -53,9 +49,7 @@ public class DualScaleAuton {
 					group.addSequential(new TurnCommand(0));
 					group.addSequential(new DriveStraightCommand(DIST_TO_CUBE_FROM_SCALE));
 					group.addSequential(new TurnCommand(45));
-				}
-				else
-				{
+				} else {
 					group.addSequential(new TurnCommand(215));
 					group.addParallel(new AcquisitonOpenCloseCommand(States.Open));
 					group.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_ZERO));
@@ -76,8 +70,7 @@ public class DualScaleAuton {
 				break;
 			case AutonSelector.kRightPosition:
 				group = new SingleScaleAuton(position, gameData).select();
-				if (gameData.substring(1, 2).equals("R"))
-				{
+				if (gameData.substring(1, 2).equals("R")) {
 					group.addSequential(new TurnCommand(215));					
 					group.addParallel(new AcquisitonOpenCloseCommand(States.Open));
 					group.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_ZERO));
@@ -91,9 +84,7 @@ public class DualScaleAuton {
 					group.addSequential(new TurnCommand(0));
 					group.addSequential(new DriveStraightCommand(DIST_TO_CUBE_FROM_SCALE));
 					group.addSequential(new TurnCommand(315));
-				}
-				else
-				{
+				} else {
 					group.addSequential(new TurnCommand(135));					
 					group.addParallel(new AcquisitonOpenCloseCommand(States.Open));
 					group.addParallel(new AcquisitionAngleCommand(AcquisitionScoring.UP_DOWN_ZERO));

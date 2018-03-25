@@ -1,10 +1,13 @@
-package org.usfirst.frc.team1038.auton;
+package org.usfirst.frc.team1038.depricated;
 
 import org.usfirst.frc.team1038.robot.Robot;
 import org.usfirst.frc.team1038.subsystem.DriveTrain;
+import org.usfirst.frc.team1038.subsystem.Vision;
+
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.PIDCommand;
 
+@Deprecated
 public class VisionDriveToTarget extends PIDCommand {
 	
 	private double drivePower = 0.60;
@@ -30,17 +33,19 @@ public class VisionDriveToTarget extends PIDCommand {
 		requires(Robot.robotDrive);
 	}
 	
+	@Override
 	protected void initialize() {
 		turnPID.enable();
 	}
 	
+	@Override
 	protected void execute() {
 		double PIDDriveAdjust = turnPID.get();
 		this.usePIDOutput(PIDDriveAdjust);
 		System.out.println("Drive Adjust: " + PIDDriveAdjust + ", Camera Angle: " + camera.getAngle());
-		
 	}
 	
+	@Override
 	protected void end() {
 		turnPID.disable();
 		turnPID.reset();
@@ -79,5 +84,4 @@ public class VisionDriveToTarget extends PIDCommand {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 }

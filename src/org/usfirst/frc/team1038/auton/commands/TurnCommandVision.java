@@ -1,15 +1,15 @@
 package org.usfirst.frc.team1038.auton.commands;
 
-import org.usfirst.frc.team1038.auton.Vision;
 import org.usfirst.frc.team1038.robot.I2CGyro;
 import org.usfirst.frc.team1038.robot.Robot;
 import org.usfirst.frc.team1038.subsystem.DriveTrain;
+import org.usfirst.frc.team1038.subsystem.Vision;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.PIDCommand;
 
 public class TurnCommandVision extends PIDCommand {
-	//fields
+	
 	private double drivePower = 0.0;
 	private final double END_DRIVE_SPEED = 0.0;
 	private final double END_DRIVE_ROTATION = 0.0;
@@ -23,7 +23,6 @@ public class TurnCommandVision extends PIDCommand {
 	private PIDController turnPID = getPIDController();
 	boolean hasSeen = false;
 	
-	//constructor
 	public TurnCommandVision() {
 		super(P, I, D, .2);
 		setSetpoint(2);
@@ -34,11 +33,12 @@ public class TurnCommandVision extends PIDCommand {
 		requires(Robot.robotDrive);
 	}
 	
-	//methods
+	@Override
 	protected void initialize() {
 		//gyroSensor.reset();
 	}
 	
+	@Override
 	public void execute() {
 		turnPID.enable();
 		double PIDTurnAdjust = turnPID.get();

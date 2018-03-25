@@ -6,8 +6,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 
 public class TalonSRX1038 extends TalonSRX implements SpeedController {
 	
-	public TalonSRX1038 (int address)
-	{
+	public TalonSRX1038 (int address) {
 		super(address);
 	}
 	
