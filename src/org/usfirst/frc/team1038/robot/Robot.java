@@ -38,13 +38,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * project.
  */
 public class Robot extends IterativeRobot {
+	//Robot
+	private Dashboard dashboard = Dashboard.getInstance();
 	private final int HIGH_PRESSURE_SENSOR_PORT = 0;
 	private final int LOW_PRESSURE_SENSOR_PORT = 1;
 	private PressureSensor lowPressureSensor = new PressureSensor(LOW_PRESSURE_SENSOR_PORT);
 	private PressureSensor highPressureSensor = new PressureSensor(HIGH_PRESSURE_SENSOR_PORT);
-	
-	// Control word variables
-	private ControlWord m_controlWordCache = new ControlWord();
+	private ControlWord controlWordCache = new ControlWord();
 	
 	//Subsystems
 		//Climb
@@ -55,8 +55,6 @@ public class Robot extends IterativeRobot {
 	
 		//Drive
 	public static DriveTrain robotDrive = DriveTrain.getInstance();
-	public enum driveModes { tankDrive, singleArcadeDrive, dualArcadeDrive };
-	private driveModes currentDriveMode = driveModes.dualArcadeDrive;
 	
 		//Acquisition Scoring
 	private AcquisitionScoring acqSco = AcquisitionScoring.getInstance();
@@ -85,10 +83,7 @@ public class Robot extends IterativeRobot {
 	private I2CGyro gyroSensor = I2CGyro.getInstance();
 	private AutonSelector autonSelector = AutonSelector.getInstance();
 	private CommandGroup autonPath;
-	private Dashboard dashboard = Dashboard.getInstance();
 	public static Spark emptySpark = new Spark(9);
-	private DriveStraightCommand drive = new DriveStraightCommand(24);
-	private TurnCommand turn = new TurnCommand(90);
     
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -116,7 +111,9 @@ public class Robot extends IterativeRobot {
 		piCamTable.getEntry("/CameraPublisher/PiCamera/streams").setStringArray(serverAddress);
 	}
 	
-	
+	/**
+	 * eriodic code for all robot modes should go here.
+	 */
 	@Override
 	public void robotPeriodic() {
 		gyroSensor.readGyro();
@@ -143,15 +140,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	/**
-	 * This autonomous (along with the chooser code above) shows how to select
-	 * between different autonomous modes using the dashboard. The sendable
-	 * chooser code works with the Java SmartDashboard. If you prefer the
-	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-	 * getString line to get the auto name from the text box below the Gyro
-	 *
-	 * <p>You can add additional auto modes by adding additional comparisons to
-	 * the switch structure below with additional strings. If using the
-	 * SendableChooser make sure to add them to the chooser code above as well.
+	 * Initialization code for autonomous mode should go here.
 	 */
 	@Override
 	public void autonomousInit() {
@@ -159,12 +148,6 @@ public class Robot extends IterativeRobot {
 		robotDrive.setBrakeMode();
 		autonPath = autonSelector.chooseAuton();
 		gyroSensor.reset();
-		//pathTest.initialize();
-		//schedule.add(drive);
-		//schedule.add(turn);;
-//		autonPath = new CommandGroup();
-//		autonPath.addSequential(new TurnCommand(90));
-//		autonPath.addSequential(new TurnCommand(0));
 		schedule.add(autonPath);
 	}
 
@@ -177,14 +160,11 @@ public class Robot extends IterativeRobot {
 		if(schedule != null) {
 			schedule.run();
 		}
-		
-//		if(!(pathTest.isFinished())) {
-//			pathTest.excecute();
-//		}else {
-//			System.out.println("Path done");
-//		}
 	}
 	
+	/**
+	 * Initialization code for teleop mode should go here.
+	 */
 	@Override
 	public void teleopInit() {
 		schedule.removeAll();
@@ -194,7 +174,6 @@ public class Robot extends IterativeRobot {
 		gyroSensor.reset();
 		robotDrive.resetEncoders();
 		acqSco.setAcqSpeed(ACQ_START_SPEED);
-		//visionCommandTest = null;
 	}
 
 	/**
@@ -202,13 +181,14 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		//System.out.println(robotDrive.getRightDriveEncoderCount());
 		swag.swagEnabledPeriodic();
-		//System.out.println(elevator.getElevatorSpeed());
 		driver();
 		operator();
 	}
 
+	/**
+	 * Process driver controller input
+	 */
 	public void driver() {
 	
 		double driveDivider;
@@ -223,7 +203,7 @@ public class Robot extends IterativeRobot {
 			driveDivider = 1;
 		}
 		
-		switch (currentDriveMode) {
+		switch (robotDrive.currentDriveMode) {
 		case tankDrive:
 			robotDrive.tankDrive(driverJoystick.getLeftJoystickVertical() * driveDivider, driverJoystick.getRightJoystickVertical() * driveDivider);			
 			break;
@@ -236,17 +216,7 @@ public class Robot extends IterativeRobot {
 		}	
 	
 		if(driverJoystick.getStartButton()) {
-			switch (currentDriveMode) {
-			case tankDrive:
-				currentDriveMode = driveModes.dualArcadeDrive;
-				break;
-			case dualArcadeDrive:
-				currentDriveMode = driveModes.singleArcadeDrive;
-				break;
-			case singleArcadeDrive:
-				currentDriveMode = driveModes.tankDrive;
-				break;
-			}	
+			robotDrive.toggleDriveMode();
 		}
 	
 		if(driverJoystick.getRightTrigger() && elevator.getEncoderCount() < 20) {
@@ -277,6 +247,9 @@ public class Robot extends IterativeRobot {
 		}
 	}
 	
+	/**
+	 * Process operator controller input
+	 */
 	public void operator() {
 		
 		robotClimb.move(operatorJoystick.getRightJoystickVertical());
@@ -316,29 +289,37 @@ public class Robot extends IterativeRobot {
 		}
 	}
 	
+	/**
+	 * Initialization code for disabled mode should go here.
+	 */
 	@Override
 	public void disabledInit() {
 		acqSco.disable();
 		elevator.disable();
 		robotDrive.PTOoff();
 		System.out.println("Robot Disabled");
-		HAL.getControlWord(m_controlWordCache);
-		if(m_controlWordCache.getEStop()) {
+		HAL.getControlWord(controlWordCache);
+		if(controlWordCache.getEStop()) {
 			eStopped = true;
 		} else {
 			disabled = true;
 		}
 	}
 	
+	/**
+	 * Periodic code for disabled mode should go here.
+	 */
 	@Override
 	public void disabledPeriodic() {
 		
 	}
 	
+	/**
+	 * Initialization code for test mode should go here.
+	 */
 	@Override
 	public void testInit() {
 		schedule.add(new TurnCommand(90));
-		//schedule.add(new TurnCommand(0));
 	}
 
 	/**

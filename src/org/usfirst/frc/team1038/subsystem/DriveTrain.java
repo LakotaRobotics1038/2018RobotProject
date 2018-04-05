@@ -2,6 +2,7 @@ package org.usfirst.frc.team1038.subsystem;
 
 import org.usfirst.frc.team1038.robot.Encoder1038;
 import org.usfirst.frc.team1038.robot.TalonSRX1038;
+import org.usfirst.frc.team1038.robot.Robot.driveModes;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
@@ -10,7 +11,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 public class DriveTrain extends Subsystem {
-	//Fields
+	public enum driveModes { tankDrive, singleArcadeDrive, dualArcadeDrive };
+	public driveModes currentDriveMode = driveModes.dualArcadeDrive;
+	private driveModes prevDriveMode = currentDriveMode;
 	private final int LEFT_ENCODER_CHANNEL_A = 0;
 	private final int RIGHT_ENCODER_CHANNEL_A = 2;
 	private final int LEFT_ENCODER_CHANNEL_B = 1;
@@ -125,6 +128,25 @@ public class DriveTrain extends Subsystem {
 		rightDrive1.setNeutralMode(NeutralMode.Coast);
 		rightDrive2.setNeutralMode(NeutralMode.Coast);
 		System.out.println("Coast Mode");
+	}
+	
+	/**
+	 * Toggles drive mode. Order from tank, to dual aracde, to single arcade, to tank
+	 */
+	public void toggleDriveMode()
+	{
+		if (currentDriveMode == driveModes.tankDrive && prevDriveMode != driveModes.tankDrive) {
+			currentDriveMode = driveModes.dualArcadeDrive;
+			prevDriveMode = currentDriveMode;
+		}	
+		else if (currentDriveMode == driveModes.dualArcadeDrive && prevDriveMode != driveModes.dualArcadeDrive) {
+			currentDriveMode = driveModes.singleArcadeDrive;
+			prevDriveMode = currentDriveMode;
+		}			
+		else if (currentDriveMode == driveModes.singleArcadeDrive && prevDriveMode != driveModes.singleArcadeDrive) {
+			currentDriveMode = driveModes.tankDrive;	
+			prevDriveMode = currentDriveMode;
+		}
 	}
 	
 	/**
