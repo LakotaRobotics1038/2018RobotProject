@@ -112,7 +112,7 @@ public class Robot extends IterativeRobot {
 	}
 	
 	/**
-	 * eriodic code for all robot modes should go here.
+	 * Periodic code for all robot modes should go here.
 	 */
 	@Override
 	public void robotPeriodic() {
