@@ -21,9 +21,9 @@ public class Elevator extends PIDSubsystem {
 	public final static double P_DOWN = .00036;
 	public final static double I_DOWN = .000;
 	public final static double D_DOWN = .000;
-	public final static int SCALE_HIGH = 670; //615 old
-	public final static int SCALE_LOW = 530; //480 old
-	public final static int SWITCH = 300; //220 old
+	public final static int SCALE_HIGH = 615; //615 old, 670 kevlar
+	public final static int SCALE_LOW = 480; //480 old, 530 kevlar
+	public final static int SWITCH = 220; //220 old, 300 kevlar
 	public final static int FLOOR = 0;
 	private final int ELEVATOR_CHANNEL_A = 4;
 	private final int ELEVATOR_CHANNEL_B = 5;

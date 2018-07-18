@@ -2,7 +2,6 @@ package org.usfirst.frc.team1038.subsystem;
 
 import org.usfirst.frc.team1038.robot.Encoder1038;
 import org.usfirst.frc.team1038.robot.TalonSRX1038;
-import org.usfirst.frc.team1038.robot.Robot.driveModes;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
