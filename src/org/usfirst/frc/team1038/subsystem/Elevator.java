@@ -16,7 +16,7 @@ public class Elevator extends PIDSubsystem {
 	private static Elevator elevator;
 	private final int TOLERANCE = 5;
 	public final static double P_UP = .0034;
-	public final static double I_UP = .0001;
+	public final static double I_UP = .0002;
 	public final static double D_UP = .000;
 	public final static double P_DOWN = .00036;
 	public final static double I_DOWN = .000;
