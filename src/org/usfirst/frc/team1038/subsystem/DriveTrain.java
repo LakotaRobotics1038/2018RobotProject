@@ -35,8 +35,12 @@ public class DriveTrain extends Subsystem {
 	private TalonSRX1038 rightDrive2 = new TalonSRX1038(RIGHT_DRIVE_PORT_2);
 //	private SpeedControllerGroup leftDrive = new SpeedControllerGroup(leftDrive1, leftDrive2);
 //	private SpeedControllerGroup rightDrive = new SpeedControllerGroup(rightDrive1, rightDrive2);
-	private DoubleSolenoid shifter = new DoubleSolenoid(0, 1);
-	private DoubleSolenoid PTO = new DoubleSolenoid(2, 3);
+	private final static int HIGH_GEAR_PORT = 0;
+	private final static int LOW_GEAR_PORT = 1;
+	private final static int PTO_DISENGAGED_PORT = 2;
+	private final static int PTO_ENGAGED_PORT= 3;
+	private DoubleSolenoid shifter = new DoubleSolenoid(HIGH_GEAR_PORT, LOW_GEAR_PORT);
+	private DoubleSolenoid PTO = new DoubleSolenoid(PTO_DISENGAGED_PORT, PTO_ENGAGED_PORT);
 	private Encoder1038 leftDriveEncoder = new Encoder1038(LEFT_ENCODER_CHANNEL_A, LEFT_ENCODER_CHANNEL_B, false, ENCODER_COUNTS_PER_REV, WHEEL_DIAMETER);
 	private Encoder1038 rightDriveEncoder = new Encoder1038(RIGHT_ENCODER_CHANNEL_A, RIGHT_ENCODER_CHANNEL_B, false, ENCODER_COUNTS_PER_REV, WHEEL_DIAMETER);
 	private boolean isHighGear = false;
