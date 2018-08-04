@@ -32,9 +32,9 @@ public class DualScaleAuton extends Auton {
 	
 	@Override
 	public CommandGroup select() {
+		group = new SingleScaleAuton(position, gameData).select();
 		switch (position) {
 			case AutonSelector.kLeftPosition:
-				group = new SingleScaleAuton(position, gameData).select();
 				if (gameData.substring(1, 2).equals("L")) {
 					group.addSequential(new TurnCommand(135));
 					group.addParallel(new AcquisitonOpenCloseCommand(States.Open));
@@ -69,7 +69,6 @@ public class DualScaleAuton extends Auton {
 				group.addSequential(new ElevatorCommand(Elevator.FLOOR));
 				break;
 			case AutonSelector.kRightPosition:
-				group = new SingleScaleAuton(position, gameData).select();
 				if (gameData.substring(1, 2).equals("R")) {
 					group.addSequential(new TurnCommand(215));					
 					group.addParallel(new AcquisitonOpenCloseCommand(States.Open));
