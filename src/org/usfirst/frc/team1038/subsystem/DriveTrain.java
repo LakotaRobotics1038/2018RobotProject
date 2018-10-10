@@ -35,8 +35,8 @@ public class DriveTrain extends Subsystem {
 	private TalonSRX1038 rightDrive2 = new TalonSRX1038(RIGHT_DRIVE_PORT_2);
 //	private SpeedControllerGroup leftDrive = new SpeedControllerGroup(leftDrive1, leftDrive2);
 //	private SpeedControllerGroup rightDrive = new SpeedControllerGroup(rightDrive1, rightDrive2);
-	private DoubleSolenoid shifter = new DoubleSolenoid(0, 1);
-	private DoubleSolenoid PTO = new DoubleSolenoid(2, 3);
+	private DoubleSolenoid shifter = new DoubleSolenoid(2, 3);
+	private DoubleSolenoid PTO = new DoubleSolenoid(5, 4);
 	private Encoder1038 leftDriveEncoder = new Encoder1038(LEFT_ENCODER_CHANNEL_A, LEFT_ENCODER_CHANNEL_B, false, ENCODER_COUNTS_PER_REV, WHEEL_DIAMETER);
 	private Encoder1038 rightDriveEncoder = new Encoder1038(RIGHT_ENCODER_CHANNEL_A, RIGHT_ENCODER_CHANNEL_B, false, ENCODER_COUNTS_PER_REV, WHEEL_DIAMETER);
 	private boolean isHighGear = false;
@@ -53,8 +53,8 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	private DriveTrain() {
-		//leftDrive.setInverted(false);
-		//rightDrive.setInverted(false);
+		//leftDrive1.setInverted(true);
+		//rightDrive1.setInverted(true);
 		//distPerPulse = Encoder1038.findDistancePerPulse(ENCODER_COUNTS_PER_REV, WHEEL_DIAMETER);
 		leftDrive2.follow(leftDrive1);
 		rightDrive2.follow(rightDrive1);
