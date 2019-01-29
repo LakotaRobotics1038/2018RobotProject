@@ -73,8 +73,9 @@ public class Robot extends IterativeRobot {
 	public static boolean disabled = true;
 	
 	//Teleop
-	private Joystick1038 driverJoystick = new Joystick1038(0);
-	private Joystick1038 operatorJoystick = new Joystick1038(1);
+	private XboxJoystick1038 driverJoystick = new XboxJoystick1038(0);
+	private XboxJoystick1038 operatorJoystick = new XboxJoystick1038(1);
+	private static final double TRIGGER_MAX = 0.7;
 	
 	//Auton
 	private Scheduler schedule = Scheduler.getInstance();
@@ -219,7 +220,7 @@ public class Robot extends IterativeRobot {
 			robotDrive.toggleDriveMode();
 		}
 	
-		if(driverJoystick.getRightTrigger() && elevator.getEncoderCount() < 20) {
+		if(driverJoystick.getRightTrigger() > TRIGGER_MAX && elevator.getEncoderCount() < 20) {
 			robotDrive.highGear();
 		}
 		else if (robotDrive.isHighGear()) {
@@ -228,7 +229,7 @@ public class Robot extends IterativeRobot {
 		
 		if(driverJoystick.getLeftButton()) {
 			robotDrive.PTOon();
-		} else if(driverJoystick.getLeftTrigger()) {
+		} else if(driverJoystick.getLeftTrigger() > TRIGGER_MAX) {
 			robotDrive.PTOoff();
 		}
 		
@@ -268,13 +269,13 @@ public class Robot extends IterativeRobot {
 		
 		if (operatorJoystick.getLeftButton()) {
 			acqSco.openArms();
-		} else if (operatorJoystick.getLeftTrigger())  {
+		} else if (operatorJoystick.getLeftTrigger() > TRIGGER_MAX)  {
 			acqSco.closeArms();
 		}
 		
 		if (operatorJoystick.getRightButton()) {
 			acqSco.aquire();
-		} else if (operatorJoystick.getRightTrigger()) {
+		} else if (operatorJoystick.getRightTrigger() > TRIGGER_MAX) {
 			acqSco.dispose();
 		} else {
 			acqSco.stop();
