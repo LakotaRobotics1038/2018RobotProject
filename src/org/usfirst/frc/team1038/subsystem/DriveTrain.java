@@ -35,10 +35,10 @@ public class DriveTrain extends Subsystem {
 	private TalonSRX1038 rightDrive2 = new TalonSRX1038(RIGHT_DRIVE_PORT_2);
 //	private SpeedControllerGroup leftDrive = new SpeedControllerGroup(leftDrive1, leftDrive2);
 //	private SpeedControllerGroup rightDrive = new SpeedControllerGroup(rightDrive1, rightDrive2);
-	private final static int HIGH_GEAR_PORT = 0;
-	private final static int LOW_GEAR_PORT = 1;
-	private final static int PTO_DISENGAGED_PORT = 2;
-	private final static int PTO_ENGAGED_PORT= 3;
+	private final static int HIGH_GEAR_PORT = 2;
+	private final static int LOW_GEAR_PORT = 3;
+	private final static int PTO_DISENGAGED_PORT = 5;
+	private final static int PTO_ENGAGED_PORT= 4;
 	private DoubleSolenoid shifter = new DoubleSolenoid(HIGH_GEAR_PORT, LOW_GEAR_PORT);
 	private DoubleSolenoid PTO = new DoubleSolenoid(PTO_DISENGAGED_PORT, PTO_ENGAGED_PORT);
 	private Encoder1038 leftDriveEncoder = new Encoder1038(LEFT_ENCODER_CHANNEL_A, LEFT_ENCODER_CHANNEL_B, false, ENCODER_COUNTS_PER_REV, WHEEL_DIAMETER);
@@ -55,16 +55,16 @@ public class DriveTrain extends Subsystem {
 		}
 		return driveTrain;
 	}
-	
+
 	private DriveTrain() {
-		//leftDrive.setInverted(false);
-		//rightDrive.setInverted(false);
+		//leftDrive1.setInverted(true);
+		//rightDrive1.setInverted(true);
 		//distPerPulse = Encoder1038.findDistancePerPulse(ENCODER_COUNTS_PER_REV, WHEEL_DIAMETER);
 		leftDrive2.follow(leftDrive1);
 		rightDrive2.follow(rightDrive1);
 		differentialDrive = new DifferentialDrive(leftDrive1, rightDrive1);
 	}
-	
+
 	/**
 	 * Get the encoder counts driven by the left of the robot
 	 * @return the encoder counts driven by the left of the robot
@@ -73,7 +73,7 @@ public class DriveTrain extends Subsystem {
 		return leftDriveEncoder.getCount();
 //		return leftDrive1.getSensorCollection().getQuadraturePosition();
 	}
-	
+
 	/**
 	 * Get the encoder counts driven by the right of the robot
 	 * @return the encoder counts driven by the right of the robot
@@ -82,7 +82,7 @@ public class DriveTrain extends Subsystem {
 		return rightDriveEncoder.getCount();
 //		return rightDrive1.getSensorCollection().getQuadraturePosition() * -1;
 	}
-	 
+
 	/**
 	 * Get the distance driven by the left of the robot in inches
 	 * @return distance driven by the left of the robot in inches
@@ -91,7 +91,7 @@ public class DriveTrain extends Subsystem {
 		return leftDriveEncoder.getDistance();
 //		return leftDrive1.getSensorCollection().getQuadraturePosition() * distPerPulse;
 	}
-	
+
 	/**
 	 * Get the distance driven by the right of the robot in inches
 	 * @return distance driven by the right of the robot in inches
@@ -100,7 +100,7 @@ public class DriveTrain extends Subsystem {
 		return rightDriveEncoder.getDistance();
 //		return rightDrive1.getSensorCollection().getQuadraturePosition() * -distPerPulse;
 	}
-		
+
 	/**
 	 * reset the drive encoders
 	 */
@@ -110,7 +110,7 @@ public class DriveTrain extends Subsystem {
 //		leftDrive1.getSensorCollection().setQuadraturePosition(0, TIMEOUT_MS);
 //		rightDrive1.getSensorCollection().setQuadraturePosition(0, TIMEOUT_MS);
 	}
-	
+
 	/**
 	 * Set the drive train to brake mode
 	 */
@@ -121,7 +121,7 @@ public class DriveTrain extends Subsystem {
 		rightDrive2.setNeutralMode(NeutralMode.Brake);
 		System.out.println("Brake Mode");
 	}
-	
+
 	/**
 	 * Set the drive train to coast mode
 	 */
@@ -132,7 +132,7 @@ public class DriveTrain extends Subsystem {
 		rightDrive2.setNeutralMode(NeutralMode.Coast);
 		System.out.println("Coast Mode");
 	}
-	
+
 	/**
 	 * Toggles drive mode. Order from tank, to dual aracde, to single arcade, to tank
 	 */
@@ -141,17 +141,17 @@ public class DriveTrain extends Subsystem {
 		if (currentDriveMode == driveModes.tankDrive && prevDriveMode != driveModes.tankDrive) {
 			currentDriveMode = driveModes.dualArcadeDrive;
 			prevDriveMode = currentDriveMode;
-		}	
+		}
 		else if (currentDriveMode == driveModes.dualArcadeDrive && prevDriveMode != driveModes.dualArcadeDrive) {
 			currentDriveMode = driveModes.singleArcadeDrive;
 			prevDriveMode = currentDriveMode;
-		}			
+		}
 		else if (currentDriveMode == driveModes.singleArcadeDrive && prevDriveMode != driveModes.singleArcadeDrive) {
-			currentDriveMode = driveModes.tankDrive;	
+			currentDriveMode = driveModes.tankDrive;
 			prevDriveMode = currentDriveMode;
 		}
 	}
-	
+
 	/**
 	 * Drive robot using tank drive (left stick controls left side, right stick controls right side)
 	 * @param inputL Left stick input (range -1 to 1)
@@ -163,9 +163,9 @@ public class DriveTrain extends Subsystem {
 		else
 			differentialDrive.tankDrive(inputL, inputR, true);
 	}
-	
+
 	/**
-	 * Drive robot using single stick 
+	 * Drive robot using single stick
 	 * @param speed Speed of robot (range -1 to 1)
 	 * @param curve Wanted turn value of robot
 	 */
@@ -175,9 +175,9 @@ public class DriveTrain extends Subsystem {
 		else
 			differentialDrive.arcadeDrive(speed, curve, true);
 	}
-	
+
 	/**
-	 * Drive robot using two sticks (one controlling forward and backward, the other controlling left and right) 
+	 * Drive robot using two sticks (one controlling forward and backward, the other controlling left and right)
 	 * @param inputFB Forward/Backward value (range -1 to 1)
 	 * @param inputLR Left/Right value (range -1 to 1)
 	 */
@@ -187,7 +187,7 @@ public class DriveTrain extends Subsystem {
 		else
 			differentialDrive.arcadeDrive(yaxis, xaxis, true);
 	}
-	
+
 	/**
 	 * Drive robot based on a speed and rotation given
 	 * @param moveVal Speed (range -1 to 1)
@@ -196,7 +196,7 @@ public class DriveTrain extends Subsystem {
 	public void drive(double moveVal, double rotateVal) {
 		differentialDrive.curvatureDrive(moveVal, rotateVal, false);
 	}
-	
+
 	/**
 	 * Toggle the PTO between on and off
 	 */
@@ -207,7 +207,7 @@ public class DriveTrain extends Subsystem {
 			PTOon();
 		}
 	}
-	
+
 	/**
 	 * Change PTO to on
 	 */
@@ -215,7 +215,7 @@ public class DriveTrain extends Subsystem {
 		PTOisEngaged = true;
 		PTO.set(DoubleSolenoid.Value.kReverse);
 	}
-	
+
 	/**
 	 * Change PTO to off
 	 */
@@ -223,7 +223,7 @@ public class DriveTrain extends Subsystem {
 		PTOisEngaged = false;
 		PTO.set(DoubleSolenoid.Value.kForward);
 	}
-	
+
 	/**
 	 * Toggle the Gear between high and low
 	 */
@@ -234,7 +234,7 @@ public class DriveTrain extends Subsystem {
 			highGear();
 		}
 	}
-	
+
 	/**
 	 * Change gear to high
 	 */
@@ -242,7 +242,7 @@ public class DriveTrain extends Subsystem {
 		isHighGear = true;
 		shifter.set(DoubleSolenoid.Value.kForward);
 	}
-	
+
 	/**
 	 * Change gear to low
 	 */
@@ -250,7 +250,7 @@ public class DriveTrain extends Subsystem {
 		isHighGear = false;
 		shifter.set(DoubleSolenoid.Value.kReverse);
 	}
-	
+
 	/**
 	 * Returns if the gear is set to high
 	 * @return is the robot in high gear
@@ -258,7 +258,7 @@ public class DriveTrain extends Subsystem {
 	public boolean isHighGear() {
 		return isHighGear;
 	}
-	
+
 	/**
 	 * Returns if the PTO is engaged
 	 * @return is PTO engaged

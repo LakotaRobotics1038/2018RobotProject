@@ -11,8 +11,8 @@ public class AcquisitionScoring extends PIDSubsystem {
 
 	private final int LEFT_ACQ_MOTOR_PORT = 3;
 	private final int RIGHT_ACQ_MOTOR_PORT = 4;
-	private final int ACQ_ARMS_OPEN = 4;
-	private final int ACQ_ARMS_CLOSE = 5;
+	private final int ACQ_ARMS_OPEN = 0;
+	private final int ACQ_ARMS_CLOSE = 1;
 	private final int ACQ_ARMS_UP_DOWN_PORT = 6;
 	private final int ACQ_ARMS_ENCODER_A_PORT = 6;
 	private final int ACQ_ARMS_ENCODER_B_PORT = 7;
