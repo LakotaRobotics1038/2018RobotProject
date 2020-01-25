@@ -8,6 +8,7 @@ import org.usfirst.frc.team1038.subsystem.Vision;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.PIDCommand;
 
+@Deprecated
 public class TurnCommandVisionTest extends PIDCommand {
 	
 	private double drivePower = 0.0;

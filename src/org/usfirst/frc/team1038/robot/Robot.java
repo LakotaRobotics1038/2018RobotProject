@@ -9,7 +9,6 @@ package org.usfirst.frc.team1038.robot;
 
 import edu.wpi.first.wpilibj.Compressor;
 import org.usfirst.frc.team1038.auton.AutonSelector;
-import org.usfirst.frc.team1038.auton.commands.DriveStraightCommand;
 import org.usfirst.frc.team1038.auton.commands.TurnCommand;
 import org.usfirst.frc.team1038.subsystem.AcquisitionScoring;
 import org.usfirst.frc.team1038.subsystem.Climb;

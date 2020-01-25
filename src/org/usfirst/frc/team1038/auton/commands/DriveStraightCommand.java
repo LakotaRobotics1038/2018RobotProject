@@ -5,7 +5,6 @@ import org.usfirst.frc.team1038.robot.Robot;
 import org.usfirst.frc.team1038.subsystem.DriveTrain;
 
 import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.PIDCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
